@@ -9,3 +9,28 @@
 /* Elementos clicáveis que contêm texto longo devem preservar a largura da grade. */
 .action-card>div,.link-card>div,.info-card>div,.step-card>div,.specialty-tile strong{min-width:0}
 .list-entry p>.icon{display:inline-block;vertical-align:middle;margin-right:4px}
+/* Seletor de idioma responsivo nas telas do OrientaSaúde. */
+.language-control{display:flex;align-items:center;justify-content:flex-end;margin-left:auto;flex:none;max-width:95px}
+.language-select{appearance:auto;background:#e8f4ff;border:1px solid #cee4f8;border-radius:10px;color:#075fad;font-size:calc(.8rem * var(--scale));font-weight:800;padding:9px 5px;max-width:90px;min-width:69px;cursor:pointer}
+.back-head>.language-control{margin-left:auto}
+.back-head>div:nth-child(2){flex:1;min-width:0}
+@media(max-width:650px){
+  .logo-row{gap:7px}
+  .logo-copy strong{font-size:calc(1.26rem * var(--scale));letter-spacing:-.5px}
+  .logo-copy small{font-size:calc(.69rem * var(--scale))}
+  .logo-mark{width:38px;height:38px;border-radius:10px}
+  .logo-mark .icon{width:29px;height:29px}
+  .font-button{padding:8px;font-size:calc(.85rem * var(--scale))}
+  .language-control{max-width:78px}
+  .language-select{min-width:66px;max-width:76px;padding:8px 4px;font-size:calc(.73rem * var(--scale))}
+  .back-head{gap:8px}
+  .back-head h1{font-size:calc(1.22rem * var(--scale))}
+  .back-head p{font-size:calc(.77rem * var(--scale))}
+}
+@media(max-width:370px){
+  .logo-row{gap:5px}
+  .logo-copy strong{font-size:calc(1.12rem * var(--scale))}
+  .logo-copy small{font-size:.59rem}
+  .font-button{padding:7px}
+  .language-select{min-width:62px;max-width:66px}
+}
