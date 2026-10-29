@@ -17,9 +17,9 @@
     const suffix=value.slice(value.indexOf(trimmed)+trimmed.length);
     let translated=translateExact(trimmed);
     if(translated===trimmed) {
-      if(trimmed.includes(' • ')) translated=trimmed.split(' • ').map(t).join(' • ');
+      if(/^Duração: /.test(trimmed)) translated=trimmed.split(' · ').map(part=>part.startsWith('Duração: ')?t('Duração:')+' '+t(part.slice('Duração: '.length)):part.startsWith('Evolução: ')?t('Evolução:')+' '+t(part.slice('Evolução: '.length)):t(part)).join(' · ');
+      else if(trimmed.includes(' • ')) translated=trimmed.split(' • ').map(t).join(' • ');
       else if(trimmed.includes(' · ')) translated=trimmed.split(' · ').map(t).join(' · ');
-      else if(/^Duração: /.test(trimmed)) translated=trimmed.replace(/^Duração: /,t('Duração:')+' ').replace(/ · Evolução: /,' · '+t('Evolução:')+' ').replace(/Hoje|2–3 dias|Mais tempo|Não informada|Piorando|Sem piora relatada|Não sei dizer/g,x=>t(x));
       else if(/^Alterar tamanho de texto: /.test(trimmed)) translated=t('Alterar tamanho de texto:')+' '+t(trimmed.slice('Alterar tamanho de texto: '.length));
       else if(/^Texto: /.test(trimmed)) translated=t('Texto:')+' '+t(trimmed.slice('Texto: '.length).replace(/\.$/,''))+'.';
       else if(/^Etapa \d+ de 3$/.test(trimmed)) translated=current==='en'?trimmed.replace('Etapa','Step').replace('de','of'):trimmed.replace('Etapa','Paso').replace('de','de');
