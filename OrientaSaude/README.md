@@ -88,3 +88,6 @@ OrientaSaude_GitHub/
 - Favicons: `assets/favicon.svg`.
 
 Desenvolvido como demonstração do projeto **OrientaSaúde — Sistema de Orientação sobre Sintomas e Busca por Atendimento Médico**, inspirado na especificação de requisitos fornecida, voltada inicialmente à comunidade de Foz do Iguaçu.
+## Idiomas / Languages / Idiomas
+
+O aplicativo oferece seleção de idioma em todas as telas (no cabeçalho): **PT-BR**, **EN** e **ES**. A escolha é salva localmente no navegador, aplicada à interface, às orientações informativas e às mensagens do sistema, e pode ser alterada a qualquer momento. Os relatos inseridos pelo usuário não são enviados a serviços de tradução nem traduzidos automaticamente. O recurso funciona inteiramente sem API externa, por meio do arquivo `i18n.js`.
