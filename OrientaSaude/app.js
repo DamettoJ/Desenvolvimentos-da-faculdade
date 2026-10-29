@@ -15,6 +15,7 @@
   const app = document.getElementById('app-content');
   const nav = document.getElementById('tabbar');
   const toast = document.getElementById('toast');
+  const i18n = window.OrientaI18n;
   let toastTimer = null;
 
   const specs = [
@@ -48,9 +49,9 @@
     return `<div class="info-card">${round(ico,tone)}<div><h3>Importante</h3><p>${message}</p></div></div>`;
   }
   function miniWarning(){return `<div class="disclaimer-fixed" role="note">OrientaSaúde: informação educativa, não diagnóstico. Em emergências, ligue 192 (SAMU).</div>`;}
-  function notify(message){toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3300);}
-  function dateLabel(value){try{return new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(`${value}T12:00:00`));}catch{return value;}}
-  function whenLabel(iso){try{return new Date(iso).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});}catch{return 'Data não disponível';}}
+  function notify(message){toast.textContent=i18n.t(message);toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3300);}
+  function dateLabel(value){try{return new Intl.DateTimeFormat(i18n.locale(),{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(`${value}T12:00:00`));}catch{return value;}}
+  function whenLabel(iso){try{return new Date(iso).toLocaleString(i18n.locale(),{dateStyle:'short',timeStyle:'short'});}catch{return 'Data não disponível';}}
   function appHeader(){return `<header class="logo-row"><span class="logo-mark">${icon('activity')}</span><div class="logo-copy"><strong>Orienta<span>Saúde</span></strong><small>Orientação segura para cuidar de você</small></div><button class="font-button" type="button" data-action="font" title="Aumentar tamanho da letra" aria-label="Alternar tamanho das letras">A+</button></header>`;}
   function backHeader(title,sub,back='home'){return `<header class="back-head"><button class="back-button" type="button" data-go="${back}" aria-label="Voltar">${icon('back')}</button><div><h1>${title}</h1><p>${sub}</p></div></header>`;}
   function head(title,sub=''){return `<div class="section-head"><h2>${title}</h2>${sub?`<p>${sub}</p>`:''}</div>`;}
@@ -213,7 +214,10 @@
     const pages = {home,symptoms,details,orientation,health,specialties,units,education,reminders,records,profile,emergency};
     app.innerHTML=(pages[view]||home)()+miniWarning();
     nav.innerHTML=tabBar();
-    document.title=`${view==='home'?'Início':({symptoms:'Descrever sintomas',details:'Detalhes',orientation:'Orientação',health:'Minha saúde',specialties:'Especialidades',units:'Unidades',education:'Dicas de saúde',reminders:'Lembretes',records:'Registros',profile:'Perfil',emergency:'Emergência'})[view]||'OrientaSaúde'} | OrientaSaúde`;
+    i18n.localize(app);
+    i18n.localize(nav);
+    i18n.addPicker(app);
+    document.title=`${i18n.t(view==='home'?'Início':({symptoms:'Descrever sintomas',details:'Detalhes',orientation:'Orientação',health:'Minha saúde',specialties:'Especialidades',units:'Unidades',education:'Dicas de saúde',reminders:'Lembretes',records:'Registros',profile:'Perfil',emergency:'Emergência'})[view]||'OrientaSaúde')} | OrientaSaúde`;
     if(scroll)window.scrollTo({top:0,behavior:'instant'});
   }
   function startSymptoms(){state.selected=[];state.text='';state.search='';state.duration='';state.worsening='';state.intensity='';state.flags=[];state.report=null;state.error='';}
@@ -236,8 +240,8 @@
     if(t.dataset.newReminder){openReminder(t.dataset.newReminder);return;}
     if(t.dataset.filter){state.filter=t.dataset.filter;render(false);return;}
     if(t.dataset.openRecord){const record=data.records.find(r=>r.id===t.dataset.openRecord);if(record){state.report=record;state.view='orientation';render();}return;}
-    if(t.dataset.removeRecord){if(!confirm('Deseja excluir este registro deste navegador?'))return;data.records=data.records.filter(r=>r.id!==t.dataset.removeRecord);persist();render(false);notify('Registro excluído.');return;}
-    if(t.dataset.removeReminder){if(!confirm('Deseja excluir este lembrete?'))return;data.reminders=data.reminders.filter(r=>r.id!==t.dataset.removeReminder);persist();render(false);notify('Lembrete excluído.');return;}
+    if(t.dataset.removeRecord){if(!confirm(i18n.t('Deseja excluir este registro deste navegador?')))return;data.records=data.records.filter(r=>r.id!==t.dataset.removeRecord);persist();render(false);notify('Registro excluído.');return;}
+    if(t.dataset.removeReminder){if(!confirm(i18n.t('Deseja excluir este lembrete?')))return;data.reminders=data.reminders.filter(r=>r.id!==t.dataset.removeReminder);persist();render(false);notify('Lembrete excluído.');return;}
     if(t.dataset.doneReminder){const r=data.reminders.find(r=>r.id===t.dataset.doneReminder);if(r){r.done=!r.done;persist();render(false);}return;}
     switch(t.dataset.action){
       case 'font':data.font=(data.font+1)%3;persist();render(false);notify(`Texto: ${['padrão','grande','muito grande'][data.font]}.`);break;
@@ -246,20 +250,28 @@
       case 'new-reminder':openReminder('consulta');break;
       case 'cancel-reminder':state.showReminderForm=false;state.editingReminder=null;render(false);break;
       case 'export':{const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),...data},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='orientasaude-meus-dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);notify('Exportação iniciada.');break;}
-      case 'clear':if(confirm('Apagar todos os registros, lembretes e preferências deste navegador? Esta ação não pode ser desfeita.')){data=structuredClone(defaultData);persist();startSymptoms();state.view='profile';render();notify('Dados locais apagados.');}break;
+      case 'clear':if(confirm(i18n.t('Apagar todos os registros, lembretes e preferências deste navegador? Esta ação não pode ser desfeita.'))){data=structuredClone(defaultData);i18n.setLanguage('pt-BR');persist();startSymptoms();state.view='profile';render();notify('Dados locais apagados.');}break;
     }
   });
   document.addEventListener('input',e=>{
     if(e.target.id==='symptom-description')state.text=e.target.value;
     if(e.target.id==='symptom-search'){
       state.search=e.target.value;
-      const term=state.search.trim().toLocaleLowerCase('pt-BR');
+      const term=state.search.trim().toLocaleLowerCase(i18n.locale());
       let shown=0;
       document.querySelectorAll('[data-symptom-name]').forEach(el=>{const ok=el.dataset.symptomName.includes(term);el.hidden=!ok;if(ok)shown++;});
       const empty=document.getElementById('no-search-results');if(empty)empty.hidden=shown>0;
     }
   });
   document.addEventListener('change',e=>{
+    if(e.target.id==='app-language'){
+      const keep={};
+      ['reminder-name','reminder-date','reminder-time','reminder-notes','reminder-kind','profile-name'].forEach(id=>{const el=document.getElementById(id);if(el)keep[id]=el.value;});
+      i18n.setLanguage(e.target.value);
+      render(false);
+      Object.entries(keep).forEach(([id,value])=>{const el=document.getElementById(id);if(el)el.value=value;});
+      return;
+    }
     if(e.target.dataset.flag){const val=e.target.dataset.flag;if(e.target.checked&&!state.flags.includes(val))state.flags.push(val);if(!e.target.checked)state.flags=state.flags.filter(f=>f!==val);}
   });
   document.addEventListener('submit',e=>{
