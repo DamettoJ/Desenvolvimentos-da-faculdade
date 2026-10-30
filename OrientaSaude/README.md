@@ -110,7 +110,7 @@ Fontes principais: [CNES/DATASUS](https://cnes.datasus.gov.br/), [MSPBS](https:/
 
 ## Idiomas com bandeiras — atualização de 30/10/2026
 
-A versão principal do OrientaSaúde disponibiliza **9 idiomas** na interface, todos selecionáveis com bandeira e nome nativo:
+A versão principal do OrientaSaúde disponibiliza **8 idiomas** na interface, todos selecionáveis com bandeira e nome nativo:
 
 | Idioma | Código | Bandeira de referência |
 | --- | --- | --- |
@@ -120,16 +120,19 @@ A versão principal do OrientaSaúde disponibiliza **9 idiomas** na interface, t
 | 日本語 (japonês) | `ja` | 🇯🇵 |
 | العربية (árabe) | `ar` | 🇱🇧 |
 | 中文 (chinês simplificado) | `zh-CN` | 🇨🇳 |
-| Avañe’ẽ (guarani) | `gn` | 🇵🇾 |
 | 한국어 (coreano) | `ko` | 🇰🇷 |
 | Kreyòl ayisyen (crioulo haitiano) | `ht` | 🇭🇹 |
 
 A bandeira indica um país ou comunidade de referência e **não significa que a língua pertença exclusivamente àquele país**. O idioma é escolhido independentemente da cidade (Foz, Ciudad del Este ou Puerto Iguazú) e fica salvo localmente no navegador. O árabe utiliza direção de leitura RTL.
 
-**Escopo de tradução:** menus, botões, sintomas comuns, orientações urgentes, títulos das dicas e controles principais estão traduzidos; **parte das explicações médicas mais extensas, nomes técnicos, fontes e descrições institucionais continua no português original**. O guarani tem cobertura de interface mais limitada, pois a terminologia médica requer revisão por tradutor especializado. Textos inseridos pelo próprio usuário não são traduzidos nem enviados a serviços externos.
+**Escopo de tradução:** menus, botões, sintomas comuns, orientações urgentes, títulos das dicas e controles principais estão traduzidos; **parte das explicações médicas mais extensas, nomes técnicos, fontes e descrições institucionais continua no português original**. Textos inseridos pelo próprio usuário não são traduzidos nem enviados a serviços externos.
 
 **Antes de uso assistencial:** todos os idiomas e avisos de segurança devem ser revisados por tradutores nativos e profissionais de saúde; traduções e diretórios de saúde permanecem informativos e não substituem avaliação clínica.
 
-Arquivos: `language-pack.js` (opções, bandeiras e glossários), `locale.css` (layout multilíngue e RTL), `i18n.js` (integração), módulos de dicas, especialidades, unidades e Tríplice Fronteira. A escolha é guardada em `localStorage` sob `orientasaude-language-v1`.
+Arquivos: `language-pack.js` (oito opções e glossários), `locale.css` (layout multilíngue e RTL), `i18n.js` (integração), módulos de dicas, especialidades, unidades e Tríplice Fronteira. A escolha é guardada em `localStorage` sob `orientasaude-language-v1`.
 
 **Contexto regional:** [UNILA: diversidade linguística em Foz](https://portal.unila.edu.br/noticias/aniversario-de-foz-do-iguacu-conheca-10-fatos-importantes-sobre-a-cidade) e [OIM: perfil migratório de Foz](https://brazil.iom.int/sites/g/files/tmzbdl1496/files/documents/2023-08/mgi-local-foz-de-iguacu-2022-pt.pdf). Não existe ranking censitário completo e atualizado de línguas por número de falantes; a seleção é prática, não estatística.
+
+### Bandeiras gráficas (correção de compatibilidade)
+
+A seleção de idioma usa `flag-picker.js` e `flag-picker.css` com **imagens PNG das bandeiras embutidas no código** (Noto Color Emoji, imagens geradas a partir de fonte licenciada sob SIL OFL 1.1), não emojis em `<option>` do sistema operacional. Isso evita que Windows e outros ambientes mostrem `BR`, `AR` e `JP` no lugar de bandeiras. O menu é navegável por teclado e acessível a leitores de tela. A implementação preserva as alterações de idioma no aplicativo, em Dicas de Saúde, Especialidades e páginas regionais. O guarani foi retirado da lista e das traduções. A interface nativa sem JavaScript apresenta os nomes dos idiomas, sem siglas de bandeira.
