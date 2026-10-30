@@ -161,3 +161,6 @@ As melhorias abaixo foram implementadas **no projeto principal** e mantêm compa
 7. **Testes completos em celulares físicos, leitores de tela e ambientes offline:** checklist em `TESTES.md`; testes de execução visual automatizados não foram concluídos no ambiente de desenvolvimento por restrição do navegador de testes.
 
 Veja **[TESTES.md](TESTES.md)** para o roteiro detalhado de verificação. `index.html` e todas as páginas regionais continuam em hospedagem estática, sem coleta remota de sintomas pelo aplicativo. **Não use este protótipo como substituto de atendimento profissional ou de emergência.**
+
+### Localização pessoal no mapa
+A tela `mapa.html` agora permite **Usar minha localização** (GPS, mediante permissão do navegador) ou **Informar endereço** (entrada manual). É necessário clicar em **Carregar mapa** para abrir o serviço externo. Não é exigido selecionar um estabelecimento quando se deseja apenas ver a própria localização. Se o usuário selecionar uma unidade após informar origem, a rota pode incluir essa origem quando aberta. O endereço e as coordenadas ficam apenas na memória da página, não são persistidos no `localStorage`. O serviço externo de mapas só recebe dados após ação explícita. A localização por GPS exige HTTPS e permissão concedida; quando bloqueada, usar a opção de endereço.
