@@ -1,6 +1,6 @@
 /* Local-only agenda. Reads the same reminder store as the main OrientaSaúde; no external API. */
 (() => {'use strict';
-const STORE='orientasaude-demo-v1';const q=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,k=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[k]));
+const STORE='orientasaude-studio-demo-v1';const q=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,k=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[k]));
 function get(){try{const a=JSON.parse(localStorage.getItem(STORE)||'{}');return Array.isArray(a.reminders)?a.reminders:[]}catch{return []}}
 const today=new Date(),zero=v=>String(v).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+zero(d.getMonth()+1)+'-'+zero(d.getDate());
 const start=new Date(today.getFullYear(),today.getMonth(),1);let month=new Date(start),chosen=iso(today);

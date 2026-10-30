@@ -40,7 +40,7 @@ function mountLanguage(){
 }
  document.addEventListener('change',e=>{
    if(e.target.id==='br-units-language'){
-     try{localStorage.setItem('orientasaude-language-v1',e.target.value)}catch{}
+     try{localStorage.setItem('orientasaude-studio-language-v1',e.target.value)}catch{}
      location.reload();return;
    }
    if(e.target.id!=='br-legacy-city')return;

@@ -11,7 +11,7 @@ const pack=window.OrientaLanguagePack;
 for(const loc of (pack?.options||[])) if(!locales[loc.code]){
  locales[loc.code]={compact:pack.translate(loc.code,'Atendimento em'),city:pack.translate(loc.code,'Cidade de atendimento'),call:pack.translate(loc.code,'Emergência'),notice:pack.translate(loc.code,'Em uma emergência, ligue para o serviço do país onde você está.'),see:pack.translate(loc.code,'Consultar unidades'),choose:pack.translate(loc.code,'Escolha sua cidade')};
 }
-const language=()=>{try{return locales[localStorage.getItem('orientasaude-language-v1')]?localStorage.getItem('orientasaude-language-v1'):'pt-BR'}catch{return 'pt-BR'}};
+const language=()=>{try{return locales[localStorage.getItem('orientasaude-studio-language-v1')]?localStorage.getItem('orientasaude-studio-language-v1'):'pt-BR'}catch{return 'pt-BR'}};
 function cityLabel(city){return city.flag+' '+city.name+' ('+city.country+')'}
 function pageURL(area){return new URL('fronteira.html?city='+B.getCity()+'&area='+area,document.baseURI).href}
 function attach(){

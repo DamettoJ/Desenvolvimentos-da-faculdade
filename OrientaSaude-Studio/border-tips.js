@@ -10,7 +10,7 @@ const pack=window.OrientaLanguagePack;
 for(const loc of (pack?.options||[])) if(!translations[loc.code]){
  translations[loc.code]={...translations['pt-BR'],city:pack.translate(loc.code,'Cidade'),call:pack.translate(loc.code,'Ligar'),warn:pack.notes[loc.code]||translations['pt-BR'].warn,source:pack.translate(loc.code,'Dicas de Saúde'),service:pack.translate(loc.code,'Emergência')};
 }
-const lang=()=>{try{return translations[localStorage.getItem('orientasaude-language-v1')]?localStorage.getItem('orientasaude-language-v1'):'pt-BR'}catch{return 'pt-BR'}};
+const lang=()=>{try{return translations[localStorage.getItem('orientasaude-studio-language-v1')]?localStorage.getItem('orientasaude-studio-language-v1'):'pt-BR'}catch{return 'pt-BR'}};
 const t=()=>translations[lang()];
 const sourceFor=id=>id==='foz'?'https://www.gov.br/saude/pt-br':id==='cde'?'https://www.mspbs.gov.py/':'https://salud.misiones.gob.ar/';
 function update(){
