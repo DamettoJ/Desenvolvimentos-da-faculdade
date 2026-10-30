@@ -21,7 +21,11 @@
   $('#emergency-link').href='./fronteira.html?city='+city+'&area=emergency';
   sos.innerHTML='<span>Emergência: '+safe(c.emergencyService)+'</span><a href="tel:'+safe(c.emergency)+'">'+safe(c.emergency)+'</a>';
   container.innerHTML=items.length?items.map(p=>'<article class="place '+(focus===p.id?'selected':'')+'"><div class="place-head"><h3>'+safe(p.name)+'</h3><span>'+(p.kind==='hospital'?'Hospital / UPA':'Posto / UBS')+'</span></div><p>📍 '+safe(p.address)+'</p><p>☎ '+(p.phone?safe(p.phone):'Contato não confirmado')+' · '+safe(p.hours||'Horário: confirmar')+'</p><div class="place-actions"><button type="button" data-select="'+safe(p.id)+'">Ver no mapa</button>'+(phone(p)?'<a href="'+phone(p)+'">Ligar</a>':'')+'<a href="'+route(p)+'" target="_blank" rel="noopener noreferrer">Rota</a><a href="'+safe(p.source||c.source)+'" target="_blank" rel="noopener noreferrer">Fonte</a></div></article>').join(''):'<p>Nenhum local encontrado para esta pesquisa.</p>';
-  const loadButton=$('#load-map');if(loadButton)loadButton.disabled=!(focus||origin);
+  const selected=focus?all().find(x=>x.id===focus):null;
+  const currentQuery=selected?locText(selected):origin?(origin.kind==='gps'?origin.lat+','+origin.lng:origin.address):(c.name+', '+c.country);
+  const external=$('#open-maps');if(external)external.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(currentQuery);
+  const loadButton=$('#load-map');if(loadButton){loadButton.disabled=false;loadButton.textContent=selected?'Carregar mapa do estabelecimento':origin?'Carregar minha localização':'Carregar mapa da cidade';}
+  if(!focus&&!origin)$('#map-title').textContent='Mapa de '+c.name;
  }
 
  function status(message,state){
@@ -72,10 +76,10 @@
   );
  }
  function load(){
-  if(loaded || (!focus&&!origin))return;
+  if(loaded)return;
   const p=focus?all().find(x=>x.id===focus):null;
   if(focus&&!p)return;
-  const place=p?locText(p):origin.kind==='gps'?(origin.lat+','+origin.lng):origin.address;
+  const place=p?locText(p):origin?(origin.kind==='gps'?(origin.lat+','+origin.lng):origin.address):(B.cities[city].name+', '+B.cities[city].country);
   const iframe=document.createElement('iframe');
   iframe.title=p?'Mapa de '+p.name:'Mapa da localização informada';
   iframe.referrerPolicy='strict-origin-when-cross-origin';
@@ -85,6 +89,11 @@
  }
  document.addEventListener('click',e=>{
   if(e.target.id==='load-map'){load();return}
+  if(e.target.id==='show-city'){
+    origin=null;focus=null;$('#clear-location').hidden=true;$('#route').hidden=true;
+    status('Exibindo a cidade sem usar o GPS ou compartilhar sua posição.','info');
+    placeholder('Você pode carregar o mapa de '+B.cities[city].name+' sem GPS.');return;
+  }
   if(e.target.id==='my-location'){requestLocation();return}
   if(e.target.id==='manual-location-toggle'){
    const form=$('#manual-location-form');form.hidden=!form.hidden;
