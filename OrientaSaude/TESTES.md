@@ -63,3 +63,14 @@ Funcionalidade de frontend estático, sem backend, sem banco remoto, sem login, 
 - [ ] Testar GPS desativado e permissão bloqueada nas configurações do navegador
 
 **Privacidade:** coordenadas/endereço não são gravados no localStorage. O navegador pode consultar seu provedor de geolocalização ao obter GPS; o aplicativo somente envia a localização ao Google Maps após o usuário carregar o mapa ou abrir a rota. O site deve estar em HTTPS e o usuário deve permitir geolocalização. Verificação manual real do prompt de permissão ainda pendente.
+
+## Computador sem GPS (correção de 30/10/2026)
+- [ ] Abrir `mapa.html` e clicar **Carregar mapa da cidade** sem selecionar unidade e sem permitir localização; mapa deve abrir para cidade escolhida
+- [ ] Verificar acesso **Abrir no Google Maps (nova aba)** mesmo se o iframe for bloqueado
+- [ ] Clicar **Ver mapa da cidade** para dispensar seleção anterior e limpar coordenadas da memória da página
+- [ ] Testar **Informar endereço**, preencher um bairro ou rua e carregar mapa
+- [ ] Clicar **Usar minha localização**: permitir, negar, bloquear pelo sistema e testar HTTPS no desktop; conferir mensagens explicativas
+- [ ] Recarregar após atualizar o service worker e confirmar uso do JavaScript novo, não uma versão antiga do cache
+- [ ] Testar Windows: Configurações > Privacidade e segurança > Localização; e Chrome/Edge: Permissões do site > Localização
+
+A localização GPS não é necessária para abrir a cidade e procurar postos. O Google Maps incorporado é um serviço externo e pode ser bloqueado por extensões/redes; use o link para nova aba em caso de falha.
