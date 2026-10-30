@@ -3,7 +3,7 @@
 (() => {
   'use strict';
 
-  const STORE = 'orientasaude-demo-v1';
+  const STORE = 'orientasaude-studio-demo-v1';
   const defaultData = {records:[], reminders:[], profile:{name:''}, font:0};
   function loadData(){
     try { const data = JSON.parse(localStorage.getItem(STORE) || '{}');
@@ -250,7 +250,7 @@
       case 'new-reminder':openReminder('consulta');break;
       case 'cancel-reminder':state.showReminderForm=false;state.editingReminder=null;render(false);break;
       case 'export':{const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),...data},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='orientasaude-meus-dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);notify('Exportação iniciada.');break;}
-      case 'clear':if(confirm(i18n.t('Apagar todos os registros, lembretes e preferências deste navegador? Esta ação não pode ser desfeita.'))){data=structuredClone(defaultData);try{['orientasaude-city-v1','orientasaude-ux-prefs','orientasaude-tip-font'].forEach(key=>localStorage.removeItem(key))}catch{}i18n.setLanguage('pt-BR');persist();window.location.assign('./');}break;
+      case 'clear':if(confirm(i18n.t('Apagar todos os registros, lembretes e preferências deste navegador? Esta ação não pode ser desfeita.'))){data=structuredClone(defaultData);try{['orientasaude-studio-city-v1','orientasaude-studio-ux-prefs','orientasaude-studio-tip-font'].forEach(key=>localStorage.removeItem(key))}catch{}i18n.setLanguage('pt-BR');persist();window.location.assign('./');}break;
     }
   });
   document.addEventListener('input',e=>{

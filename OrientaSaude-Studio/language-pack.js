@@ -11,7 +11,7 @@ const get=(code,source)=>dictionary[code]?.[source]||source;
 window.OrientaLanguagePack=Object.freeze({
  options, supported, notes:note, tips, tipsUI,
  translate:get,
- locale:()=>{try{const l=localStorage.getItem('orientasaude-language-v1');return supported.has(l)?l:'pt-BR'}catch{return 'pt-BR'}},
+ locale:()=>{try{const l=localStorage.getItem('orientasaude-studio-language-v1');return supported.has(l)?l:'pt-BR'}catch{return 'pt-BR'}},
  labels:(code)=>tipsUI[code]||{}
 });
 })();

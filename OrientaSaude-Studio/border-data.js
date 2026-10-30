@@ -2,7 +2,7 @@
    Horários não especificados não são presumidos. Linhas de emergência são locais e dependem da rede do país. */
 (() => {
 'use strict';
-const KEY='orientasaude-city-v1';
+const KEY='orientasaude-studio-city-v1';
 const CITIES={
  foz:{id:'foz',name:'Foz do Iguaçu',country:'BR',flag:'🇧🇷',emergency:'192',emergencyService:'SAMU',alternate:'193 (Bombeiros)',system:'SUS',region:'Paraná, Brasil',source:'https://cnes.datasus.gov.br/',focus:'Rede SUS e estabelecimentos públicos/privados; regulação e acesso variam por serviço.',places:[],specialties:[]},
  cde:{id:'cde',name:'Ciudad del Este',country:'PY',flag:'🇵🇾',emergency:'141',emergencyService:'SEME',alternate:'911 (Policía)',system:'MSPBS / IPS',region:'Alto Paraná, Paraguay',source:'https://www.mspbs.gov.py/donde-consulto.php',focus:'MSPBS atende pela rede pública; IPS é destinado principalmente a segurados. Verifique requisitos, consultas e encaminhamentos.',places:[

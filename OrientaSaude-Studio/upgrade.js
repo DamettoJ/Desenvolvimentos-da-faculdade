@@ -6,11 +6,11 @@ const T={
  en:{search:'Search healthcare and information',placeholder:'For example: hospital, cardiology, tips...',map:'View interactive care map',mapSub:'Hospitals, clinics, contacts and directions',agenda:'Open my calendar',print:'Summary for appointment',install:'Install app',contrast:'High contrast',privacy:'Hide symptom previews',privacyNote:'Hides text on screen but does not encrypt saved browser data.',show:'Show details on this screen',hide:'Hide details',purge:'Delete reports older than',clear:'Delete old reports',week:'Appointments in the next 7 days',noWeek:'Appointments appear here when added',tip:'Health tips',units:'Healthcare facilities',specialties:'Specialties',calendar:'Calendar',emergency:'Emergency',records:'My records',symptoms:'Describe symptoms',maps:'Map',query:'Search',results:'Choose a care section',close:'Close results'},
  es:{search:'Buscar atención e información',placeholder:'Ej.: hospital, cardiología, consejos...',map:'Ver mapa interactivo',mapSub:'Hospitales, centros de salud y rutas',agenda:'Abrir mi calendario',print:'Resumen para consulta',install:'Instalar aplicación',contrast:'Alto contraste',privacy:'Ocultar datos de síntomas',privacyNote:'Oculta textos en pantalla, pero no cifra los datos guardados.',show:'Mostrar detalles',hide:'Ocultar detalles',purge:'Borrar relatos anteriores a',clear:'Borrar relatos antiguos',week:'Citas en los próximos 7 días',noWeek:'Tus citas aparecerán aquí al guardarlas',tip:'Consejos de salud',units:'Centros de salud',specialties:'Especialidades',calendar:'Calendario',emergency:'Emergencia',records:'Mis registros',symptoms:'Describir síntomas',maps:'Mapa',query:'Buscar',results:'Elige una sección de atención',close:'Cerrar resultados'}
 };
-const lang=()=>{try{return localStorage.getItem('orientasaude-language-v1')||'pt-BR'}catch{return 'pt-BR'}};
+const lang=()=>{try{return localStorage.getItem('orientasaude-studio-language-v1')||'pt-BR'}catch{return 'pt-BR'}};
 const tx=()=>T[lang()]||T['pt-BR'];const city=()=>window.OrientaBorder?.getCity?.()||'foz';
-const prefsKey='orientasaude-ux-prefs';let prefs={};try{prefs=JSON.parse(localStorage.getItem(prefsKey)||'{}')||{}}catch{}
+const prefsKey='orientasaude-studio-ux-prefs';let prefs={};try{prefs=JSON.parse(localStorage.getItem(prefsKey)||'{}')||{}}catch{}
 const save=()=>{try{localStorage.setItem(prefsKey,JSON.stringify(prefs))}catch{}};
-const readData=()=>{try{return JSON.parse(localStorage.getItem('orientasaude-demo-v1')||'{}')}catch{return {}}};
+const readData=()=>{try{return JSON.parse(localStorage.getItem('orientasaude-studio-demo-v1')||'{}')}catch{return {}}};
 const address=(file)=>new URL('./'+file,document.baseURI).href;
 const setContrast=()=>document.documentElement.classList.toggle('os-high-contrast',!!prefs.contrast);setContrast();
 const actions=[['symptoms','symptoms','user'],['units','units','pin'],['specialties','specialties','stethoscope'],['tip','education','book'],['records','records','records'],['calendar','agenda','calendar'],['maps','mapa','map']];
@@ -78,7 +78,7 @@ root.addEventListener('click',e=>{const to=e.target.closest('[data-os-to]');if(t
  const message='Excluir definitivamente '+eligible+' relatos anteriores a '+days+' dias? Esta ação não pode ser desfeita.';
  if(!confirm(message))return;
  data.records=(Array.isArray(data.records)?data.records:[]).filter(x=>{const t=Date.parse(x.createdAt);return !Number.isFinite(t)||t>=cutoff});
- try{localStorage.setItem('orientasaude-demo-v1',JSON.stringify(data));alert('Excluídos: '+(before-data.records.length)+' relatos.');location.reload()}catch{alert('O navegador não permitiu salvar a alteração.')}return}
+ try{localStorage.setItem('orientasaude-studio-demo-v1',JSON.stringify(data));alert('Excluídos: '+(before-data.records.length)+' relatos.');location.reload()}catch{alert('O navegador não permitiu salvar a alteração.')}return}
 });
 new MutationObserver(paint).observe(root,{childList:true});paint();
 })();
