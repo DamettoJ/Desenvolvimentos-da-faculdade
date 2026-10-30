@@ -115,7 +115,7 @@ function scan(){
 document.addEventListener('pointerdown',event=>{if(opened&&!opened.menu.contains(event.target)&&!opened.trigger.contains(event.target))hide()},true);
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&opened){const trigger=opened.trigger;hide();trigger.focus()}});
 window.addEventListener('resize',hide);
-window.addEventListener('scroll',hide,true);
+window.addEventListener('scroll',event=>{if(opened && opened.menu.contains(event.target))return;hide()},true);
 const observer=new MutationObserver(scan);
 observer.observe(document.documentElement,{subtree:true,childList:true});
 scan();
