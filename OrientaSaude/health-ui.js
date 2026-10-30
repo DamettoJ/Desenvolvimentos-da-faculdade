@@ -9,7 +9,7 @@
     const route='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(name+' '+address+', Foz do Iguaçu PR');
     const cn='https://cnes2.datasus.gov.br/Mod_Conjunto.asp?VCo_Unidade=410830'+cnes;
     return '<article class="foz-unit"><div class="foz-top"><div><small>'+esc(kind.toUpperCase())+'</small><h3>'+esc(name)+'</h3></div><b>'+esc(hours)+'</b></div>'+
-      '<p><strong>Endereço:</strong> '+esc(address)+'</p><p><strong>Telefone:</strong> '+esc(phone||'Não informado')+'</p>'+
+      '<p><strong>Endereço:</strong> '+esc(address)+'</p><p><strong>Telefone:</strong> '+(phone?'<a href="tel:+55'+phone.replace(/\D/g,'')+'">'+esc(phone)+'</a>':'Não informado')+'</p>'+
       '<p><strong>Horário:</strong> '+esc(hours==='24h'?'24 horas, todos os dias':'Segunda a sexta, '+hours)+'</p>'+
       '<div class="foz-actions"><a href="'+route+'" target="_blank" rel="noopener noreferrer">Como chegar</a><a href="'+cn+'" target="_blank" rel="noopener noreferrer">Fonte: CNES</a></div></article>';
     }).join('')+'</div></section>';
