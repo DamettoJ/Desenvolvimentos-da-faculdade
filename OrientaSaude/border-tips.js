@@ -6,6 +6,10 @@ const translations={
  en:{city:'City',source:'Local health resources',warn:'Vaccination schedules and health services vary by country. Check official guidance where you are.',service:'For a medical emergency',call:'Call',more:'Local public healthcare'},
  es:{city:'Ciudad',source:'Recursos sanitarios locales',warn:'Los calendarios de vacunación y servicios varían según el país. Consulta recomendaciones oficiales para tu ciudad.',service:'Ante una emergencia médica',call:'Llamar',more:'Salud pública local'}
 };
+const pack=window.OrientaLanguagePack;
+for(const loc of (pack?.options||[])) if(!translations[loc.code]){
+ translations[loc.code]={...translations['pt-BR'],city:pack.translate(loc.code,'Cidade'),call:pack.translate(loc.code,'Ligar'),warn:pack.notes[loc.code]||translations['pt-BR'].warn,source:pack.translate(loc.code,'Dicas de Saúde'),service:pack.translate(loc.code,'Emergência')};
+}
 const lang=()=>{try{return translations[localStorage.getItem('orientasaude-language-v1')]?localStorage.getItem('orientasaude-language-v1'):'pt-BR'}catch{return 'pt-BR'}};
 const t=()=>translations[lang()];
 const sourceFor=id=>id==='foz'?'https://www.gov.br/saude/pt-br':id==='cde'?'https://www.mspbs.gov.py/':'https://salud.misiones.gob.ar/';
