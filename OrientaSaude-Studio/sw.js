@@ -1,5 +1,5 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-studio-safe-20261030-31';
+const VERSION='os-studio-safe-20261030-public-health-01';
 const STATIC=VERSION+'-assets';
 const CORE=[
  './','./index.html','./offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
@@ -11,7 +11,7 @@ const CORE=[
  './border-page.js','./border.css','./mapa.html','./mapa.js','./mapa.css',
  './agenda.html','./agenda.js','./agenda.css','./resumo.html','./resumo.js','./resumo.css',
  './dicas.html','./especialidades.html','./unidades.html','./fronteira.html',
- './upgrade.js','./upgrade.css','./pwa.js','./reader.js','./studio-design.css','./studio-ui.js'
+ './upgrade.js','./upgrade.css','./pwa.js','./reader.js','./alertas.html','./alertas.css','./alertas.js','./alert-hook.js','./alert-entry.css','./studio-design.css','./studio-ui.js'
 ];
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{const cache=await caches.open(STATIC);await Promise.allSettled(CORE.map(async p=>{try{const response=await fetch(p,{cache:'reload'});if(response.ok)await cache.put(new Request(p),response.clone())}catch{}}));await self.skipWaiting()})());
