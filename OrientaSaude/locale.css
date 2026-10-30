@@ -1,0 +1,31 @@
+/* Multilingual picker — flags + language names, usable in mobile layouts. */
+.language-control{display:flex;align-items:center;flex:0 0 auto;margin-left:auto!important;max-width:142px!important;min-width:0}
+.language-select{display:block;max-width:142px!important;min-width:114px!important;width:100%;height:37px!important;padding:7px 7px!important;border-radius:11px!important;border:1px solid #dbe6f1!important;background:#f7faff!important;color:#183451!important;font-size:.76rem!important;font-weight:700!important;cursor:pointer;outline-offset:2px}
+.language-select:hover{background:#eef6ff!important;border-color:#bcd5ec!important}
+.language-select:focus-visible{outline:3px solid #a0cdff!important}
+.language-select option{color:#183451;background:#fff;font-size:.91rem}
+[dir="rtl"] .content,[dir="rtl"] .page{text-align:right}
+[dir="rtl"] .logo-row,[dir="rtl"] .back-head{direction:rtl}
+[dir="rtl"] .language-control{margin-left:0!important;margin-right:auto!important;direction:ltr}
+[dir="rtl"] .tabbar,[dir="rtl"] .row-buttons{direction:rtl}
+[dir="rtl"] input[type="date"],[dir="rtl"] input[type="time"],[dir="rtl"] input[type="tel"]{direction:ltr}
+[dir="rtl"] .tabbar .icon,[dir="rtl"] .back-button .icon{transform:scaleX(-1)}
+@media(max-width:650px){
+  .language-control{max-width:116px!important}
+  .language-select{width:116px;max-width:116px!important;min-width:105px!important;height:35px!important;padding:6px 4px!important;font-size:.69rem!important}
+  .logo-row{gap:6px!important}
+  .logo-copy strong{font-size:calc(1.16rem * var(--scale))!important}
+  .logo-copy small{font-size:calc(.61rem * var(--scale))!important}
+  .font-button{padding:7px!important}
+}
+@media(max-width:350px){
+ .language-control{max-width:102px!important}
+ .language-select{width:102px;min-width:96px!important;font-size:.64rem!important}
+ .logo-copy strong{font-size:calc(1.02rem * var(--scale))!important}
+ .logo-mark{width:32px!important;height:32px!important}
+}
+/* Independent modules: avoid clipped Arabic text and allow long native names. */
+#tips-lang,#br-language,#sp-lang,.br-selectors select{max-width:170px;min-width:88px;direction:ltr;text-align:left}
+[dir="rtl"] .tips-wrap,[dir="rtl"] .br-shell,[dir="rtl"] .spec-shell{direction:rtl;text-align:right}
+[dir="rtl"] .tips-header,[dir="rtl"] .br-top{direction:rtl}
+[dir="rtl"] .tips-header-tools,[dir="rtl"] .br-selectors{direction:ltr}
