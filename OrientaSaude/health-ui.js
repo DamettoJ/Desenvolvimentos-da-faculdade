@@ -15,5 +15,9 @@
     }).join('')+'</div></section>';
  };
  window.OrientaUnidades={render};
+ document.addEventListener('click', e => {
+   const link=e.target.closest('button[data-go="units"]');
+   if(link){e.stopImmediatePropagation();window.location.href='./unidades.html';}
+ });
 })();
 // Catálogo de endereços e telefones públicos.
