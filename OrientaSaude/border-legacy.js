@@ -11,7 +11,7 @@
    if(document.getElementById('br-legacy-city'))return;
    const host=isSpecial?document.getElementById('specialty-root'):document.querySelector('.foz-standalone');
    if(!host)return;
-   const label=document.createElement('label');label.className='br-legacy-city';label.textContent='🌎 Cidade de atendimento: ';
+   const label=document.createElement('label');label.className='br-legacy-city';label.textContent='Atendimento em';
    const select=document.createElement('select');select.id='br-legacy-city';select.className='br-city-select';
    for(const city of Object.values(B.cities)){
      const option=document.createElement('option');option.value=city.id;option.textContent=city.flag+' '+city.name+' ('+city.country+')';option.selected=city.id==='foz';select.appendChild(option);
