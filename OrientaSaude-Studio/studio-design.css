@@ -115,3 +115,13 @@ body:has(.map-shell),body:has(.agenda-shell),body:has(.summary-shell),body:has(.
 .studio-quick-link{margin-left:auto!important;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:11px 14px!important;min-height:46px;background:#fff5f5;color:#ac2c3d;border:1px solid #f1cbd1;border-radius:12px;font-size:calc(.8rem * var(--scale));font-weight:800;white-space:nowrap}
 .studio-quick-link:hover{background:#ffedf0;border-color:#e4aeb7}
 @media(max-width:460px){.studio-quick-link{padding:10px!important;font-size:.73rem;max-width:125px;white-space:normal}.back-head{flex-wrap:wrap}}
+/* Softer secondary calls to action: no visual competition with Help or Emergency. */
+:root{--blue:#0d746c;--navy:#16344a;--muted:#61778a;--line:#dbe6ea;--ice:#eaf6f3;--green:#0b876f}
+.home-page .os-map-callout{background:#f7fbfa!important;border:1px solid #deebea!important;border-radius:16px!important;color:#1f5261!important;margin-top:17px!important;padding:13px 17px!important}
+.home-page .os-map-symbol{width:43px!important;height:43px!important;background:#e7f5f0!important;color:#147e70!important;font-size:1.6rem!important}
+.home-page .os-map-callout strong{font-size:calc(.89rem * var(--scale))!important}
+.home-page .os-map-callout small{color:#6c8791!important}
+.home-page .os-week{background:transparent!important;border:0!important;border-top:1px solid #e7efef!important;border-radius:0!important;color:#647d8c!important;margin-top:12px!important;padding:12px 4px!important}
+.home-page .os-week-icon{font-size:1.2rem;color:#6c9991}
+.home-page .os-week a{color:#11786e;text-underline-offset:3px}
+.home-page .os-home-install{background:#eaf6f2;border:1px solid #d2e8e2;color:#0d6c62}
