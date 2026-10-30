@@ -1,5 +1,5 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261030-02';
+const VERSION='os-safe-20261030-03';
 const STATIC=VERSION+'-assets';
 const CORE=[
  './','./index.html','./offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
@@ -26,7 +26,7 @@ self.addEventListener('fetch',event=>{
   event.respondWith((async()=>{
    const cache=await caches.open(STATIC);
    try{const response=await fetch(req);if(response.ok)cache.put(req,response.clone()).catch(()=>{});return response}catch{
-    return await cache.match(req,{ignoreSearch:true})||await cache.match('./index.html')||await cache.match('./offline.html')||new Response('Sem conexão',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}})
+    return await cache.match(req,{ignoreSearch:true})||await cache.match('./offline.html')||new Response('Sem conexão',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}})
    }
   })());return;
  }
