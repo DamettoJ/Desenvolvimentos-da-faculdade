@@ -107,3 +107,29 @@ Arquivos: `border-data.js` (configuração e diretório por país), `border-cont
 Fontes principais: [CNES/DATASUS](https://cnes.datasus.gov.br/), [MSPBS](https://www.mspbs.gov.py/donde-consulto.php), [IPS](https://servicios.ips.gov.py/IPSMaps/informacion.php?cod_empresa=73), [Salud Pública Misiones](https://salud.misiones.gob.ar/hospitales/), [Parque de la Salud Misiones](https://parquesaludmisiones.org.ar/centros-de-vacunacion/) e [Emergências da Argentina](https://www.argentina.gob.ar/tema/emergencias).
 
 **Atenção:** contatos, horários, especialidades e requisitos de acesso podem mudar. Confirme diretamente com os serviços e não utilize o aplicativo como ferramenta de diagnóstico ou triagem clínica.
+
+## Idiomas com bandeiras — atualização de 30/10/2026
+
+A versão principal do OrientaSaúde disponibiliza **9 idiomas** na interface, todos selecionáveis com bandeira e nome nativo:
+
+| Idioma | Código | Bandeira de referência |
+| --- | --- | --- |
+| Português (Brasil) | `pt-BR` | 🇧🇷 |
+| Español | `es` | 🇦🇷 |
+| English | `en` | 🇬🇧 |
+| 日本語 (japonês) | `ja` | 🇯🇵 |
+| العربية (árabe) | `ar` | 🇱🇧 |
+| 中文 (chinês simplificado) | `zh-CN` | 🇨🇳 |
+| Avañe’ẽ (guarani) | `gn` | 🇵🇾 |
+| 한국어 (coreano) | `ko` | 🇰🇷 |
+| Kreyòl ayisyen (crioulo haitiano) | `ht` | 🇭🇹 |
+
+A bandeira indica um país ou comunidade de referência e **não significa que a língua pertença exclusivamente àquele país**. O idioma é escolhido independentemente da cidade (Foz, Ciudad del Este ou Puerto Iguazú) e fica salvo localmente no navegador. O árabe utiliza direção de leitura RTL.
+
+**Escopo de tradução:** menus, botões, sintomas comuns, orientações urgentes, títulos das dicas e controles principais estão traduzidos; **parte das explicações médicas mais extensas, nomes técnicos, fontes e descrições institucionais continua no português original**. O guarani tem cobertura de interface mais limitada, pois a terminologia médica requer revisão por tradutor especializado. Textos inseridos pelo próprio usuário não são traduzidos nem enviados a serviços externos.
+
+**Antes de uso assistencial:** todos os idiomas e avisos de segurança devem ser revisados por tradutores nativos e profissionais de saúde; traduções e diretórios de saúde permanecem informativos e não substituem avaliação clínica.
+
+Arquivos: `language-pack.js` (opções, bandeiras e glossários), `locale.css` (layout multilíngue e RTL), `i18n.js` (integração), módulos de dicas, especialidades, unidades e Tríplice Fronteira. A escolha é guardada em `localStorage` sob `orientasaude-language-v1`.
+
+**Contexto regional:** [UNILA: diversidade linguística em Foz](https://portal.unila.edu.br/noticias/aniversario-de-foz-do-iguacu-conheca-10-fatos-importantes-sobre-a-cidade) e [OIM: perfil migratório de Foz](https://brazil.iom.int/sites/g/files/tmzbdl1496/files/documents/2023-08/mgi-local-foz-de-iguacu-2022-pt.pdf). Não existe ranking censitário completo e atualizado de línguas por número de falantes; a seleção é prática, não estatística.
