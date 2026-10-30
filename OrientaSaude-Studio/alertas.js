@@ -54,7 +54,25 @@ function renderData(){const root=$('articles');root.replaceChildren();const city
  if(!items.length){const p=document.createElement('p');p.className='empty';p.textContent=tx().empty;root.append(p);return}
  items.forEach(x=>{const url=safeUrl(x.url);if(!url)return;const item=document.createElement('article');item.className='article';const meta=document.createElement('div');meta.className='meta';const tag=document.createElement('span');tag.className='tag';tag.textContent=safeText(x.source);const date=document.createElement('span');date.textContent=fmt(x.published);const scope=document.createElement('span');scope.textContent=safeText(x.scope||'Nacional / regional');meta.append(tag,date,scope);const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=safeText(x.title);item.append(meta,link);root.append(item)})
 }
-async function load(){try{const response=await fetch('../saude-publica/alertas.json?ts='+Date.now(),{cache:'no-store'});if(!response.ok)throw Error('Unavailable');const data=await response.json();if(!data||!Array.isArray(data.items))throw Error('Invalid data');snapshot=data}catch{snapshot=null}renderData()}
+async function load(){
+ snapshot=null;
+ // GitHub Actions commits may not trigger another Pages deployment. Read the public
+ // repository's latest snapshot first; fall back to the copy published on Pages.
+ const candidates=[
+  'https://raw.githubusercontent.com/DamettoJ/Desenvolvimentos-da-faculdade/main/saude-publica/alertas.json',
+  '../saude-publica/alertas.json?ts='+Date.now()
+ ];
+ for(const url of candidates){
+  try{
+   const response=await fetch(url,{cache:'no-store'});
+   if(!response.ok)continue;
+   const data=await response.json();
+   if(!data||!Array.isArray(data.items)||data.schema_version!==1)continue;
+   snapshot=data;break;
+  }catch{}
+ }
+ renderData();
+}
 try{citySelect.value=current()}catch{citySelect.value='foz'}
 const available=pack?.options?.filter(x=>x.code!=='gn');if(available?.length){langSelect.replaceChildren();available.forEach(v=>{const el=document.createElement('option');el.value=v.code;el.textContent=(v.native||v.code);langSelect.append(el)})}
 try{const v=localStorage.getItem((location.pathname.includes('OrientaSaude-Studio/')?'orientasaude-studio-language-v1':'orientasaude-language-v1'));if(v)langSelect.value=v}catch{}
