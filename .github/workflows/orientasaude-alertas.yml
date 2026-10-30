@@ -1,0 +1,31 @@
+name: Atualizar publicações de vigilância em saúde (Tríplice Fronteira)
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: orientasaude-public-health-snapshot
+  cancel-in-progress: false
+jobs:
+  consultar-fontes-publicas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Consultar RSS oficiais e registrar a data real
+        run: python .github/scripts/atualizar_alertas.py
+      - name: Publicar snapshot compartilhado entre os dois aplicativos
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add saude-publica/alertas.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore(saude): atualizar boletins públicos da Tríplice Fronteira'
+            git push
+          fi
