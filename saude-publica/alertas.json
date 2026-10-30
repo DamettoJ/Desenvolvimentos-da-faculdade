@@ -1,59 +1,105 @@
 {
   "schema_version": 1,
-  "checked_at": null,
-  "update_state": "not_started",
-  "description": "Publicações extraídas de fontes públicas oficiais. Sem vínculo com sistemas internos, sem classificação automática de risco local.",
+  "checked_at": "2026-10-30T22:26:54+00:00",
+  "update_state": "ok",
+  "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
+  "sources": [
+    {
+      "source": "dgvs",
+      "status": "checked",
+      "count": 6
+    },
+    {
+      "source": "misiones",
+      "status": "checked",
+      "count": 1
+    },
+    {
+      "source": "parana",
+      "status": "checked",
+      "count": 3
+    }
+  ],
   "items": [
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Estado do Paraná · inclui Foz do Iguaçu",
-      "title": "Dia Nacional da Vacinação: Sesa alerta para a importância da imunização",
-      "url": "https://www.saude.pr.gov.br/Noticia/Dia-Nacional-da-Vacinacao-Sesa-alerta-para-importancia-da-imunizacao",
-      "published": "2026-10-16"
-    },
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Estado do Paraná · inclui Foz do Iguaçu",
-      "title": "Paraná atualiza acompanhamento de síndromes respiratórias",
-      "url": "https://www.saude.pr.gov.br/Noticia/Parana-retoma-normalidade-apos-queda-de-casos-e-obitos-por-sindromes-respiratorias",
-      "published": "2026-10-07"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · relatório nacional, não exclusivo de Alto Paraná",
-      "title": "Sin detección del virus dengue en el país: recomendaciones de prevención",
-      "url": "https://dgvs.mspbs.gov.py/sin-deteccion-del-virus-dengue-en-el-pais/",
-      "published": "2026-10-16"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · relatório nacional, não exclusivo de Alto Paraná",
-      "title": "Cuadros respiratorios e internaciones registran un nuevo descenso",
-      "url": "https://dgvs.mspbs.gov.py/cuadros-respiratorios-e-internaciones-registran-un-nuevo-descenso/",
-      "published": "2026-10-16"
-    },
     {
       "city": "iguazu",
       "source": "Salud Pública de Misiones",
-      "scope": "Puerto Iguazú · ação municipal e provincial",
-      "title": "Puerto Iguazú puso en marcha un operativo LIRAa para prevenir enfermedades vectoriales",
-      "url": "https://salud.misiones.gob.ar/puerto-iguazu-puso-en-marcha-un-nuevo-operativo-liraa-para-prevenir-enfermedades-vectoriales/",
-      "published": "2026-07-27"
+      "scope": "Misiones · Puerto Iguazú (abrangência provincial)",
+      "title": "El Programa IRAB cerró el 23º encuentro anual con 279 centros respiratorios y 60 salas SIA",
+      "url": "https://salud.misiones.gob.ar/el-programa-irab-cerro-el-23o-encuentro-anual-con-279-centros-respiratorios-y-60-salas-sia/",
+      "published": "2026-10-30T15:36:40+00:00"
     },
     {
-      "city": "iguazu",
-      "source": "Ministerio de Salud de Argentina",
-      "scope": "Argentina · boletim nacional, não exclusivo de Misiones",
-      "title": "Actualización del Boletín Epidemiológico Nacional de la semana N° 41",
-      "url": "https://www.argentina.gob.ar/noticias/actualizacion-del-boletin-epidemiologico-nacional-de-la-semana-ndeg-41",
-      "published": "2026-10-27"
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Saúde estende Outubro Rosa e alerta para os cuidados do homem no Novembro Azul",
+      "url": "https://www.saude.pr.gov.br/Noticia/Saude-estende-Outubro-Rosa-e-alerta-para-os-cuidados-do-homem-no-Novembro-Azul",
+      "published": "2026-10-30T13:40:31+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Curva de virus respiratorios supera el promedio a causa del rhinovirus",
+      "url": "https://dgvs.mspbs.gov.py/curva-de-virus-respiratorios-supera-el-promedio-a-causa-del-rhinovirus/",
+      "published": "2026-10-30T11:15:10+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Dengue: sin brotes activos, pero con ligero crecimiento de notificaciones en las últimas semanas",
+      "url": "https://dgvs.mspbs.gov.py/dengue-sin-brotes-activos-pero-con-ligero-crecimiento-de-notificaciones-en-las-ultimas-semanas/",
+      "published": "2026-10-30T11:00:52+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Día mundial del ACV: Cada minuto cuenta, no ignores las señales de alerta",
+      "url": "https://dgvs.mspbs.gov.py/dia-mundial-del-acv-cada-minuto-cuenta-no-ignores-las-senales-de-alerta/",
+      "published": "2026-10-29T11:19:42+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "El país fortalece la vigilancia sanitaria en fronteras con misión técnica de OPS/OMS",
+      "url": "https://dgvs.mspbs.gov.py/el-pais-fortalece-la-vigilancia-sanitaria-en-fronteras-con-mision-tecnica-de-ops-oms/",
+      "published": "2026-10-28T15:06:12+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Paraguayos participan en la primera edición del entrenamiento en español de la Red Mundial de Alerta y Respuesta ante Brotes",
+      "url": "https://dgvs.mspbs.gov.py/paraguay-participa-en-la-primera-edicion-del-entrenamiento-en-espanol-de-la-red-mundial-de-alerta-y-respuesta-ante-brotes/",
+      "published": "2026-10-27T22:00:37+00:00"
+    },
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Sesa e Cosems avançam com novas diretrizes para a saúde pública em reunião da CIB",
+      "url": "https://www.saude.pr.gov.br/Noticia/Sesa-e-Cosems-avancam-com-novas-diretrizes-para-saude-publica-em-reuniao-da-CIB",
+      "published": "2026-10-27T20:06:47+00:00"
+    },
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "87 milhões de doses: após reverter queda, Paraná alcança maior índice de vacinação da década",
+      "url": "https://www.saude.pr.gov.br/Noticia/87-milhoes-de-doses-apos-reverter-queda-Parana-alcanca-maior-indice-de-vacinacao-da-decada",
+      "published": "2026-10-26T16:43:16+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Rhinovirus causa más de la mitad de las internaciones por cuadros respiratorios",
+      "url": "https://dgvs.mspbs.gov.py/rhinovirus-causa-mas-de-la-mitad-de-las-internaciones-por-cuadros-respiratorios/",
+      "published": "2026-10-23T11:30:53+00:00"
     }
-  ],
-  "initial_links_reviewed_at": "2026-10-30",
-  "initial_data_note": "Links de publicações oficiais verificadas manualmente como referência inicial; a coleta programada ainda não ocorreu. Conferir data e abrangência nos órgãos de origem.",
-  "sources": []
+  ]
 }
