@@ -65,6 +65,21 @@
   let lang=stored('orientasaude-language-v1','pt-BR');if(!UI[lang])lang='pt-BR';
   let topic='todos', audience='todas', search='', scale=Number(stored('orientasaude-tip-font','0'));if(![0,1,2].includes(scale))scale=0;
   const t=()=>UI[lang];
+  const currentEmergency=()=>window.OrientaBorder?.cities?.[window.OrientaBorder.getCity()] || {id:'foz',emergency:'192',emergencyService:'SAMU'};
+  function emergencyCopy(){
+    const city=currentEmergency();
+    if(city.id==='foz')return t().emergency;
+    if(lang==='en')return 'For a medical emergency in '+city.name+', call '+city.emergency+' ('+city.emergencyService+'). Seek help immediately for severe chest pain, difficulty breathing or fainting.';
+    if(lang==='es')return 'En una emergencia médica en '+city.name+', llama al '+city.emergency+' ('+city.emergencyService+'). Busca ayuda inmediata ante dolor fuerte en el pecho, dificultad respiratoria o desmayo.';
+    return 'Em emergência médica em '+city.name+', ligue '+city.emergency+' ('+city.emergencyService+'). Busque ajuda imediata para dor forte no peito, dificuldade de respirar ou desmaio.';
+  }
+  function localDisclaimer(){
+    const city=currentEmergency();
+    if(city.id==='foz')return t().disclaimer;
+    if(lang==='en')return 'Educational information. Follow your healthcare professional’s advice and local vaccination guidelines. Medical emergency: '+city.emergency+' ('+city.emergencyService+').';
+    if(lang==='es')return 'Información educativa. Sigue las recomendaciones de profesionales y el calendario de vacunación local. Emergencia médica: '+city.emergency+' ('+city.emergencyService+').';
+    return 'Informação educativa. Siga orientações profissionais e o calendário de vacinação local. Emergência médica: '+city.emergency+' ('+city.emergencyService+').';
+  }
   function card(item){
     const d=item.translations[lang];const source=sources[item.source];
     const audienceLabel=item.ages.includes('todas')?t().everyone:item.ages.map(a=>t()[ageTitle[a]]).join(' · ');
@@ -102,8 +117,8 @@
       <p class="tips-count" id="tips-count" role="status" aria-live="polite"></p>
       <div class="tips-grid" id="tips-grid">${items.map(card).join('')}</div><p class="tips-empty" id="tips-empty" hidden>${esc(t().none)}</p>
       </section>
-      <div class="tips-emergency"><div><strong>${esc(t().emergency)}</strong><p>${esc(t().consult)}</p></div><a href="tel:192">📞 SAMU 192</a></div>
-      <footer class="tips-footer"><p>${esc(t().disclaimer)}</p><p>${esc(t().help)}</p><small>${esc(t().reviewed)}</small></footer></main></div>`;
+      <div class="tips-emergency"><div><strong>${esc(emergencyCopy())}</strong><p>${esc(t().consult)}</p></div><a href="tel:${currentEmergency().emergency}">☎ ${esc(currentEmergency().emergencyService)} ${esc(currentEmergency().emergency)}</a></div>
+      <footer class="tips-footer"><p>${esc(localDisclaimer())}</p><p>${esc(t().help)}</p><small>${esc(t().reviewed)}</small></footer></main></div>`;
     update();
     if(location.hash==='#sinais'||location.hash==='#alertas'){
       const warning=root.querySelector('[data-tip="alertas"]');
