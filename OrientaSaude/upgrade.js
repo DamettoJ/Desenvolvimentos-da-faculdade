@@ -15,7 +15,22 @@ const address=(file)=>new URL('./'+file,document.baseURI).href;
 const setContrast=()=>document.documentElement.classList.toggle('os-high-contrast',!!prefs.contrast);setContrast();
 const actions=[['symptoms','symptoms','user'],['units','units','pin'],['specialties','specialties','stethoscope'],['tip','education','book'],['records','records','records'],['calendar','agenda','calendar'],['maps','mapa','map']];
 function navigate(to){if(to==='agenda')location.assign(address('agenda.html'));else if(to==='mapa')location.assign(address('mapa.html?city='+city()));else if(to==='education')location.assign(address('dicas.html?city='+city()));else {const b=root.querySelector('button[data-go="'+to+'"]')||document.querySelector('button[data-go="'+to+'"]');if(b)b.click();else if(to==='units'||to==='specialties')location.assign(address('fronteira.html?city='+city()+'&area='+to))}}
-function weekCount(){const a=readData(),rs=Array.isArray(a.reminders)?a.reminders:[];const start=new Date();start.setHours(0,0,0,0);const end=new Date(start.getTime()+8*86400000);return rs.filter(e=>{const d=new Date(e.date+'T'+(e.time||'12:00')+':00');return !e.done&&d>=start&&d<end}).length}
+function weekCount(){
+ const reminders=readData().reminders;
+ if(!Array.isArray(reminders))return 0;
+ let n=0;const start=new Date();start.setHours(12,0,0,0);
+ for(let j=0;j<7;j++){
+  const d=new Date(start);d.setDate(start.getDate()+j);
+  const ymd=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const ds=Math.floor(d.getTime()/86400000);
+  for(const e of reminders){if(e.done||!e.date||e.date>ymd)continue;
+   let valid=e.date===ymd;
+   if(!valid&&e.repeat){const startDate=new Date(e.date+'T12:00:00');const diff=ds-Math.floor(startDate.getTime()/86400000);
+    valid=diff>0&&(e.repeat==='daily'||(e.repeat==='weekly'&&diff%7===0)||(e.repeat==='monthly'&&Number(e.date.slice(8))===d.getDate()));
+   }if(valid)n++;
+  }
+ }return n;
+}
 function ensureHome(page){if($('.os-searchbox',page))return;
  const t=tx(),emergency=$('.emergency',page),hero=$('.hero',page);if(!emergency||!hero)return;
  const search=document.createElement('section');search.className='os-searchbox';search.innerHTML='<label for="os-lookup">'+esc(t.search)+'</label><div class="os-searchinput"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="7"/><path d="m16 16 5 5"/></svg><input type="search" id="os-lookup" placeholder="'+esc(t.placeholder)+'" autocomplete="off" aria-controls="os-suggestions" aria-expanded="false"></div><div id="os-suggestions" class="os-suggestions" hidden></div>';
