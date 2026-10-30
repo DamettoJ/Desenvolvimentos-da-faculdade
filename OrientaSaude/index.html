@@ -12,6 +12,7 @@
   <title>OrientaSaúde | Cuide da sua saúde</title>
 <link rel="stylesheet" href="flag-picker.css?v=20261030-flags-v2"></head>
 <body>
+  <a class="os-skip" href="#app-content">Pular para o conteúdo principal</a>
   <svg xmlns="http://www.w3.org/2000/svg" class="svg-defs" aria-hidden="true" focusable="false">
     <symbol id="i-activity" viewBox="0 0 24 24"><path d="M2 12h4l3-7 4 14 3-7h6"/></symbol>
     <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></symbol>
@@ -49,7 +50,7 @@
   <div class="app-shell">
     <div class="app-frame">
       <div class="statusbar" aria-hidden="true"><span class="status-clock">9:41</span><div class="status-signals"><span class="signal-bars">▂▄▆█</span><svg viewBox="0 0 24 24" width="19" height="19"><path d="M2 9a15 15 0 0 1 20 0M6 13a9 9 0 0 1 12 0M10 17a3.4 3.4 0 0 1 4 0" fill="none" stroke="#0b1730" stroke-linecap="round" stroke-width="2.6"/><circle cx="12" cy="20" r="1.5" fill="#0b1730"/></svg><span class="battery"><i></i></span></div></div>
-      <div id="app-content" class="content"></div>
+      <div id="app-content" class="content" role="main" tabindex="-1"></div>
       <nav id="tabbar" class="tabbar" aria-label="Navegação principal"></nav>
     </div>
   </div>
@@ -57,6 +58,7 @@
   <link rel="stylesheet" href="health-units.css" />
   <link rel="stylesheet" href="locale.css?v=20261030-l10n-v3" />
   <link rel="stylesheet" href="border-embed.css?v=20261030-discreto" />
+  <link rel="stylesheet" href="upgrade.css?v=20261030-upgrade-v1" />
   <script src="language-pack.js?v=20261030-es-flag" defer></script><script defer src="flag-picker.js?v=20261030-es-flag"></script>
   <script src="i18n.js?v=20261030-flags-v2" defer></script>
   <script src="health-data.js" defer></script>
@@ -66,5 +68,7 @@
   <script src="specialty-hook.js" defer></script>
   <script src="health-tips-hook.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="pwa.js?v=20261030-upgrade-v1" defer></script>
+  <script src="upgrade.js?v=20261030-upgrade-v1" defer></script>
 </body>
 </html>
