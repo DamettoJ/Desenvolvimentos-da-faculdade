@@ -18,6 +18,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Testar o parser sem rede
+        run: python .github/scripts/test_alertas.py
       - name: Consultar RSS oficiais e registrar a data real
         run: python .github/scripts/atualizar_alertas.py
       - name: Publicar snapshot compartilhado entre os dois aplicativos
