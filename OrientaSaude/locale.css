@@ -29,3 +29,11 @@
 [dir="rtl"] .tips-wrap,[dir="rtl"] .br-shell,[dir="rtl"] .spec-shell{direction:rtl;text-align:right}
 [dir="rtl"] .tips-header,[dir="rtl"] .br-top{direction:rtl}
 [dir="rtl"] .tips-header-tools,[dir="rtl"] .br-selectors{direction:ltr}
+/* SUS directory language control. */
+.br-unit-langrow{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:9px;margin:4px 0 13px auto;color:#667b8e;font-size:.77rem;font-weight:600}
+.br-unit-langrow select{border:1px solid #dbe6f1;border-radius:999px;background:#f7faff;color:#163654;min-height:36px;padding:7px 11px;font-size:.79rem;font-weight:700;max-width:180px;cursor:pointer}
+.br-unit-langrow select:focus-visible{outline:3px solid #a0cdff;outline-offset:2px}
+.br-unit-langnote{flex:0 0 100%;max-width:600px;margin-left:auto;color:#64748b;font-size:.72rem;font-weight:400;line-height:1.5}
+[dir="rtl"] .br-unit-langrow{direction:rtl}
+[dir="rtl"] .br-unit-langrow select{direction:ltr}
+@media(max-width:420px){.br-unit-langrow{width:100%}.br-unit-langrow select{max-width:175px}}
