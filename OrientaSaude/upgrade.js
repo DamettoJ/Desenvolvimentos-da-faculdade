@@ -58,7 +58,9 @@ root.addEventListener('click',e=>{const to=e.target.closest('[data-os-to]');if(t
  if(e.target.closest('[data-os-install]')){window.OrientaInstall?.request();return}
  const reveal=e.target.closest('[data-os-reveal]');if(reveal){const page=reveal.closest('.page');page.classList.toggle('os-revealed');reveal.textContent=page.classList.contains('os-revealed')?tx().hide:tx().show;return}
  if(e.target.closest('[data-os-purge]')){const days=Number($('#os-retention')?.value||90);if(!Number.isInteger(days)||days<30)return;const data=readData(),before=Array.isArray(data.records)?data.records.length:0;const cutoff=Date.now()-days*86400000;
- const message='Excluir definitivamente '+before+' relatos potencialmente afetados (anteriores a '+days+' dias)? Esta ação não pode ser desfeita.';
+ const eligible=(Array.isArray(data.records)?data.records:[]).filter(x=>{const time=Date.parse(x.createdAt);return Number.isFinite(time)&&time<cutoff}).length;
+ if(!eligible){alert('Nenhum relato anterior a '+days+' dias foi encontrado.');return;}
+ const message='Excluir definitivamente '+eligible+' relatos anteriores a '+days+' dias? Esta ação não pode ser desfeita.';
  if(!confirm(message))return;
  data.records=(Array.isArray(data.records)?data.records:[]).filter(x=>{const t=Date.parse(x.createdAt);return !Number.isFinite(t)||t>=cutoff});
  try{localStorage.setItem('orientasaude-demo-v1',JSON.stringify(data));alert('Excluídos: '+(before-data.records.length)+' relatos.');location.reload()}catch{alert('O navegador não permitiu salvar a alteração.')}return}
