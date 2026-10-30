@@ -52,6 +52,12 @@
       "short_name": "Dicas",
       "url": "./dicas.html",
       "description": "Ler orientações educativas"
+    },
+    {
+      "name": "Vigilância em Saúde",
+      "short_name": "Alertas",
+      "url": "./alertas.html",
+      "description": "Acompanhe fontes oficiais de epidemiologia na Tríplice Fronteira"
     }
   ]
 }
