@@ -136,3 +136,28 @@ Arquivos: `language-pack.js` (oito opções e glossários), `locale.css` (layout
 ### Bandeiras gráficas (correção de compatibilidade)
 
 A seleção de idioma usa `flag-picker.js` e `flag-picker.css` com **imagens PNG das bandeiras embutidas no código** (Noto Color Emoji, imagens geradas a partir de fonte licenciada sob SIL OFL 1.1), não emojis em `<option>` do sistema operacional. Isso evita que Windows e outros ambientes mostrem `BR`, `AR` e `JP` no lugar de bandeiras. O menu é navegável por teclado e acessível a leitores de tela. A implementação preserva as alterações de idioma no aplicativo, em Dicas de Saúde, Especialidades e páginas regionais. O guarani foi retirado da lista e das traduções. A interface nativa sem JavaScript apresenta os nomes dos idiomas, sem siglas de bandeira.
+
+## Evolução do aplicativo — 30/10/2026
+
+As melhorias abaixo foram implementadas **no projeto principal** e mantêm compatibilidade com os registros do navegador armazenados sob `orientasaude-demo-v1`.
+
+### Funcionalidades entregues
+- **Nova experiência na tela inicial** (`upgrade.js`, `upgrade.css`): pesquisa rápida que encaminha para seções existentes, acesso direto ao mapa, resumo de compromissos próximos, botão para instalar quando o navegador permite e pequenos ajustes visuais responsivos.
+- **Mapa de atendimento por cidade** (`mapa.html`, `mapa.js`, `mapa.css`): pesquisa e filtros de estabelecimentos; telefone e link de fonte; seleção de unidade e mapa interativo externo. **O mapa do Google só é carregado depois de clicar em “Carregar mapa”**; ao clicar, o nome e endereço da unidade são enviados ao provedor. A lista local funciona sem o iframe.
+- **Agenda e recorrências** (`agenda.html`, `agenda.js`, `agenda.css`): calendário mensal dos compromissos existentes, criação de consultas, horários de medicamentos prescritos e outros compromissos, recorrência diária/semanal/mensal e exportação `.ics` para calendário externo. **Sem notificações garantidas com o site fechado**; a importação `.ics` em um app de calendário é manual.
+- **Resumo imprimível dos relatos** (`resumo.html`, `resumo.js`, `resumo.css`): escolha de quantidade de registros, opção para ocultar descrições e impressão/exportação PDF pelo próprio navegador. Trata-se de informação **autorreferida**, não de prontuário.
+- **PWA e offline** (`pwa.js`, `sw.js`, `offline.html`, `manifest.webmanifest`, `assets/icon-192.png`, `assets/icon-512.png`): ícones PNG de instalação, atalhos, cache de arquivos públicos e página offline para recursos não disponíveis. Os mapas externos e as fontes online **não funcionam sem conexão**. É preciso visitar o site conectado ao menos uma vez; compatibilidade e instalação dependem do navegador.
+- **Privacidade e acessibilidade**: modo discreto opcional que desfoca prévias dos relatos no histórico, alto contraste, tamanho de fonte já existente, link de salto por teclado, melhora dos estados de foco, confirmação para apagar relatos anteriores a 30/90/365 dias, limpeza das novas preferências ao apagar dados locais. **Desfocar os textos não criptografa nem protege o `localStorage` contra quem tenha acesso ao navegador**.
+- **Leitura de Dicas de Saúde** (`reader.js`): reprodução de orientações educativas usando síntese de voz do dispositivo após ação do usuário. A voz disponível depende do idioma e navegador instalados.
+- **Tríplice Fronteira**: seleção de cidade e contatos de emergência continuam independentes do idioma; o mapa usa os catálogos informativos correspondentes.
+
+### Limites técnicos e pendências que exigem infraestrutura ou revisão externa
+1. **Triagem, diagnóstico e recomendações clínicas:** não disponibilizados como serviços validados. Mensagens sobre sintomas e urgência precisam de revisão e validação por profissionais de saúde, inclusive para evitar falsos negativos.
+2. **Agendamento, filas, prontuários, médicos em tempo real e atualização automática dos contatos:** exigem integrações autorizadas com hospitais, sistemas públicos ou provedores, além de manutenção e governança de dados.
+3. **Notificações push com o aplicativo fechado e sincronização entre dispositivos:** exigem infraestrutura (servidor, assinaturas, consentimento e mecanismos de segurança); o PWA estático não oferece essas garantias.
+4. **Proteção forte dos relatos (login, backup cifrado e acesso autenticado):** não existe no frontend atual; avaliar segurança/LGPD antes de usar dados de pacientes reais.
+5. **Traduções de conteúdo clínico para todos os idiomas:** a interface cobre 8 idiomas, mas explicações especializadas podem permanecer em português; requer tradutores e revisão profissional.
+6. **Homologação de localização, telefones, horários e profissionais:** o conteúdo é cadastro informativo e pode ficar desatualizado; cada informação precisa ser confirmada com a unidade.
+7. **Testes completos em celulares físicos, leitores de tela e ambientes offline:** checklist em `TESTES.md`; testes de execução visual automatizados não foram concluídos no ambiente de desenvolvimento por restrição do navegador de testes.
+
+Veja **[TESTES.md](TESTES.md)** para o roteiro detalhado de verificação. `index.html` e todas as páginas regionais continuam em hospedagem estática, sem coleta remota de sintomas pelo aplicativo. **Não use este protótipo como substituto de atendimento profissional ou de emergência.**
