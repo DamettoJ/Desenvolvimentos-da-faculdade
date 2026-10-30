@@ -1,3 +1,38 @@
+# OrientaSaúde Studio — Versão visual independente
+
+**Experiência redesenhada, com os mesmos recursos informativos do OrientaSaúde principal.**
+
+**Site:** https://damettoj.github.io/Desenvolvimentos-da-faculdade/OrientaSaude-Studio/
+
+**Projeto de origem (inalterado):** [OrientaSaude](../OrientaSaude/). O novo aplicativo está em `OrientaSaude-Studio/`, com todos os arquivos e recursos duplicados, incluindo JS, CSS, dados de serviços, idiomas, páginas, ícones e PWA. Ambos são hospedados em caminhos diferentes.
+
+## Diferenças do Studio
+
+- Visual de saúde contemporâneo: azul-petróleo, verde-clínico sóbrio, áreas brancas, tipografia acessível e menos efeitos decorativos.
+- Dois atalhos de prioridade alta, **Preciso de ajuda** e **Emergência**, grandes e com contraste elevado na tela inicial. No restante das telas há acesso à emergência pelo cabeçalho.
+- Pesquisa e recursos públicos mantidos; serviços e funções secundárias continuam acessíveis em seções simplificadas ou expansíveis.
+- Todas as funcionalidades anteriores são preservadas: relatos de sintomas, histórico, dicas, médicos e especialidades, unidades SUS, mapas, localização GPS/endereço opcional, calendário, lembretes, impressão, três cidades da Tríplice Fronteira, oito idiomas, bandeiras, PWA, offline e acessibilidade.
+- Camada de apresentação **isolada do restante da lógica**: `studio-design.css` (visual) e `studio-ui.js` (organização da interface). As implementações de dados e navegação continuam nos arquivos duplicados originais.
+
+### Independência da cópia
+
+Por serem publicados no mesmo domínio do GitHub Pages, o navegador compartilharia `localStorage` entre as pastas se os nomes das chaves fossem iguais. Por isso o Studio usa nomes próprios:
+- `orientasaude-studio-demo-v1`: relatos e lembretes locais;
+- `orientasaude-studio-language-v1`: idioma;
+- `orientasaude-studio-city-v1`: cidade;
+- `orientasaude-studio-ux-prefs` e `orientasaude-studio-tip-font`: preferências;
+- cache de service worker sob prefixo exclusivo `os-studio-safe-`.
+
+**Registros anteriores não são transferidos automaticamente**: cada versão tem histórico próprio, preservando os dados existentes da versão original. A função de exportação continua disponível. O Studio não requer banco de dados ou servidor para suas funções estáticas.
+
+### Cuidados e limitações
+
+O projeto **não foi clinicamente validado**, não fornece diagnóstico, prescrição ou triagem médica profissional e não substitui emergência ou atendimento humano. Dados e orientações seguem o conteúdo informativo da versão original e **necessitam revisão de profissionais de saúde** e tradutores nativos antes de uso assistencial. Telefones e horários de unidades devem ser confirmados. O modo discreto não criptografa informações no navegador.
+
+O novo design pode ser modificado independentemente do original. Os arquivos internos duplicados não devem carregar CSS ou JS do caminho antigo; todas as referências continuam relativas à pasta Studio.
+
+---
+
 # OrientaSaúde
 
 **Protótipo acadêmico responsivo** de orientação informativa sobre sintomas, sinais de alerta e busca por atendimento, inspirado nas quatro telas fornecidas para o projeto de Engenharia de Software.
