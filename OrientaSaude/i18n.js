@@ -64,7 +64,7 @@
     select.setAttribute('aria-label',label.textContent);
     select.title=label.textContent;
     for(const lang of (pack?.options||[{code:'pt-BR',flag:'🇧🇷',native:'Português'},{code:'en',flag:'🇬🇧',native:'English'},{code:'es',flag:'🇦🇷',native:'Español'}])) {
-      const option=document.createElement('option');option.value=lang.code;option.textContent=lang.flag+' '+lang.native;option.selected=current===lang.code;select.appendChild(option);
+      const option=document.createElement('option');option.value=lang.code;option.textContent=lang.native;option.selected=current===lang.code;select.appendChild(option);
     }
     select.setAttribute('dir','ltr');
     wrap.append(label,select);
