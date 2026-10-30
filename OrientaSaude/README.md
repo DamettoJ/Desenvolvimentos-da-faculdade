@@ -91,3 +91,19 @@ Desenvolvido como demonstração do projeto **OrientaSaúde — Sistema de Orien
 ## Idiomas / Languages / Idiomas
 
 O aplicativo oferece seleção de idioma em todas as telas (no cabeçalho): **PT-BR**, **EN** e **ES**. A escolha é salva localmente no navegador, aplicada à interface, às orientações informativas e às mensagens do sistema, e pode ser alterada a qualquer momento. Os relatos inseridos pelo usuário não são enviados a serviços de tradução nem traduzidos automaticamente. O recurso funciona inteiramente sem API externa, por meio do arquivo `i18n.js`.
+
+## Modo Tríplice Fronteira (30/10/2026)
+
+O primeiro OrientaSaúde oferece seleção persistente de município: **Foz do Iguaçu (Brasil)**, **Ciudad del Este (Paraguai)** e **Puerto Iguazú (Argentina)**. A seleção fica registrada no `localStorage` e pode ser compartilhada por `?city=foz`, `?city=cde` ou `?city=iguazu`. O seletor de idioma português/inglês/espanhol é independente da cidade.
+
+- A cidade escolhida altera o contato de **emergência médica**: 192 (SAMU, Brasil), 141 (SEME, Paraguai) ou 107 (emergências médicas, Misiones/Argentina). São números locais: ligar conforme o país em que a pessoa está.
+- **Unidades de saúde:** Foz mantém o catálogo anterior de 31 unidades; Ciudad del Este e Puerto Iguazú apresentam seleções próprias de hospitais públicos/privados e serviços de atenção primária, com endereço, telefone quando verificado, horário informado e link de fonte. O diretório não representa a totalidade das unidades existentes.
+- **Especialidades:** Foz mantém seu diretório completo de clínicas e profissionais. Para Paraguai e Argentina, apenas especialidades identificadas em fontes públicas são vinculadas aos estabelecimentos. Não foram inventados nomes individuais de médicos ou agendamentos.
+- **Dicas de Saúde:** o conteúdo educativo permanece acessível, com o contato de emergência e o portal de saúde pública correspondente à cidade selecionada.
+- **Histórico e lembretes:** permanecem armazenados somente no mesmo navegador e não são apagados na troca de cidade. A cidade não é detectada por GPS e não substitui a confirmação do local onde o usuário está fisicamente.
+
+Arquivos: `border-data.js` (configuração e diretório por país), `border-context.js` (integração com o SPA), `fronteira.html` e `border-page.js` (consultas por cidade), `border-tips.js` (dicas locais) e `border-legacy.js` (compatibilidade com as páginas antigas de Foz).
+
+Fontes principais: [CNES/DATASUS](https://cnes.datasus.gov.br/), [MSPBS](https://www.mspbs.gov.py/donde-consulto.php), [IPS](https://servicios.ips.gov.py/IPSMaps/informacion.php?cod_empresa=73), [Salud Pública Misiones](https://salud.misiones.gob.ar/hospitales/), [Parque de la Salud Misiones](https://parquesaludmisiones.org.ar/centros-de-vacunacion/) e [Emergências da Argentina](https://www.argentina.gob.ar/tema/emergencias).
+
+**Atenção:** contatos, horários, especialidades e requisitos de acesso podem mudar. Confirme diretamente com os serviços e não utilize o aplicativo como ferramenta de diagnóstico ou triagem clínica.
