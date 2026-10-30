@@ -13,12 +13,15 @@ const sources={
   {name:'Anvisa — Alertas epidemiológicos de fronteiras',level:'Governo federal · Brasil',url:'https://www.gov.br/anvisa/pt-br/assuntos/paf/vigilancia-epidemiologica/alertas-epidemiologicos',note:'Notas técnicas sobre riscos em portos, aeroportos e fronteiras'}
  ],
  cde:[
+  {name:'Municipalidad de Ciudad del Este — Dirección de Salud',level:'Município de Ciudad del Este',url:'https://mcde.gov.py/direccion/direccion-de-salud-',note:'Contato municipal e ações de saúde locais'},
+  {name:'Programa Ampliado de Inmunizaciones — Ciudad del Este',level:'Governo nacional · Paraguai / município',url:'https://pai.mspbs.gov.py/ciudad-del-este/',note:'Informações públicas sobre vacinação e cobertura'},
   {name:'DGVS — Arboviroses e boletins de Alto Paraná',level:'Departamento de Alto Paraná',url:'https://dgvs.mspbs.gov.py/arbovirosis/',note:'Boletim do departamento X — Alto Paraná, dengue e chikungunya'},
   {name:'Dirección General de Vigilancia de la Salud',level:'Governo nacional · Paraguai',url:'https://dgvs.mspbs.gov.py/',note:'Alertas e notícias oficiais de vigilância epidemiológica'},
   {name:'Dirección General de Vigilancia — Boletim semanal',level:'Governo nacional · Paraguai',url:'https://dgvs.mspbs.gov.py/boletin-epidemiologico-semanal/',note:'Boletins periódicos nacionais (conferir ano e semana publicados)'},
   {name:'Ministerio de Salud Pública y Bienestar Social',level:'Governo nacional · Paraguai',url:'https://www.mspbs.gov.py/',note:'Recomendações e comunicados do sistema público de saúde'}
  ],
  iguazu:[
+  {name:'Municipalidad de Puerto Iguazú — Control de Vectores',level:'Município de Puerto Iguazú',url:'https://www.iguazu.gob.ar/vectores/',note:'Ações locais de prevenção e controle de dengue e outros vetores'},
   {name:'Ministerio de Salud Pública de Misiones',level:'Província de Misiones',url:'https://salud.misiones.gob.ar/',note:'Notícias provinciais de saúde, incluindo Puerto Iguazú'},
   {name:'Vigilancia Epidemiológica de Misiones',level:'Província de Misiones',url:'https://salud.misiones.gob.ar/vigilancia-epidemiologica/',note:'Protocolos, guias e comunicados epidemiológicos'},
   {name:'Ministerio de Salud — Epidemiología',level:'Governo nacional · Argentina',url:'https://www.argentina.gob.ar/salud/epidemiologia',note:'Boletins, alertas e vigilância epidemiológica nacional'},
