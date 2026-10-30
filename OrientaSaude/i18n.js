@@ -56,7 +56,8 @@
     const label=document.createElement('label');
     label.htmlFor='app-language';
     label.className='visually-hidden';
-    label.textContent=pack?.translate(current,'Escolher idioma') || (current==='en'?'Choose language':current==='es'?'Elegir idioma':'Escolher idioma');
+    const langTitle=pack?.translate(current,'Escolher idioma');
+    label.textContent=(langTitle&&langTitle!=='Escolher idioma')?langTitle:(current==='en'?'Choose language':current==='es'?'Elegir idioma':'Escolher idioma');
     const select=document.createElement('select');
     select.id='app-language';
     select.className='language-select';
