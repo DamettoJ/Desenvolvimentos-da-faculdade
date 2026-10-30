@@ -28,7 +28,7 @@ function mountLanguage(){
  const row=document.createElement('div');row.className='br-unit-langrow';
  const label=document.createElement('label');label.htmlFor='br-units-language';label.textContent=pack.translate(lang,'Escolher idioma');
  const sel=document.createElement('select');sel.id='br-units-language';sel.dir='ltr';sel.setAttribute('aria-label',label.textContent);
- for(const option of pack.options){const e=document.createElement('option');e.value=option.code;e.textContent=option.flag+' '+option.native;e.selected=option.code===lang;sel.append(e)}
+ for(const option of pack.options){const e=document.createElement('option');e.value=option.code;e.textContent=option.native;e.selected=option.code===lang;sel.append(e)}
  row.append(label,sel);
  const title=host.querySelector('.foz-directory>h2');
  if(title)title.textContent=pack.translate(lang,'Unidades de saúde')+' · Foz do Iguaçu';
