@@ -1,0 +1,28 @@
+/* Diretório de unidades da rede de saúde em Foz do Iguaçu */
+.foz-directory{display:grid;gap:14px}
+.foz-directory>h2{font-size:1.35rem;line-height:1.25}
+.foz-directory>p{color:var(--muted)}
+.foz-alert{background:#fde8ec;border:1px solid #f4b9c0;color:#9d1731;padding:14px;border-radius:13px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+.foz-alert a{background:#e53254;color:white;text-decoration:none;padding:9px 14px;border-radius:10px;font-weight:800}
+.foz-query{width:100%;border:1px solid #cbddea;border-radius:12px;padding:14px;font-size:1rem;background:white;color:#071d44}
+.foz-filters{display:flex;flex-wrap:wrap;gap:8px}
+.foz-filters button{border:1px solid #d4e4f8;background:#eaf4ff;color:#1962af;border-radius:50px;padding:8px 13px;font-size:.9rem;font-weight:700}
+.foz-filters button.selected{background:#087af4;color:white;border-color:#087af4}
+.foz-count{font-size:.83rem;color:#52647d}
+.foz-grid{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.foz-unit{background:#fff;border:1px solid #dce2e9;border-radius:16px;padding:15px;display:flex;flex-direction:column;gap:10px;min-width:0;box-shadow:0 2px 6px #18385b0c}
+.foz-unit[hidden]{display:none!important}
+.foz-top{display:flex;align-items:flex-start;justify-content:space-between;gap:7px}
+.foz-top div{min-width:0}
+.foz-top h3{font-size:1rem;line-height:1.3;margin-top:5px;overflow-wrap:anywhere}
+.foz-top small{font-weight:700;color:#087af4;background:#e7f2ff;padding:3px 8px;border-radius:8px}
+.foz-top>b{white-space:nowrap;border-radius:8px;background:#e9f8f2;color:#08774e;font-size:.7rem;padding:5px 7px}
+.foz-unit p{margin:0;color:#52647d;font-size:.84rem;line-height:1.45}
+.foz-unit p strong{color:#18365b}
+.foz-unit a{color:#0b6be0;overflow-wrap:anywhere}
+.foz-actions{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-top:auto}
+.foz-actions a{display:inline-block;text-decoration:none;border-radius:9px;background:#e8f4ff;color:#0069d9;font-weight:700;padding:8px 10px;font-size:.76rem}
+.foz-actions a:first-child{background:#087af4;color:white}
+.foz-disclaimer{background:#f4f7fb;border-left:3px solid #087af4;padding:13px;border-radius:9px;color:#53637a;font-size:.84rem;line-height:1.55}
+@media(max-width:720px){.foz-grid{grid-template-columns:1fr}}
+@media(max-width:380px){.foz-filters button{padding:7px 9px;font-size:.78rem}}
