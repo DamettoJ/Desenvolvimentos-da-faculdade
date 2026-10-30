@@ -36,7 +36,7 @@ const i18n={
 };
 const safeText=t=>String(t||'').replace(/\s+/g,' ').trim().slice(0,260);
 const safeUrl=u=>{try{const t=new URL(u);return t.protocol==='https:'?t.href:null}catch{return null}};
-const fmt=date=>{if(!date)return '';const d=new Date(date);return Number.isFinite(d.getTime())?d.toLocaleDateString(lang()==='en'?'en-US':lang()==='es'?'es-AR':'pt-BR',{day:'2-digit',month:'short',year:'numeric'}):''};
+const fmt=date=>{if(!date)return '';const d=new Date(/^\d{4}-\d{2}-\d{2}$/.test(date)?date+'T12:00:00':date);return Number.isFinite(d.getTime())?d.toLocaleDateString(lang()==='en'?'en-US':lang()==='es'?'es-AR':'pt-BR',{day:'2-digit',month:'short',year:'numeric'}):''};
 const lang=()=>{const v=langSelect.value;return i18n[v]?v:'pt-BR'},tx=()=>i18n[lang()];
 function current(){return B?.getCity?.()||'foz'}
 function setLang(){try{localStorage.setItem((location.pathname.includes('OrientaSaude-Studio/')?'orientasaude-studio-language-v1':'orientasaude-language-v1'),langSelect.value)}catch{}}
