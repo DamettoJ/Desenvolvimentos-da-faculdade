@@ -111,7 +111,7 @@
       <header class="tips-header"><a class="tips-back" href="./" aria-label="${esc(t().nav)}">← <span>${esc(t().nav)}</span></a>
       <a class="tips-brand" href="./"><span class="tips-brand-icon" aria-hidden="true">✚</span> Orienta<span>Saúde</span></a>
       <div class="tips-header-tools"><label class="tip-lang-label" for="tips-lang">${esc(t().language)}</label>
-        <select id="tips-lang" aria-label="${esc(t().language)}" dir="ltr">${(pack?.options||[]).map(v=>`<option value="${v.code}" ${lang===v.code?'selected':''}>${v.flag} ${esc(v.native)}</option>`).join('')}</select>
+        <select id="tips-lang" aria-label="${esc(t().language)}" dir="ltr">${(pack?.options||[]).map(v=>`<option value="${v.code}" ${lang===v.code?'selected':''}>${esc(v.native)}</option>`).join('')}</select>
         <button class="tips-font" type="button" data-tip-font title="${esc(t().size)}" aria-label="${esc(t().size)}">A+</button></div></header>
       <main id="main-content" class="tips-main">
       <section class="tips-hero" aria-labelledby="tip-title"><div><p class="tips-overline">OrientaSaúde · ${esc(t().title)}</p><h1 id="tip-title">${esc(t().title)}</h1><h2>${esc(t().subtitle)}</h2><p>${esc(t().lead)}</p><span class="tips-review">${esc(t().reviewed)}</span></div><div class="tips-hero-art" aria-hidden="true"><span>💙</span><span>🧼</span><span>🥬</span><span>🌿</span></div></section>
