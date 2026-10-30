@@ -115,7 +115,7 @@ A versão principal do OrientaSaúde disponibiliza **8 idiomas** na interface, t
 | Idioma | Código | Bandeira de referência |
 | --- | --- | --- |
 | Português (Brasil) | `pt-BR` | 🇧🇷 |
-| Español | `es` | 🇦🇷 |
+| Español | `es` | 🇪🇸 |
 | English | `en` | 🇬🇧 |
 | 日本語 (japonês) | `ja` | 🇯🇵 |
 | العربية (árabe) | `ar` | 🇱🇧 |
