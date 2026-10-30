@@ -50,3 +50,16 @@ Este checklist complementa as verificações estáticas realizadas na implementa
 
 ## Escopo do protótipo
 Funcionalidade de frontend estático, sem backend, sem banco remoto, sem login, sem agendamento com estabelecimentos e sem acesso a filas em tempo real. Os serviços podem mudar; confirmar diretamente antes de procurar atendimento. O produto **não fornece diagnóstico, prescrição nem triagem validada**.
+
+## Localização no mapa (30/10/2026)
+- [ ] Abrir `mapa.html` conectado via HTTPS e verificar **Usar minha localização** e **Informar endereço**
+- [ ] Permitir geolocalização quando solicitada: validar mensagem de precisão e habilitação do botão **Carregar mapa**
+- [ ] Confirmar que o iframe do Google Maps **não** carrega antes do clique explícito em **Carregar mapa**
+- [ ] Negar geolocalização: verificar mensagem de orientação e possibilidade de informar endereço manualmente
+- [ ] Informar rua/bairro de referência e carregar o mapa após autorização
+- [ ] Selecionar um hospital após definir a origem: confirmar que a rota usa a origem informada quando aberta
+- [ ] Limpar localização: verificar que a posição é descartada da memória da página e o botão volta ao estado inicial
+- [ ] Trocar de cidade: garantir que os estabelecimentos listados mudam, sem trocar automaticamente a posição física
+- [ ] Testar GPS desativado e permissão bloqueada nas configurações do navegador
+
+**Privacidade:** coordenadas/endereço não são gravados no localStorage. O navegador pode consultar seu provedor de geolocalização ao obter GPS; o aplicativo somente envia a localização ao Google Maps após o usuário carregar o mapa ou abrir a rota. O site deve estar em HTTPS e o usuário deve permitir geolocalização. Verificação manual real do prompt de permissão ainda pendente.
