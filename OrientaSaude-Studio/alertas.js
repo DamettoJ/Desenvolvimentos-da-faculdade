@@ -50,10 +50,13 @@ function renderData(){const root=$('articles');root.replaceChildren();const city
  const items=Array.isArray(snapshot?.items)?snapshot.items.filter(x=>x.city===city).slice(0,12):[];
  const checked=snapshot?.checked_at;const d=checked?Date.parse(checked):NaN;const fresh=Number.isFinite(d)&&Date.now()-d<48*60*60*1000&&Date.now()-d>0;
  const anyCheck=Number.isFinite(d);
- $('monitor-status').textContent=!anyCheck?tx().pending:fresh?tx().status:tx().stale;
+ const feedKey={foz:'parana',cde:'dgvs',iguazu:'misiones'}[city];
+ const localFeed=Array.isArray(snapshot?.sources)?snapshot.sources.find(s=>s.source===feedKey):null;
+ const feedOk=localFeed?.status==='checked';
+ $('monitor-status').textContent=!anyCheck?tx().pending:!feedOk?'Fonte regional indisponível na última consulta; use os links oficiais':fresh?tx().status:tx().stale;
  $('monitor-note').textContent=tx().notRealtime;
  $('monitor-time').textContent=anyCheck?tx().checked+': '+new Date(d).toLocaleString(lang()==='es'?'es-AR':lang()==='en'?'en-US':'pt-BR'):tx().none;
- document.querySelector('.status-panel').dataset.health=!fresh?'stale':'ok';
+ document.querySelector('.status-panel').dataset.health=!fresh||!feedOk?'stale':'ok';
  if(!items.length){const p=document.createElement('p');p.className='empty';p.textContent=tx().empty;root.append(p);return}
  items.forEach(x=>{const url=safeUrl(x.url);if(!url)return;const item=document.createElement('article');item.className='article';const meta=document.createElement('div');meta.className='meta';const tag=document.createElement('span');tag.className='tag';tag.textContent=safeText(x.source);const date=document.createElement('span');date.textContent=fmt(x.published);const scope=document.createElement('span');scope.textContent=safeText(x.scope||'Nacional / regional');meta.append(tag,date,scope);const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=safeText(x.title);item.append(meta,link);root.append(item)})
 }
