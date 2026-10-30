@@ -1,5 +1,5 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261030-05-desktop-map';
+const VERSION='os-studio-safe-20261030-05-desktop-map';
 const STATIC=VERSION+'-assets';
 const CORE=[
  './','./index.html','./offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
@@ -16,7 +16,7 @@ const CORE=[
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{const cache=await caches.open(STATIC);await Promise.allSettled(CORE.map(async p=>{try{const response=await fetch(p,{cache:'reload'});if(response.ok)await cache.put(new Request(p),response.clone())}catch{}}));await self.skipWaiting()})());
 });
-self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(x=>x.startsWith('os-safe-')&&x!==STATIC).map(x=>caches.delete(x)));await self.clients.claim()})())});
+self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(x=>x.startsWith('os-studio-safe-')&&x!==STATIC).map(x=>caches.delete(x)));await self.clients.claim()})())});
 self.addEventListener('fetch',event=>{
  const req=event.request;
  if(req.method!=='GET')return;

@@ -1,8 +1,8 @@
 {
   "id": "./",
-  "name": "OrientaSaúde — Tríplice Fronteira",
-  "short_name": "OrientaSaúde",
-  "description": "Informação educativa, locais de atendimento e calendário pessoal de saúde na Tríplice Fronteira.",
+  "name": "OrientaSaúde Studio — Saúde com clareza",
+  "short_name": "Orienta Studio",
+  "description": "Nova versão independente do OrientaSaúde com mapas, agenda, dicas e especialidades na Tríplice Fronteira.",
   "lang": "pt-BR",
   "dir": "auto",
   "start_url": "./",
@@ -13,7 +13,7 @@
     "minimal-ui"
   ],
   "background_color": "#ffffff",
-  "theme_color": "#087af4",
+  "theme_color": "#0F766E",
   "icons": [
     {
       "src": "assets/icon-192.png",
