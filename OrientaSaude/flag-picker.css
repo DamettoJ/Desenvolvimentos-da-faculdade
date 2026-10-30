@@ -1,0 +1,21 @@
+/* Real flag icons for language selection, independent of OS emoji fonts. */
+.flag-picker-native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;clip-path:inset(50%)!important;overflow:hidden!important;white-space:nowrap!important;padding:0!important;margin:0!important;border:0!important}
+.flag-picker{position:relative;display:inline-flex;align-items:center;min-width:0;max-width:100%;direction:ltr}
+.flag-picker-trigger{display:inline-flex;align-items:center;justify-content:flex-start;gap:6px;min-height:36px;min-width:100px;max-width:100%;padding:7px 10px;border:1px solid #dbe6f1;border-radius:11px;background:#f7faff;color:#183451;box-shadow:0 1px 3px #142f5210;cursor:pointer;direction:ltr;font-size:.79rem;font-weight:700;line-height:1.25}
+.flag-picker-trigger:hover{border-color:#b7d2e9;background:#eff6ff}
+.flag-picker-trigger:focus-visible{outline:3px solid #97c6ff;outline-offset:2px}
+.flag-picker-icon{display:block;flex:none;width:25px;height:19px;object-fit:contain;filter:drop-shadow(0 1px 1px #19304919)}
+.flag-picker-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:start}
+.flag-picker-chevron{flex:none;margin-inline-start:auto;width:7px;height:7px;border:solid #7387a1;border-width:0 1.8px 1.8px 0;transform:translateY(-2px) rotate(45deg)}
+.flag-picker-menu{box-sizing:border-box;position:fixed;z-index:2147483000;display:grid;gap:2px;padding:6px;background:#fff;border:1px solid #dbe6f1;border-radius:14px;box-shadow:0 16px 38px #10285030;max-width:calc(100vw - 20px);overflow-y:auto;overscroll-behavior:contain;direction:ltr}
+.flag-picker-option{display:flex;align-items:center;gap:12px;min-height:44px;width:100%;padding:8px 11px;text-align:start;background:transparent;border:0;border-radius:9px;color:#173450;cursor:pointer;line-height:1.4;font-size:.94rem}
+.flag-picker-option:hover,.flag-picker-option:focus-visible{background:#edf5ff;outline:none}
+.flag-picker-option[aria-checked="true"]{background:#eff7ff;font-weight:750;color:#0957b0}
+.flag-picker-option-name{flex:1;text-align:start}
+.flag-picker-check{flex:none;color:#0974dd;font-weight:900}
+.language-control .flag-picker{max-width:142px;width:100%}
+.language-control .flag-picker-trigger{width:100%;max-width:142px;min-width:0;font-size:.75rem;padding:7px 7px}
+.tips-header-tools .flag-picker-trigger,.spec-lang-label .flag-picker-trigger,.br-selectors .flag-picker-trigger,.br-unit-langrow .flag-picker-trigger{min-width:110px}
+.spec-lang-label .flag-picker{vertical-align:middle}
+[dir="rtl"] .flag-picker{direction:ltr}
+@media(max-width:440px){.language-control .flag-picker-trigger{gap:4px;min-height:34px;padding:6px 5px;font-size:.71rem}.language-control .flag-picker-icon{width:23px;height:18px}.flag-picker-option{min-height:42px}.tips-header-tools .flag-picker-trigger{min-width:99px}}
