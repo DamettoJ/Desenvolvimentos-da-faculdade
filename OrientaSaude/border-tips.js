@@ -13,7 +13,7 @@ function update(){
  const root=document.getElementById('tips-root');if(!root)return;
  const current=B.getCity(),city=B.cities[current],header=root.querySelector('.tips-header');if(!header)return;
  if(!root.querySelector('#tips-city')){
- const label=document.createElement('label');label.className='br-tips-city';label.textContent=t().city+' ';
+ const label=document.createElement('label');label.className='br-tips-city';label.textContent=t().city+':';
  const sel=document.createElement('select');sel.id='tips-city';sel.setAttribute('aria-label',t().city);for(const place of Object.values(B.cities)){const opt=document.createElement('option');opt.value=place.id;opt.textContent=place.flag+' '+place.name;opt.selected=place.id===current;sel.append(opt)}label.append(sel);header.append(label);
  }
  if(!root.querySelector('.br-tips-region')){
