@@ -68,8 +68,8 @@
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const norm=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   const stored=(key,defaultValue)=>{try{return localStorage.getItem(key)||defaultValue}catch{return defaultValue}};
-  let lang=stored('orientasaude-language-v1','pt-BR');if(!UI[lang])lang='pt-BR';
-  let topic='todos', audience='todas', search='', scale=Number(stored('orientasaude-tip-font','0'));if(![0,1,2].includes(scale))scale=0;
+  let lang=stored('orientasaude-studio-language-v1','pt-BR');if(!UI[lang])lang='pt-BR';
+  let topic='todos', audience='todas', search='', scale=Number(stored('orientasaude-studio-tip-font','0'));if(![0,1,2].includes(scale))scale=0;
   const t=()=>UI[lang];
   const currentEmergency=()=>window.OrientaBorder?.cities?.[window.OrientaBorder.getCity()] || {id:'foz',emergency:'192',emergencyService:'SAMU'};
   function emergencyCopy(){
@@ -153,7 +153,7 @@
     if(event.target.id==='tips-age'){audience=event.target.value;update()}
     if(event.target.id==='tips-lang'){
       lang=event.target.value;
-      try{localStorage.setItem('orientasaude-language-v1',lang)}catch{}
+      try{localStorage.setItem('orientasaude-studio-language-v1',lang)}catch{}
       render();
       document.getElementById('tips-search')?.focus({preventScroll:true});
     }
@@ -162,7 +162,7 @@
     const filter=event.target.closest('[data-topic]');
     if(filter){topic=filter.dataset.topic;update()}
     if(event.target.closest('[data-tip-font]')){
-      scale=(scale+1)%3;try{localStorage.setItem('orientasaude-tip-font',String(scale))}catch{}
+      scale=(scale+1)%3;try{localStorage.setItem('orientasaude-studio-tip-font',String(scale))}catch{}
       document.documentElement.style.setProperty('--tips-scale',String([1,1.11,1.22][scale]));
     }
   });

@@ -14,7 +14,7 @@ for(const loc of (pack?.options||[])) if(!dict[loc.code]){
  const ui=pack.tipsUI[loc.code]||{};
  dict[loc.code]={...dict['pt-BR'],back:ui.back||'Voltar ao OrientaSaúde',title:ui.specialties||'Especialidades médicas e de saúde',all:ui.all||'Todas',medical:ui.specialties||'Especialidades médicas',phone:ui.phone||'Contato',address:ui.location||'Endereço',call:ui.call||'Ligar',map:ui.navigate||'Como chegar',source:ui.source||'Ver fonte',important:pack.notes[loc.code]||dict['pt-BR'].important,emergency:pack.notes[loc.code]||dict['pt-BR'].emergency};
 }
-let lang='pt-BR';try{const saved=localStorage.getItem('orientasaude-language-v1');if(dict[saved])lang=saved}catch{}
+let lang='pt-BR';try{const saved=localStorage.getItem('orientasaude-studio-language-v1');if(dict[saved])lang=saved}catch{}
 let category='all';
 const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','"':'&quot;'}[c]));
 const norm=s=>String(s??'').toLocaleLowerCase(lang).normalize('NFD').replace(/[\u0300-\u036f]/g,'');
@@ -56,6 +56,6 @@ function update(){const query=norm(document.getElementById('spec-search')?.value
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-spec-filter]');if(b){category=b.dataset.specFilter;update();}});
 document.addEventListener('input',e=>{if(e.target.id==='spec-search')update()});
-document.addEventListener('change',e=>{if(e.target.id==='spec-lang'&&dict[e.target.value]){lang=e.target.value;try{localStorage.setItem('orientasaude-language-v1',lang)}catch{}render()}});
+document.addEventListener('change',e=>{if(e.target.id==='spec-lang'&&dict[e.target.value]){lang=e.target.value;try{localStorage.setItem('orientasaude-studio-language-v1',lang)}catch{}render()}});
 render();
 })();
