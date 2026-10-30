@@ -48,7 +48,10 @@ def published_dt(raw):
         return email.utils.parsedate_to_datetime(raw).astimezone(dt.timezone.utc)
     except Exception:
         try:
-            return dt.datetime.fromisoformat(raw.replace('Z','+00:00')).astimezone(dt.timezone.utc)
+            value=dt.datetime.fromisoformat(raw.replace('Z','+00:00'))
+            if value.tzinfo is None:
+                value=value.replace(tzinfo=dt.timezone.utc)
+            return value.astimezone(dt.timezone.utc)
         except Exception:
             return None
 
@@ -102,7 +105,7 @@ def fetch(source):
     # Only preconfigured public HTTPS hosts. Do not follow a redirect to an unrelated domain.
     with urllib.request.urlopen(request,timeout=18) as response:
         redirected=urllib.parse.urlparse(response.url)
-        if redirected.scheme!='https' or redirected.hostname!=source['domain']:
+        if redirected.scheme!='https' or redirected.hostname not in {source['domain'],source['domain'].removeprefix('www.')}:
             raise ValueError('Feed redirected off the allowlisted official host')
         body=response.read(1_200_000)
     return read_feed(body,source)
