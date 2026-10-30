@@ -164,3 +164,11 @@ Veja **[TESTES.md](TESTES.md)** para o roteiro detalhado de verificação. `inde
 
 ### Localização pessoal no mapa
 A tela `mapa.html` agora permite **Usar minha localização** (GPS, mediante permissão do navegador) ou **Informar endereço** (entrada manual). É necessário clicar em **Carregar mapa** para abrir o serviço externo. Não é exigido selecionar um estabelecimento quando se deseja apenas ver a própria localização. Se o usuário selecionar uma unidade após informar origem, a rota pode incluir essa origem quando aberta. O endereço e as coordenadas ficam apenas na memória da página, não são persistidos no `localStorage`. O serviço externo de mapas só recebe dados após ação explícita. A localização por GPS exige HTTPS e permissão concedida; quando bloqueada, usar a opção de endereço.
+
+## Central de vigilância epidemiológica da Tríplice Fronteira
+
+Acesse **[Vigilância em Saúde](alertas.html)**. A seção exibe links institucionais para Foz do Iguaçu/Paraná/Brasil, Ciudad del Este/Alto Paraná/Paraguai e Puerto Iguazú/Misiones/Argentina, e permite consultar publicações extraídas de feeds públicos quando estes estiverem disponíveis. A fonte e o alcance geográfico de cada publicação são mostrados.
+
+A alimentação automática é **compartilhada pelas duas versões** em `../saude-publica/alertas.json`. Consulte **[a documentação de operação](../saude-publica/README.md)**, inclusive instruções para habilitar e testar o GitHub Actions, que tenta consultar fontes públicas a cada 6 horas. O site usa a cópia mais recente do arquivo no GitHub para evitar atraso de publicação do GitHub Pages.
+
+**Não existe convênio, conexão com dados clínicos internos, ou alerta de emergência em tempo real.** A falta de boletins não significa ausência de risco; os sites das autoridades precisam continuar sendo acompanhados. O monitoramento é informativo e não oferece diagnóstico ou classificação de gravidade.
