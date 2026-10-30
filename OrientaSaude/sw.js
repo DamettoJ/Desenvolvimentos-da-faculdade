@@ -1,8 +1,8 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261030-01';
+const VERSION='os-safe-20261030-02';
 const STATIC=VERSION+'-assets';
 const CORE=[
- './','./index.html','./offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg',
+ './','./index.html','./offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
  './app.js','./i18n.js','./language-pack.js','./flag-picker.js','./flag-picker.css','./locale.css',
  './border-data.js','./border-context.js','./border-embed.css','./border-legacy.js','./border-tips.js',
  './health-data.js','./health-ui.js','./health-units.css','./directory.css','./directory-init.js',
