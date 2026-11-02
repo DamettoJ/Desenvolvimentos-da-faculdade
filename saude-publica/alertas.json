@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-02T06:19:47+00:00",
+  "checked_at": "2026-11-02T16:15:35+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 6
+      "count": 5
     },
     {
       "source": "misiones",
@@ -92,14 +92,6 @@
       "title": "87 milhões de doses: após reverter queda, Paraná alcança maior índice de vacinação da década",
       "url": "https://www.saude.pr.gov.br/Noticia/87-milhoes-de-doses-apos-reverter-queda-Parana-alcanca-maior-indice-de-vacinacao-da-decada",
       "published": "2026-10-26T16:43:16+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Rhinovirus causa más de la mitad de las internaciones por cuadros respiratorios",
-      "url": "https://dgvs.mspbs.gov.py/rhinovirus-causa-mas-de-la-mitad-de-las-internaciones-por-cuadros-respiratorios/",
-      "published": "2026-10-23T11:30:53+00:00"
     }
   ]
 }
