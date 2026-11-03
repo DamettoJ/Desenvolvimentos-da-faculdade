@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-03T14:25:49+00:00",
+  "checked_at": "2026-11-03T23:29:10+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 6
+      "count": 5
     },
     {
       "source": "misiones",
@@ -76,14 +76,6 @@
       "title": "El país fortalece la vigilancia sanitaria en fronteras con misión técnica de OPS/OMS",
       "url": "https://dgvs.mspbs.gov.py/el-pais-fortalece-la-vigilancia-sanitaria-en-fronteras-con-mision-tecnica-de-ops-oms/",
       "published": "2026-10-28T15:06:12+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Paraguayos participan en la primera edición del entrenamiento en español de la Red Mundial de Alerta y Respuesta ante Brotes",
-      "url": "https://dgvs.mspbs.gov.py/paraguay-participa-en-la-primera-edicion-del-entrenamiento-en-espanol-de-la-red-mundial-de-alerta-y-respuesta-ante-brotes/",
-      "published": "2026-10-27T22:00:37+00:00"
     },
     {
       "city": "foz",
