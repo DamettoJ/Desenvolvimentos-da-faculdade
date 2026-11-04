@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-04T06:37:19+00:00",
+  "checked_at": "2026-11-04T19:51:12+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -17,10 +17,42 @@
     {
       "source": "parana",
       "status": "checked",
-      "count": 3
+      "count": 4
     }
   ],
   "items": [
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Saúde alerta para riscos do uso excessivo de telas na infância e orienta famílias sobre limites",
+      "url": "https://www.saude.pr.gov.br/Noticia/Saude-alerta-para-riscos-do-uso-excessivo-de-telas-na-infancia-e-orienta-familias-sobre",
+      "published": "2026-11-04T18:34:35+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Paraguay potencia sus capacidades en epidemiología de campo mediante capacitación internacional en Colombia",
+      "url": "https://dgvs.mspbs.gov.py/paraguay-fortalece-sus-capacidades-en-epidemiologia-de-campo-mediante-capacitacion-internacional-en-colombia/",
+      "published": "2026-11-04T17:01:12+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Red Tero Tero fortalece alerta temprana en el Chaco",
+      "url": "https://dgvs.mspbs.gov.py/red-tero-tero-fortalece-alerta-temprana-en-el-chaco/",
+      "published": "2026-11-04T14:53:58+00:00"
+    },
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Saúde reforça chamado às pessoas idosas para vacinação contra a gripe em todo o Paraná",
+      "url": "https://www.saude.pr.gov.br/Noticia/Saude-reforca-chamado-pessoas-idosas-para-vacinacao-contra-gripe-em-todo-o-Parana",
+      "published": "2026-11-04T12:21:22+00:00"
+    },
     {
       "city": "cde",
       "source": "DGVS — Paraguai",
@@ -62,36 +94,12 @@
       "published": "2026-10-30T11:00:52+00:00"
     },
     {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Día mundial del ACV: Cada minuto cuenta, no ignores las señales de alerta",
-      "url": "https://dgvs.mspbs.gov.py/dia-mundial-del-acv-cada-minuto-cuenta-no-ignores-las-senales-de-alerta/",
-      "published": "2026-10-29T11:19:42+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "El país fortalece la vigilancia sanitaria en fronteras con misión técnica de OPS/OMS",
-      "url": "https://dgvs.mspbs.gov.py/el-pais-fortalece-la-vigilancia-sanitaria-en-fronteras-con-mision-tecnica-de-ops-oms/",
-      "published": "2026-10-28T15:06:12+00:00"
-    },
-    {
       "city": "foz",
       "source": "Secretaria de Saúde do Paraná",
       "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
       "title": "Sesa e Cosems avançam com novas diretrizes para a saúde pública em reunião da CIB",
       "url": "https://www.saude.pr.gov.br/Noticia/Sesa-e-Cosems-avancam-com-novas-diretrizes-para-saude-publica-em-reuniao-da-CIB",
       "published": "2026-10-27T20:06:47+00:00"
-    },
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "87 milhões de doses: após reverter queda, Paraná alcança maior índice de vacinação da década",
-      "url": "https://www.saude.pr.gov.br/Noticia/87-milhoes-de-doses-apos-reverter-queda-Parana-alcanca-maior-indice-de-vacinacao-da-decada",
-      "published": "2026-10-26T16:43:16+00:00"
     }
   ]
 }
