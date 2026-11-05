@@ -38,6 +38,8 @@
     show('login-form',name==='login');
     show('signup-form',name==='signup');
     show('reset-form',name==='reset');
+    show('confirmation-panel',name==='confirmation');
+    show('auth-tabs',name!=='confirmation');
     $('show-login').setAttribute('aria-pressed',String(name==='login'));
     $('show-signup').setAttribute('aria-pressed',String(name==='signup'));
     $('show-login').classList.toggle('selected',name==='login');
@@ -122,6 +124,7 @@
   $('show-signup').addEventListener('click',()=>setTab('signup'));
   $('forgot-password').addEventListener('click',()=>setTab('reset'));
   $('back-to-login').addEventListener('click',()=>setTab('login'));
+  $('confirmation-go-login').addEventListener('click',()=>setTab('login'));
   $('show-cpf').addEventListener('click',()=>{
     const el=$('cpf'),on=el.type==='password';
     el.type=on?'text':'password';
@@ -160,8 +163,10 @@
         goHome();
         return;
       }else{
-        setTab('login');
-        alert('Se o endereço puder ser cadastrado, enviaremos um e-mail de confirmação. Depois de confirmar, entre para preencher seu perfil.');
+        // O e-mail precisa ser confirmado pelo link do Supabase antes do primeiro login.
+        // Mantém as instruções na tela até o usuário escolher "Entrar".
+        setTab('confirmation');
+        $('confirmation-panel').focus();
       }
     }catch(_){alert('Não foi possível criar a conta. Revise o e-mail e tente novamente.',true);}
     finally{formBusy(form,false);}
