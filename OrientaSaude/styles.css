@@ -34,3 +34,10 @@
   .font-button{padding:7px}
   .language-select{min-width:62px;max-width:66px}
 }
+
+/* CTA seguro: cadastro separado dos registros locais do app Original. */
+.account-promo{margin:12px 0 18px;padding:16px}
+.account-promo h2,.account-promo h3{margin:0 0 6px}
+.account-promo p{margin:4px 0 12px;line-height:1.5}
+.account-promo a.primary-btn{display:flex;align-items:center;justify-content:center;text-decoration:none;min-height:45px;text-align:center}
+.account-promo a.primary-btn:focus-visible{outline:3px solid #1167ce;outline-offset:4px}
