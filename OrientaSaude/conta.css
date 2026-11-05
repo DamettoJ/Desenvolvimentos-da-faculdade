@@ -52,3 +52,9 @@ button:disabled{cursor:wait;opacity:.55}
 footer{color:var(--muted);font-size:.8rem;margin-top:20px}
 @media(max-width:780px){.auth-aside{display:none}.auth-panel{background:#f4f9ff;width:min(100%,560px);padding-top:12px}.auth-shell{align-items:flex-start}}
 @media(max-width:390px){.auth-heading{gap:10px}.brand-icon{width:50px;height:50px}.auth-form{padding:15px}}
+
+/* Permite mostrar e ocultar a senha sem deslocar o campo ou revelar seu valor por padrão. */
+.password-line{display:flex;gap:9px;align-items:center}
+.password-line input{flex:1;min-width:0}
+.password-line button{flex:none;padding:10px 12px;border:1px solid var(--edge);border-radius:11px;min-height:48px;background:#f2f8fe;color:#16466f;font-weight:700}
+.password-line button:hover{background:#e1f0fc}
