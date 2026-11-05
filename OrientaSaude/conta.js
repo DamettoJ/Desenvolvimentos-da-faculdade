@@ -128,6 +128,18 @@
     $('show-cpf').textContent=on?'Ocultar':'Mostrar';
     $('show-cpf').setAttribute('aria-pressed',String(on));
   });
+  // Mostrar/ocultar somente o campo selecionado. Nunca persistir senha visível.
+  for(const button of document.querySelectorAll('[data-toggle-password]')){
+    button.addEventListener('click',()=>{
+      const input=document.getElementById(button.dataset.togglePassword);
+      if(!input)return;
+      const visible=input.type==='password';
+      input.type=visible?'text':'password';
+      button.textContent=visible?'Ocultar':'Mostrar';
+      button.setAttribute('aria-pressed',String(visible));
+      button.setAttribute('aria-label',(visible?'Ocultar':'Mostrar')+' senha');
+    });
+  }
   $('signup-form').addEventListener('submit',async e=>{
     e.preventDefault();if(!sb)return;
     const form=e.currentTarget,d=new FormData(form);
