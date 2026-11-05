@@ -1,3 +1,5 @@
+> **Atualização do perfil internacional:** os campos e instruções de CPF desta documentação descrevem a versão inicial. O cadastro atual permite país de origem, CPF/DNI/C.I. ou outro documento, com nome de preferência opcional. **Para ativar a gravação internacional, execute a migração SQL v2.** Veja [README-PAISES-PERFIL.md](README-PAISES-PERFIL.md).
+>
 # OrientaSaúde Original — ligação com Supabase
 
 > **Repositório correto:** `DamettoJ/Desenvolvimentos-da-faculdade`, pasta `OrientaSaude`.
