@@ -117,13 +117,17 @@
     const form=$('profile-form');
     form.reset();
     const {data,error}=await sb.rpc('read_my_profile');
+    profileReady=!error&&profileComplete(data);
+    show('onboarding-banner',!profileReady);
+    show('back-app',profileReady);
+    $('profile-state').textContent=profileReady?'Perfil registrado e protegido':'Cadastro obrigatório pendente';
     if(error){
-      alert('Não foi possível consultar o perfil. Verifique se a migração SQL foi aplicada corretamente.',true);
+      alert('Não foi possível consultar seus dados no Supabase. O acesso ao aplicativo continuará bloqueado até a consulta funcionar.',true);
       return;
     }
     if(!data){
       $('profile-state').textContent='Cadastro de informações pessoais pendente';
-      alert('Você já entrou. Complete agora o cadastro pessoal para salvá-lo criptografado.');
+      alert('Antes de acessar o OrientaSaúde, complete seus dados obrigatórios para salvá-los com criptografia.');
       return;
     }
     const names=['full_name','preferred_name','gender_identity','phone','cpf','birth_date'];
@@ -131,8 +135,8 @@
       const field=form.elements.namedItem(n);
       if(field)field.value=String(data[n]||'');
     }
-    $('profile-state').textContent='Perfil armazenado de forma criptografada';
-    alert('Perfil pessoal carregado com segurança.');
+    if(profileReady)alert('Perfil pessoal carregado com segurança.');
+    else alert('Seu cadastro ainda está incompleto. Preencha os campos obrigatórios para acessar o OrientaSaúde.');
   }
   async function render(){
     if(!sb||activeRequest)return;
@@ -149,7 +153,7 @@
         goHome();
         return;
       }
-      show('back-app',!!user);
+      show('back-app',false);
       show('new-password-form',false);
       show('login-screen',!user);
       show('profile-screen',!!user);
