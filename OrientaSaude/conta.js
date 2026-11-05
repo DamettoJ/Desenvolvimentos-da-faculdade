@@ -33,8 +33,19 @@
     const required=new URL('conta.html?perfil=1&cadastro=obrigatorio',window.location.href).href;
     try {
       const result=await sb.rpc('read_my_profile_v2');
-      if(!result.error&&profileComplete(result.data))goHome();
-      else window.location.replace(required);
+      if(!result.error&&profileComplete(result.data)){goHome();return;}
+      if(result.error?.code==='PGRST202'){
+        // Manter perfis já existentes acessíveis até a migração ser executada.
+        const old=await sb.rpc('read_my_profile');
+        if(!old.error&&old.data &&
+          String(old.data.full_name||'').trim().length>=5 &&
+          /^\d{11}$/.test(String(old.data.cpf||'').replace(/\D/g,'')) &&
+          /^\d{4}-\d{2}-\d{2}$/.test(String(old.data.birth_date||'')) &&
+          !!String(old.data.gender_identity||'').trim()){
+          goHome();return;
+        }
+      }
+      window.location.replace(required);
     } catch (_) {window.location.replace(required);}
   }
   function authMessage(error, action='login'){
