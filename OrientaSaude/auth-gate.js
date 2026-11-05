@@ -8,14 +8,20 @@
   const HOME = new URL('index.html', window.location.href);
   const LOGIN = new URL('conta.html?acesso=necessario', HOME);
   const REQUIRED_PROFILE = new URL('conta.html?perfil=1&cadastro=obrigatorio', HOME);
-  // Só liberar o aplicativo depois de encontrar os quatro dados obrigatórios
-  // no banco para o próprio usuário autenticado.
+  // Verificar no Supabase os dados obrigatórios conforme país do documento.
   function profileComplete(p) {
-    return !!p && typeof p === 'object' &&
-      typeof p.full_name === 'string' && p.full_name.trim().length >= 5 &&
-      typeof p.gender_identity === 'string' && !!p.gender_identity.trim() &&
-      /^\d{11}$/.test(String(p.cpf || '').replace(/\D/g, '')) &&
-      /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date || ''));
+    if(!p||typeof p!=='object')return false;
+    const c=String(p.country_of_origin||'');
+    const doc=String(p.national_id||'');
+    const validDoc=c==='BR'?/^\d{11}$/.test(doc):
+      c==='AR'?/^\d{7,9}$/.test(doc):
+      c==='PY'?/^\d{5,9}$/.test(doc):
+      c==='OTHER'?/^[A-Z0-9/-]{4,30}$/i.test(doc):false;
+    return validDoc &&
+      (c!=='OTHER'||String(p.country_other||'').trim().length>=2) &&
+      typeof p.full_name==='string'&&p.full_name.trim().length>=5 &&
+      typeof p.gender_identity==='string'&&!!p.gender_identity.trim() &&
+      /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date||''));
   }
   const STORAGE_KEY = 'orientasaude_faculdade_original_auth_v1';
   const c = window.ORIENTA_SUPABASE || {};
@@ -46,12 +52,18 @@
       }
       // Não confiar em um sinal salvo no navegador: consultar o perfil a cada
       // abertura/retorno ao app, via RPC autenticada e isolada no Supabase.
-      const profileResult = await client.rpc('read_my_profile');
+      const profileResult = await client.rpc('read_my_profile_v2');
       if (profileResult.error || !profileComplete(profileResult.data)) {
         goToProfile();
         return;
       }
+      // Nome de preferência somente em memória da aba, nunca no localStorage.
+      const p=profileResult.data;
+      const nickname=String(p.preferred_name||'').trim();
+      const firstName=String(p.full_name||'').trim().split(/\s+/)[0];
+      window.OrientaProfileDisplayName=(nickname||firstName).slice(0,80);
       document.documentElement.setAttribute('data-orienta-auth', 'ok');
+      document.dispatchEvent(new CustomEvent('orientasaude:profile-ready'));
     } catch (_) {
       // Sem conexão para verificar a sessão, não liberar o app.
       goToLogin();
