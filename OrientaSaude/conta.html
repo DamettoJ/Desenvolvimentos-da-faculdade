@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; object-src 'none'; form-action 'self'">
   <title>Minha conta | OrientaSaúde Original</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="conta.css?v=20261105-show-password-1">
+  <link rel="stylesheet" href="conta.css?v=20261105-email-confirm-1">
 </head>
 <body>
   <div class="auth-shell">
@@ -39,7 +39,7 @@
 
       <div id="account-app" hidden>
         <section id="login-screen">
-          <nav class="tab-switch" aria-label="Acesso à conta">
+          <nav class="tab-switch" id="auth-tabs" aria-label="Acesso à conta">
             <button type="button" class="selected" id="show-login" aria-pressed="true">Entrar</button>
             <button type="button" id="show-signup" aria-pressed="false">Criar conta</button>
           </nav>
@@ -56,15 +56,28 @@
 
           <form class="auth-form" id="signup-form" autocomplete="on" hidden>
             <h2>Criar conta · etapa 1 de 2</h2>
-            <p class="helper">Crie a conta e confirme seu e-mail. Seus dados pessoais serão solicitados somente após o acesso autenticado.</p>
+            <p class="helper">Após enviar o cadastro, você precisará abrir seu e-mail e clicar no link de confirmação. Depois, será redirecionado ao OrientaSaúde. Seus dados pessoais só serão solicitados após o login.</p>
             <label for="signup-email">E-mail</label>
             <input id="signup-email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
             <label for="signup-password">Crie uma senha (mínimo 12 caracteres)</label>
             <div class="password-line"><input id="signup-password" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password"><button type="button" data-toggle-password="signup-password" aria-controls="signup-password" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
             <label for="signup-confirm">Confirme a senha</label>
             <div class="password-line"><input id="signup-confirm" name="confirm" type="password" required minlength="12" autocomplete="new-password"><button type="button" data-toggle-password="signup-confirm" aria-controls="signup-confirm" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
-            <button class="primary" type="submit">Criar conta e confirmar e-mail</button>
+            <button class="primary" type="submit">Criar conta e enviar confirmação</button>
           </form>
+
+          <section class="confirmation-guide" id="confirmation-panel" aria-labelledby="confirmation-title" tabindex="-1" hidden>
+            <div class="confirmation-mark" aria-hidden="true">✉</div>
+            <h2 id="confirmation-title">Agora confirme seu e-mail</h2>
+            <p>Seu pedido de cadastro foi recebido. Se o e-mail estiver apto para cadastro, você receberá uma mensagem de confirmação.</p>
+            <ol>
+              <li><strong>Abra seu e-mail</strong> e confira a caixa de entrada. Se não encontrar a mensagem, procure na pasta de spam.</li>
+              <li><strong>Clique no link “Confirmar e-mail”</strong> da mensagem para validar seu endereço.</li>
+              <li><strong>Retorne ao OrientaSaúde:</strong> o link levará você de volta ao site. Se sua sessão estiver válida, o aplicativo abrirá na tela Início; caso contrário, entre com seu e-mail e senha.</li>
+            </ol>
+            <p class="helper">A confirmação do e-mail é obrigatória antes do primeiro acesso. Não é necessário criar outra conta.</p>
+            <button class="primary" type="button" id="confirmation-go-login">Já confirmei meu e-mail — Entrar</button>
+          </section>
 
           <form class="auth-form" id="reset-form" hidden>
             <h2>Recuperar acesso</h2>
@@ -134,6 +147,6 @@
     </main>
   </div>
   <script src="supabase-config.js?v=20261105-fix-url-cache-01"></script>
-  <script type="module" src="conta.js?v=20261105-show-password-1"></script>
+  <script type="module" src="conta.js?v=20261105-email-confirm-1"></script>
 </body>
 </html>
