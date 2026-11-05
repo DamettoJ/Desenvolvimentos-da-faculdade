@@ -148,20 +148,34 @@
   }
   function extractProfile(){
     const d=new FormData($('profile-form'));
+    const country=String(d.get('country_of_origin')||'');
+    const doc=String(d.get('document_number')||'');
+    const nationalId=country==='OTHER'?maskDocument(country,doc):digits(doc);
     const p={
-      full_name:String(d.get('full_name')||'').trim(),
+      country_of_origin:country,
+      country_other:String(d.get('country_other')||'').trim(),
+      full_name:String(d.get('profile_full_name')||'').trim(),
       preferred_name:String(d.get('preferred_name')||'').trim(),
       gender_identity:String(d.get('gender_identity')||'').trim(),
       phone:digits(d.get('phone')),
-      cpf:digits(d.get('cpf')),
+      national_id:nationalId,
       birth_date:String(d.get('birth_date')||'')
     };
-    if(!$('accept-privacy').checked)throw Error('Confirme o consentimento para salvar.');
-    if(p.full_name.length<5||p.full_name.length>120)throw Error('Informe o nome completo.');
-    if(!p.preferred_name||p.preferred_name.length>80)throw Error('Informe como gostaria de ser chamado.');
-    if(!p.gender_identity)throw Error('Selecione uma opção de identidade de gênero.');
-    if(p.phone.length<8||p.phone.length>15)throw Error('Informe o telefone com DDD/código de país.');
-    if(!cpfOk(p.cpf))throw Error('CPF inválido. Confira os 11 dígitos.');
+    if(!$('accept-privacy').checked)throw Error('Confirme o tratamento dos dados antes de salvar.');
+    if(!country)throw Error('Selecione obrigatoriamente o país de origem.');
+    if(p.country_of_origin==='OTHER'&&(p.country_other.length<2||p.country_other.length>80))
+      throw Error('Informe o nome do seu país de origem.');
+    if(p.full_name.length<5||p.full_name.length>120)
+      throw Error('Informe seu nome completo.');
+    if(p.preferred_name.length>80)throw Error('O nome de preferência deve ter até 80 caracteres.');
+    if(!p.gender_identity)throw Error('Selecione uma opção de identidade sexual/de gênero.');
+    if(p.phone.length>0&&(p.phone.length<8||p.phone.length>15))
+      throw Error('Confira o telefone, caso tenha informado.');
+    if(country==='BR'&&!cpfOk(nationalId))throw Error('CPF inválido. Confira os 11 dígitos.');
+    if(country==='AR'&&!/^\d{7,9}$/.test(nationalId))throw Error('DNI argentino inválido: confira o número.');
+    if(country==='PY'&&!/^\d{5,9}$/.test(nationalId))throw Error('C.I. paraguaia inválida: confira o número.');
+    if(country==='OTHER'&&!/^[A-Z0-9/-]{4,30}$/.test(nationalId))
+      throw Error('Informe um documento de identificação válido.');
     if(!/^\d{4}-\d{2}-\d{2}$/.test(p.birth_date))throw Error('Informe a data de nascimento.');
     const dt=new Date(p.birth_date+'T12:00:00Z');
     if(Number.isNaN(dt.getTime())||dt.toISOString().slice(0,10)!==p.birth_date||
