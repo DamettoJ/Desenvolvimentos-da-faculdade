@@ -58,3 +58,14 @@ footer{color:var(--muted);font-size:.8rem;margin-top:20px}
 .password-line input{flex:1;min-width:0}
 .password-line button{flex:none;padding:10px 12px;border:1px solid var(--edge);border-radius:11px;min-height:48px;background:#f2f8fe;color:#16466f;font-weight:700}
 .password-line button:hover{background:#e1f0fc}
+
+/* Confirmação de e-mail após cadastro: instruções visíveis até o usuário concluir. */
+.confirmation-guide{background:#fff;border:1.5px solid #a5d8c9;border-radius:18px;padding:22px;box-shadow:0 8px 26px #0c32640a}
+.confirmation-guide:focus{outline:3px solid #087d69;outline-offset:4px}
+.confirmation-mark{display:grid;place-items:center;width:50px;height:50px;border-radius:14px;background:#e0f7ee;color:#087d69;font-size:1.8rem;font-weight:800;margin-bottom:14px}
+.confirmation-guide h2{font-size:1.35rem;line-height:1.25;margin:0 0 8px}
+.confirmation-guide p{margin:8px 0;color:#385066}
+.confirmation-guide ol{padding-left:23px;margin:16px 0;display:grid;gap:12px}
+.confirmation-guide li{padding-left:4px;line-height:1.5}
+.confirmation-guide strong{color:#071d44}
+.confirmation-guide button.primary{width:100%;margin-top:16px}
