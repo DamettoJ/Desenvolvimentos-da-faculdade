@@ -86,3 +86,28 @@ Referências:
 - https://supabase.com/docs/guides/api
 - https://supabase.com/docs/guides/auth/redirect-urls
 - https://supabase.com/docs/guides/database/postgres/row-level-security
+
+
+## Login obrigatório em todas as páginas do Original
+
+Ao acessar `OrientaSaude/index.html` ou uma página interna (`agenda.html`, `resumo.html`, `mapa.html`, `alertas.html`, `unidades.html`, `fronteira.html`, `especialidades.html`, `dicas.html`), o navegador verifica a conta com o serviço de autenticação do Supabase antes de exibir o aplicativo:
+
+1. **Sem login ou com sessão inválida** → abre `conta.html`, com Entrar / Criar conta.
+2. **Login válido** → abre o Início (`index.html`); quem entra diretamente em `conta.html` já autenticado é devolvido ao Início.
+3. **Gerenciamento do perfil** → no Início e em Perfil, abrir `conta.html?perfil=1` para editar os dados ou **Sair**.
+4. **Novo aparelho/navegador** → exige login próprio: a sessão usa `sessionStorage`, não é compartilhada com outros dispositivos e termina normalmente ao fechar a aba/janela.
+5. **Sair** → `supabase.auth.signOut({scope:'local'})`, desloga apenas a sessão atual; após sair, páginas internas voltam para Entrar.
+
+A verificação usa `supabase.auth.getUser()`, que consulta o servidor antes de liberar a interface. O serviço worker não reutiliza HTML protegido do cache quando não há conexão; apenas a página informativa `offline.html` pode ser exibida sem rede.
+
+**Limitação importante do GitHub Pages:** os arquivos HTML/JS/CSS continuam hospedados publicamente. Este é um bloqueio de **navegação e interface**, não uma barreira de autorização de servidor. Informações pessoais só podem ser protegidas de verdade no Supabase, mediante políticas RLS e permissões restritas das RPCs. Registros de sintomas/lembretes continuam locais do navegador, não criptografados nem sincronizados com a conta, e podem persistir ao sair. Evite dados clínicos reais até revisão adicional, inclusive isolamento por usuário em um navegador compartilhado.
+
+### Conferir após publicar
+
+- Abrir o Início em uma janela anônima: deve ir para Entrar / Criar conta.
+- Tentar abrir `mapa.html` e `agenda.html` sem login: também deve voltar ao login.
+- Entrar numa conta de teste confirmada: deve abrir o Início.
+- Abrir novamente `conta.html` já autenticado: deve voltar ao Início.
+- Em **Perfil → Editar dados / Sair**, sair: depois disso, tentar o Início deve exigir login.
+- No celular ou navegador diferente, mesmo com a mesma conta: deve pedir e-mail/senha novamente.
+
