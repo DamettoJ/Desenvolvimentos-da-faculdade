@@ -5,6 +5,6 @@
  * do backend ainda não estiverem completos.
  */
 window.ORIENTA_SUPABASE = Object.freeze({
-  url: '',
-  publishableKey: ''
+  url: 'https://erudabdngmytywdzxmsb.supabase.co/rest/v1/',
+  publishableKey: 'sb_publishable_RtVk4UFTJD5-sf_h4P_fug_e8MK6WCY'
 });
