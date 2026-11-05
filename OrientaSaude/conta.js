@@ -10,6 +10,14 @@
     (/^sb_publishable_[A-Za-z0-9_-]+$/.test(c.publishableKey||'') ||
      /^eyJ[A-Za-z0-9_.-]+$/.test(c.publishableKey||''));
   let sb=null, user=null, recovery=false, tab='login',activeRequest=false;
+  let profileReady=false;
+  function profileComplete(p){
+    return !!p && typeof p==='object'
+      && typeof p.full_name==='string' && p.full_name.trim().length>=5
+      && typeof p.gender_identity==='string' && !!p.gender_identity.trim()
+      && /^\d{11}$/.test(String(p.cpf||'').replace(/\D/g,''))
+      && /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date||''));
+  }
   const accountQuery=new URLSearchParams(window.location.search);
   const manageProfile=accountQuery.get('perfil')==='1';
   const accessRequired=accountQuery.has('acesso');
