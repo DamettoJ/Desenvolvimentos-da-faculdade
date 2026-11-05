@@ -220,7 +220,7 @@
     i18n.localize(app);
     i18n.localize(nav);
     i18n.addPicker(app);
-    document.title=`${i18n.t(view==='home'?'Início':({symptoms:'Descrever sintomas',details:'Detalhes',orientation:'Orientação',health:'Minha saúde',specialties:'Especialidades',units:'Unidades',education:'Dicas de saúde',reminders:'Lembretes',records:'Registros',profile:'Perfil',emergency:'Emergência'})[view]||'OrientaSaúde')} | OrientaSaúde`;
+    document.title='OrientaSaúde';
     if(scroll)window.scrollTo({top:0,behavior:'instant'});
   }
   function startSymptoms(){state.selected=[];state.text='';state.search='';state.duration='';state.worsening='';state.intensity='';state.flags=[];state.report=null;state.error='';}
