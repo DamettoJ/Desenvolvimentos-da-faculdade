@@ -69,3 +69,9 @@ footer{color:var(--muted);font-size:.8rem;margin-top:20px}
 .confirmation-guide li{padding-left:4px;line-height:1.5}
 .confirmation-guide strong{color:#071d44}
 .confirmation-guide button.primary{width:100%;margin-top:16px}
+
+/* Cadastro inicial obrigatório: mensagem clara sem bloquear o botão Sair. */
+.onboarding-guide{padding:20px;border:1.5px solid #9bcfc1;background:#e9f8f2;color:#113e3b;border-radius:17px;margin:16px 0 20px}
+.onboarding-guide h2{font-size:1.18rem;margin:0 0 10px;line-height:1.3}
+.onboarding-guide p{font-size:.92rem;line-height:1.58;margin:8px 0}
+.onboarding-guide strong{color:#075a4f}
