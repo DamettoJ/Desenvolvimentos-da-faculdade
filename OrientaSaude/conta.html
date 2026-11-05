@@ -106,8 +106,14 @@
             <p class="helper">Os campos abaixo são enviados por HTTPS e criptografados pelo banco antes de serem armazenados. Sua identidade sexual/de gênero é uma informação sensível; é possível selecionar “Prefiro não informar”.</p>
             <label for="full-name">Nome completo *</label>
             <input id="full-name" name="full_name" type="text" required minlength="5" maxlength="120" autocomplete="name">
-            <label for="preferred-name">Como gostaria de ser chamado(a)? *</label>
-            <input id="preferred-name" name="preferred_name" type="text" required maxlength="80">
+            <label for="cpf">CPF brasileiro *</label>
+            <div class="cpf-line">
+              <input id="cpf" name="cpf" type="password" inputmode="numeric" autocomplete="off" required minlength="11" maxlength="20" aria-describedby="cpf-note" placeholder="11 dígitos">
+              <button type="button" id="show-cpf" aria-pressed="false">Mostrar</button>
+            </div>
+            <p class="helper" id="cpf-note">O CPF é validado antes de ser enviado. Para usuários do Paraguai e Argentina, a obrigatoriedade do documento precisa de revisão.</p>
+            <label for="birth-date">Data de nascimento *</label>
+            <input id="birth-date" name="birth_date" type="date" required min="1900-01-01">
             <label for="gender-identity">Identidade sexual / identidade de gênero *</label>
             <select id="gender-identity" name="gender_identity" required>
               <option value="">Selecione uma opção</option>
@@ -117,16 +123,11 @@
               <option value="outra">Outra identidade</option>
               <option value="prefiro_nao_informar">Prefiro não informar</option>
             </select>
+            <p class="helper">Informações adicionais do cadastro:</p>
+            <label for="preferred-name">Como gostaria de ser chamado(a)? *</label>
+            <input id="preferred-name" name="preferred_name" type="text" required maxlength="80">
             <label for="phone">Telefone com DDD ou código do país *</label>
             <input id="phone" name="phone" type="tel" required maxlength="25" autocomplete="tel" placeholder="+55 45 99999-9999">
-            <label for="cpf">CPF brasileiro *</label>
-            <div class="cpf-line">
-              <input id="cpf" name="cpf" type="password" inputmode="numeric" autocomplete="off" required minlength="11" maxlength="20" aria-describedby="cpf-note" placeholder="11 dígitos">
-              <button type="button" id="show-cpf" aria-pressed="false">Mostrar</button>
-            </div>
-            <p class="helper" id="cpf-note">O CPF é validado antes de ser enviado. Para usuários do Paraguai e Argentina, a obrigatoriedade do documento precisa de revisão.</p>
-            <label for="birth-date">Data de nascimento *</label>
-            <input id="birth-date" name="birth_date" type="date" required min="1900-01-01">
             <label class="consent" for="accept-privacy">
               <input id="accept-privacy" type="checkbox" required>
               <span>Concordo com o tratamento dos dados de cadastro informados. Para identidade sexual/gênero, posso selecionar “Prefiro não informar”.</span>
