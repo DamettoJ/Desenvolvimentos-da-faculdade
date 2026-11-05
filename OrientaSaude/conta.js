@@ -32,7 +32,7 @@
     // Login válido não significa cadastro completo; conferir no Supabase.
     const required=new URL('conta.html?perfil=1&cadastro=obrigatorio',window.location.href).href;
     try {
-      const result=await sb.rpc('read_my_profile');
+      const result=await sb.rpc('read_my_profile_v2');
       if(!result.error&&profileComplete(result.data))goHome();
       else window.location.replace(required);
     } catch (_) {window.location.replace(required);}
@@ -286,12 +286,6 @@
   });
   $('back-to-login').addEventListener('click',()=>setTab('login'));
   $('confirmation-go-login').addEventListener('click',()=>setTab('login'));
-  $('show-cpf').addEventListener('click',()=>{
-    const el=$('cpf'),on=el.type==='password';
-    el.type=on?'text':'password';
-    $('show-cpf').textContent=on?'Ocultar':'Mostrar';
-    $('show-cpf').setAttribute('aria-pressed',String(on));
-  });
   // Mostrar/ocultar somente o campo selecionado. Nunca persistir senha visível.
   for(const button of document.querySelectorAll('[data-toggle-password]')){
     button.addEventListener('click',()=>{
@@ -387,10 +381,10 @@
     formBusy(form,true);
     try{
       const initialRegistration=!profileReady;
-      const {error}=await sb.rpc('save_my_profile',{p_profile:values});
+      const {error}=await sb.rpc('save_my_profile_v2',{p_profile:values});
       if(error)throw error;
       // Confirmar que o perfil foi persistido e está completo no próprio banco.
-      const saved=await sb.rpc('read_my_profile');
+      const saved=await sb.rpc('read_my_profile_v2');
       if(saved.error||!profileComplete(saved.data)){
         alert('Não foi possível verificar o perfil salvo. Confira a função de leitura no Supabase antes de continuar.',true);
         return;
@@ -416,7 +410,7 @@
   });
   $('remove-profile').addEventListener('click',async()=>{
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
-    const {error}=await sb.rpc('delete_my_profile');
+    const {error}=await sb.rpc('delete_my_profile_v2');
     if(error){alert('Não foi possível excluir os dados do perfil.',true);return;}
     profileReady=false;
     $('profile-form').reset();
