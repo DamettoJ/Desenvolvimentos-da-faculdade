@@ -13,7 +13,6 @@ create table if not exists private.encrypted_profiles_v2 (
   updated_at timestamptz not null default now()
 );
 alter table private.encrypted_profiles_v2 enable row level security;
-alter table private.encrypted_profiles_v2 force row level security;
 revoke all on private.encrypted_profiles_v2 from public, anon, authenticated;
 
 -- CPF: dois digitos verificadores, nao basta conferir o comprimento.
@@ -21,7 +20,7 @@ create or replace function private._valid_cpf_v2(p_value text)
 returns boolean language plpgsql immutable set search_path = ''
 as $$
 declare
-  d text := pg_catalog.regexp_replace(pg_catalog.coalesce(p_value,''), '[^0-9]', '', 'g');
+  d text := pg_catalog.regexp_replace(coalesce(p_value,''), '[^0-9]', '', 'g');
   sm integer;
   dg integer;
   i integer;
@@ -45,14 +44,14 @@ returns void language plpgsql security definer set search_path = ''
 as $$
 declare
   v_uid uuid := auth.uid();
-  v_country text := pg_catalog.upper(pg_catalog.btrim(pg_catalog.coalesce(p_profile->>'country_of_origin','')));
-  v_country_other text := pg_catalog.btrim(pg_catalog.coalesce(p_profile->>'country_other',''));
-  v_name text := pg_catalog.btrim(pg_catalog.coalesce(p_profile->>'full_name',''));
-  v_preferred text := pg_catalog.btrim(pg_catalog.coalesce(p_profile->>'preferred_name',''));
-  v_gender text := pg_catalog.btrim(pg_catalog.coalesce(p_profile->>'gender_identity',''));
-  v_phone text := pg_catalog.regexp_replace(pg_catalog.coalesce(p_profile->>'phone',''), '[^0-9]', '', 'g');
-  v_document text := pg_catalog.upper(pg_catalog.btrim(pg_catalog.coalesce(p_profile->>'national_id','')));
-  v_birth_raw text := pg_catalog.btrim(pg_catalog.coalesce(p_profile->>'birth_date',''));
+  v_country text := pg_catalog.upper(pg_catalog.btrim(coalesce(p_profile->>'country_of_origin','')));
+  v_country_other text := pg_catalog.btrim(coalesce(p_profile->>'country_other',''));
+  v_name text := pg_catalog.btrim(coalesce(p_profile->>'full_name',''));
+  v_preferred text := pg_catalog.btrim(coalesce(p_profile->>'preferred_name',''));
+  v_gender text := pg_catalog.btrim(coalesce(p_profile->>'gender_identity',''));
+  v_phone text := pg_catalog.regexp_replace(coalesce(p_profile->>'phone',''), '[^0-9]', '', 'g');
+  v_document text := pg_catalog.upper(pg_catalog.btrim(coalesce(p_profile->>'national_id','')));
+  v_birth_raw text := pg_catalog.btrim(coalesce(p_profile->>'birth_date',''));
   v_birth date;
   v_key text;
   v_data jsonb;
@@ -96,7 +95,7 @@ begin
     raise exception 'Birth date required (YYYY-MM-DD)';
   end if;
   v_birth := v_birth_raw::date;
-  if v_birth < date '1900-01-01' or v_birth > pg_catalog.current_date() then
+  if v_birth < date '1900-01-01' or v_birth > current_date then
     raise exception 'Invalid birth date';
   end if;
 
