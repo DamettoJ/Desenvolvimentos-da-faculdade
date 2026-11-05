@@ -1,5 +1,5 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261105-login-email-title-01';
+const VERSION='os-safe-20261105-required-profile-01';
 const STATIC=VERSION+'-assets';
 const CORE=[
  './offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
