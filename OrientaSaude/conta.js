@@ -186,27 +186,44 @@
   async function refreshProfile(){
     const form=$('profile-form');
     form.reset();
-    const {data,error}=await sb.rpc('read_my_profile');
+    updateCountryDocument();
+    const {data,error}=await sb.rpc('read_my_profile_v2');
     profileReady=!error&&profileComplete(data);
     show('onboarding-banner',!profileReady);
     show('back-app',profileReady);
-    $('profile-state').textContent=profileReady?'Perfil registrado e protegido':'Cadastro obrigatório pendente';
+    $('profile-state').textContent=profileReady
+      ? 'Perfil registrado e protegido'
+      : 'Cadastro obrigatório pendente';
     if(error){
-      alert('Não foi possível consultar seus dados no Supabase. O acesso ao aplicativo continuará bloqueado até a consulta funcionar.',true);
+      alert('A atualização do banco do perfil ainda não está disponível. Execute a migração SQL v2 no Supabase antes de salvar documentos de outros países.',true);
       return;
     }
-    if(!data){
-      $('profile-state').textContent='Cadastro de informações pessoais pendente';
-      alert('Antes de acessar o OrientaSaúde, complete seus dados obrigatórios para salvá-los com criptografia.');
-      return;
+    let profile=data;
+    if(!profile){
+      // Apenas pré-preencher campos não documentais de um cadastro v1 existente.
+      // O país de origem e o documento v2 exigem nova confirmação do usuário.
+      const legacy=await sb.rpc('read_my_profile');
+      if(!legacy.error&&legacy.data)profile=legacy.data;
     }
-    const names=['full_name','preferred_name','gender_identity','phone','cpf','birth_date'];
-    for(const n of names){
-      const field=form.elements.namedItem(n);
-      if(field)field.value=String(data[n]||'');
+    if(profile&&typeof profile==='object'){
+      const values={
+        profile_full_name:profile.full_name||'',
+        preferred_name:profile.preferred_name||'',
+        gender_identity:profile.gender_identity||'',
+        phone:profile.phone||'',
+        birth_date:profile.birth_date||'',
+        country_of_origin:profile.country_of_origin||'',
+        country_other:profile.country_other||''
+      };
+      for(const [name,value] of Object.entries(values)){
+        const field=form.elements.namedItem(name);
+        if(field)field.value=String(value);
+      }
+      updateCountryDocument();
+      $('national-id').value=maskDocument(values.country_of_origin,profile.national_id||'');
     }
     if(profileReady)alert('Perfil pessoal carregado com segurança.');
-    else alert('Seu cadastro ainda está incompleto. Preencha os campos obrigatórios para acessar o OrientaSaúde.');
+    else alert('Selecione seu país de origem e informe o documento correspondente para concluir o cadastro obrigatório.');
   }
   async function render(){
     if(!sb||activeRequest)return;
@@ -239,6 +256,12 @@
       }
     }finally{activeRequest=false;}
   }
+  $('country-of-origin').addEventListener('change',()=>updateCountryDocument(true));
+  $('national-id').addEventListener('input',e=>{
+    const field=e.currentTarget;
+    field.value=maskDocument($('country-of-origin').value,field.value);
+  });
+  updateCountryDocument();
   $('show-login').addEventListener('click',()=>setTab('login'));
   $('show-signup').addEventListener('click',()=>setTab('signup'));
   $('forgot-password').addEventListener('click',()=>setTab('reset'));
