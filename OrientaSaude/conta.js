@@ -423,6 +423,12 @@
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
     const {error}=await sb.rpc('delete_my_profile_v2');
     if(error){alert('Não foi possível excluir os dados do perfil.',true);return;}
+    // Eliminar também um cadastro antigo armazenado pela migração v1.
+    const legacy=await sb.rpc('delete_my_profile');
+    if(legacy.error){
+      alert('O perfil internacional foi apagado, mas não foi possível confirmar a exclusão dos dados antigos. Verifique seu banco antes de considerar a exclusão concluída.',true);
+      return;
+    }
     profileReady=false;
     $('profile-form').reset();
     $('profile-state').textContent='Cadastro obrigatório pendente';
