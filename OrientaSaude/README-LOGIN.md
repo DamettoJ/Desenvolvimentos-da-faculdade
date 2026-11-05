@@ -111,3 +111,22 @@ A verificação usa `supabase.auth.getUser()`, que consulta o servidor antes de 
 - Em **Perfil → Editar dados / Sair**, sair: depois disso, tentar o Início deve exigir login.
 - No celular ou navegador diferente, mesmo com a mesma conta: deve pedir e-mail/senha novamente.
 
+
+
+## Se confirmar o e-mail e o login não funcionar
+
+1. No navegador, abra **o Original**, não o antigo `OrientaSaude-Projeto-2`:
+   `https://damettoj.github.io/Desenvolvimentos-da-faculdade/OrientaSaude/conta.html`
+2. Em **Supabase → Authentication → Users**, localize a conta que você criou e confira se `Confirmed at` contém data/hora. Se estiver vazio, o usuário **ainda não foi confirmado** no projeto; volte ao login, informe o e-mail e clique em **Reenviar e-mail de confirmação**, usando o link mais recente.
+3. Em **Authentication → URL Configuration**, confira exatamente:
+   - Site URL: `https://damettoj.github.io/Desenvolvimentos-da-faculdade/OrientaSaude/`
+   - Redirect URL: `https://damettoj.github.io/Desenvolvimentos-da-faculdade/OrientaSaude/conta.html`
+4. Em **Authentication → Email Templates → Confirm sign up**, mantenha um link que **verifique a confirmação**; o padrão é `{{ .ConfirmationURL }}`. Não substitua por um link direto para o seu site sem passar pela verificação do Supabase. Links personalizados com `token_hash` e `type=email` também são reconhecidos pelo `conta.js` atual.
+5. Se aparecer **E-mail ou senha incorretos**, a conta pode já existir com senha diferente. Use **Esqueci minha senha**. O sistema não tem acesso à senha original e não deve armazená-la.
+6. Se aparecer **Não foi possível comunicar com o Supabase**, confira rede, projeto e configurações. Se o servidor devolver erro diferente, consulte **Authentication → Logs** no Supabase, sem colar tokens/senhas aqui.
+
+Após um login bem-sucedido, a sessão do Supabase é criada e o site abre o `index.html` automaticamente. Uma aba ou dispositivo diferente exige login próprio. O redirecionamento de confirmação do e-mail abre `conta.html`, e só entra diretamente em Início quando uma sessão válida tiver sido estabelecida.
+
+O título do navegador e o título principal da página de login são **OrientaSaúde**.
+
+Referências oficiais: https://supabase.com/docs/guides/auth/redirect-urls ; https://supabase.com/docs/guides/auth/auth-email-templates ; https://supabase.com/docs/guides/auth/debugging/error-codes
