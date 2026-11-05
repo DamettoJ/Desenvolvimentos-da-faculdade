@@ -1,5 +1,6 @@
-/* OrientaSaúde — protótipo acadêmico de frontend estático (GitHub Pages).
-   Sem serviços externos, diagnósticos, prescrições ou coleta remota de dados. */
+/* OrientaSaúde — protótipo acadêmico informativo (GitHub Pages).
+   Registros/lembretes locais; cadastro pessoal separado em conta.html via Supabase Auth.
+   Sem diagnósticos, prescrições ou sincronização de sintomas para o servidor. */
 (() => {
   'use strict';
 
@@ -64,6 +65,7 @@
   function home(){return `<div class="page home-page">
     ${appHeader()}
     <section class="hero"><div><h1>Olá! Vamos cuidar<br> da sua saúde?</h1><p>Conte o que está sentindo e receba orientações sobre quando buscar atendimento.</p></div><div class="hero-art">${icon('heart')}</div></section>
+    <section class="white-card account-promo" aria-label="Cadastro e login"><h2>Minha conta</h2><p>Cadastro e login com perfil pessoal protegido e criptografado no banco Supabase.</p><a class="primary-btn" href="conta.html">Criar conta ou entrar</a></section>
     <button class="emergency" type="button" data-go="emergency">${round('medkit','red')}<div><strong>EMERGÊNCIA</strong><p>Em caso de risco imediato, ligue 192 (SAMU).</p></div>${arrow('')}</button>
     <section>${head('Como podemos ajudar?','Escolha uma opção para começar')}<div class="icon-grid">
       ${actCard('Descrever sintomas','Conte o que está sentindo.','user','blue','symptoms')}
@@ -193,10 +195,11 @@
     <p class="meta-note">Seus relatos são armazenados somente neste dispositivo e podem ser apagados na seção Perfil. Não utilize o histórico como prontuário médico.</p>
   </div>`;}
   function profile(){return `<div class="page">${backHeader('Meu perfil','Preferências e dados deste navegador','home')}
-    <div class="profile-intro">${round('user','blue')}<div><h2>${data.profile.name?esc(data.profile.name):'Bem-vindo ao OrientaSaúde'}</h2><p>Protótipo acadêmico sem login e sem servidor.</p></div></div>
+    <div class="profile-intro">${round('user','blue')}<div><h2>${data.profile.name?esc(data.profile.name):'Bem-vindo ao OrientaSaúde'}</h2><p>As preferências abaixo são locais. O cadastro e o login protegidos ficam em Minha conta.</p></div></div>
+    <div class="white-card account-promo"><h3>Cadastro e login seguros</h3><p>Gerencie seu e-mail, nome completo, CPF, telefone e demais informações pessoais em uma conta com banco de dados criptografado.</p><a class="primary-btn" href="conta.html">Abrir Minha conta</a></div>
     <form id="profile-form" class="white-card"><h3>Personalizar meu perfil</h3><div class="field-group"><label for="profile-name">Como deseja ser chamado? (opcional)</label><input id="profile-name" name="name" maxlength="60" value="${esc(data.profile.name)}" placeholder="Nome ou apelido" /></div><div class="stack-buttons"><button class="primary-btn" type="submit">Salvar preferência</button></div></form>
     <div class="white-card"><h3>Acessibilidade</h3><p>Altere o tamanho do texto usando o botão A+ na página inicial ou a opção abaixo.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="font">Alterar tamanho de texto: ${['Padrão','Grande','Muito grande'][data.font%3]}</button></div></div>
-    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Registros, lembretes e preferências são salvos apenas no armazenamento local do navegador. Não há envio para servidores, login ou sincronização entre aparelhos.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar meus dados</button><button class="small-outline" type="button" data-action="clear">Apagar dados locais</button></div></div>
+    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Registros de sintomas, lembretes e preferências continuam salvos somente neste navegador, sem sincronização entre aparelhos. O cadastro de usuário, quando ativado, usa outro formulário e um banco Supabase com perfil criptografado.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar meus dados</button><button class="small-outline" type="button" data-action="clear">Apagar dados locais</button></div></div>
     ${infoBar('Este projeto é uma demonstração acadêmica. Os conteúdos e regras precisam de revisão por profissionais de saúde antes de qualquer uso real.','shield','green')}
     <div class="app-endnote">OrientaSaúde · Protótipo de Engenharia de Software · Projeto acadêmico · Foz do Iguaçu, PR</div>
   </div>`;}

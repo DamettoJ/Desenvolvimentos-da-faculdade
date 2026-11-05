@@ -2,7 +2,18 @@
 
 **Protótipo acadêmico responsivo** de orientação informativa sobre sintomas, sinais de alerta e busca por atendimento, inspirado nas quatro telas fornecidas para o projeto de Engenharia de Software.
 
-O site é feito com **HTML, CSS e JavaScript puros**, sem frameworks e sem necessidade de API, banco de dados, login ou instalação de dependências. Está pronto para ser publicado no **GitHub Pages**.
+O site é feito com **HTML, CSS e JavaScript puros**, sem frameworks, e está pronto para o **GitHub Pages**. As funcionalidades educativas permanecem locais; existe uma **integração opcional de cadastro/login com Supabase**, que só funcionará após configurar o serviço externo e validar as funções de segurança.
+
+## Cadastro/login no OrientaSaúde Original
+
+Esta pasta `OrientaSaude` do repositório `DamettoJ/Desenvolvimentos-da-faculdade` é o **Original correto**. A tela `conta.html` oferece criar conta, login, recuperação de senha e perfil pessoal criptografado, com autenticação no Supabase. O backend PostgreSQL deve ter funções autenticadas e chave de criptografia protegida no Vault.
+
+**Ainda não está conectado à sua conta Supabase**: o arquivo `supabase-config.js` começa com URL e chave pública vazias, intencionalmente. O cadastro não coleta dados reais até você preencher esses valores. Antes de usar dados pessoais, teste o banco, as funções, as permissões e a criptografia.
+
+- [Abrir tela local de cadastro](conta.html)
+- [Instruções completas de configuração e segurança](README-LOGIN.md)
+
+**Os dados clínicos do protótipo (registros, lembretes e preferências) continuam no armazenamento local; não são sincronizados com esse cadastro.**
 
 ## Como abrir no seu computador
 

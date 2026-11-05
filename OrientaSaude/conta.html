@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Cadastro e login do OrientaSaúde Original, com perfil pessoal criptografado.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; object-src 'none'; form-action 'self'">
+  <title>Minha conta | OrientaSaúde Original</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="conta.css">
+</head>
+<body>
+  <div class="auth-shell">
+    <aside class="auth-aside">
+      <h2>Orienta<span>Saúde</span></h2>
+      <p>Projeto Original · Trabalhos da Faculdade</p>
+      <p>Sua conta e suas informações pessoais protegidas. O conteúdo de saúde continua informativo.</p>
+      <small>O OrientaSaúde não realiza diagnósticos e não substitui atendimento profissional.</small>
+    </aside>
+    <main class="auth-panel">
+      <a class="back-link" href="index.html">← Voltar ao OrientaSaúde</a>
+      <header class="auth-heading">
+        <div class="brand-icon" aria-hidden="true">+</div>
+        <div>
+          <p class="eyebrow">ORIENTASAÚDE ORIGINAL</p>
+          <h1>Minha conta</h1>
+          <p>Cadastro e login com acesso protegido</p>
+        </div>
+      </header>
+
+      <div class="notice" id="setup-warning">
+        <h2>Cadastro ainda não ativado</h2>
+        <p>Esta versão Original ainda não possui uma conexão Supabase configurada. Não coletaremos informações pessoais enquanto a configuração não estiver pronta.</p>
+        <a href="README-LOGIN.md">Ver instruções de configuração</a>
+      </div>
+      <p class="auth-status" id="account-status" role="status" aria-live="polite"></p>
+
+      <div id="account-app" hidden>
+        <section id="login-screen">
+          <nav class="tab-switch" aria-label="Acesso à conta">
+            <button type="button" class="selected" id="show-login" aria-pressed="true">Entrar</button>
+            <button type="button" id="show-signup" aria-pressed="false">Criar conta</button>
+          </nav>
+
+          <form class="auth-form" id="login-form" autocomplete="on">
+            <h2>Entrar</h2>
+            <label for="login-email">E-mail</label>
+            <input id="login-email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
+            <label for="login-password">Senha</label>
+            <input id="login-password" name="password" type="password" required autocomplete="current-password">
+            <button class="primary" type="submit">Entrar com segurança</button>
+            <button class="text-button" type="button" id="forgot-password">Esqueci minha senha</button>
+          </form>
+
+          <form class="auth-form" id="signup-form" autocomplete="on" hidden>
+            <h2>Criar conta · etapa 1 de 2</h2>
+            <p class="helper">Crie a conta e confirme seu e-mail. Seus dados pessoais serão solicitados somente após o acesso autenticado.</p>
+            <label for="signup-email">E-mail</label>
+            <input id="signup-email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
+            <label for="signup-password">Crie uma senha (mínimo 12 caracteres)</label>
+            <input id="signup-password" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password">
+            <label for="signup-confirm">Confirme a senha</label>
+            <input id="signup-confirm" name="confirm" type="password" required minlength="12" autocomplete="new-password">
+            <button class="primary" type="submit">Criar conta e confirmar e-mail</button>
+          </form>
+
+          <form class="auth-form" id="reset-form" hidden>
+            <h2>Recuperar acesso</h2>
+            <p class="helper">Se o e-mail existir, enviaremos instruções para redefinição da senha.</p>
+            <label for="reset-email">E-mail cadastrado</label>
+            <input id="reset-email" name="email" type="email" required maxlength="254" autocomplete="email">
+            <button class="primary" type="submit">Enviar instruções</button>
+            <button id="back-to-login" class="text-button" type="button">Voltar para entrar</button>
+          </form>
+        </section>
+
+        <section id="profile-screen" hidden>
+          <div class="current-user">
+            <div><strong id="account-email"></strong><small id="profile-state">Conta autenticada</small></div>
+            <button type="button" id="logout">Sair</button>
+          </div>
+          <form class="auth-form" id="profile-form">
+            <h2>Dados pessoais · etapa 2 de 2</h2>
+            <p class="helper">Os campos abaixo são enviados por HTTPS e criptografados pelo banco antes de serem armazenados. Sua identidade de gênero é uma informação sensível: você pode escolher não informar.</p>
+            <label for="full-name">Nome completo *</label>
+            <input id="full-name" name="full_name" type="text" required minlength="5" maxlength="120" autocomplete="name">
+            <label for="preferred-name">Como gostaria de ser chamado(a)? *</label>
+            <input id="preferred-name" name="preferred_name" type="text" required maxlength="80">
+            <label for="gender-identity">Identidade sexual / identidade de gênero *</label>
+            <select id="gender-identity" name="gender_identity" required>
+              <option value="">Selecione uma opção</option>
+              <option value="mulher">Mulher</option>
+              <option value="homem">Homem</option>
+              <option value="nao_binario">Pessoa não binária</option>
+              <option value="outra">Outra identidade</option>
+              <option value="prefiro_nao_informar">Prefiro não informar</option>
+            </select>
+            <label for="phone">Telefone com DDD ou código do país *</label>
+            <input id="phone" name="phone" type="tel" required maxlength="25" autocomplete="tel" placeholder="+55 45 99999-9999">
+            <label for="cpf">CPF brasileiro *</label>
+            <div class="cpf-line">
+              <input id="cpf" name="cpf" type="password" inputmode="numeric" autocomplete="off" required minlength="11" maxlength="20" aria-describedby="cpf-note" placeholder="11 dígitos">
+              <button type="button" id="show-cpf" aria-pressed="false">Mostrar</button>
+            </div>
+            <p class="helper" id="cpf-note">O CPF é validado antes de ser enviado. Para usuários do Paraguai e Argentina, a obrigatoriedade do documento precisa de revisão.</p>
+            <label for="birth-date">Data de nascimento *</label>
+            <input id="birth-date" name="birth_date" type="date" required min="1900-01-01">
+            <label class="consent" for="accept-privacy">
+              <input id="accept-privacy" type="checkbox" required>
+              <span>Concordo com o tratamento dos dados de cadastro informados. Para identidade sexual/gênero, posso selecionar “Prefiro não informar”.</span>
+            </label>
+            <button class="primary" type="submit">Salvar perfil criptografado</button>
+          </form>
+          <section class="account-privacy">
+            <h2>Privacidade e exclusão</h2>
+            <p>Você pode apagar os dados pessoais ou excluir sua conta. Os registros de sintomas e lembretes salvos neste navegador não são removidos automaticamente: exclua-os também na seção Perfil do aplicativo.</p>
+            <button id="remove-profile" type="button">Excluir dados do perfil</button>
+            <button id="remove-account" type="button">Excluir a conta definitivamente</button>
+          </section>
+        </section>
+
+        <form class="auth-form" id="new-password-form" hidden>
+          <h2>Nova senha</h2>
+          <label for="new-password">Digite uma nova senha (mínimo 12 caracteres)</label>
+          <input id="new-password" type="password" minlength="12" maxlength="128" required autocomplete="new-password">
+          <button class="primary" type="submit">Atualizar senha</button>
+        </form>
+      </div>
+      <footer>
+        <p>Esta página faz parte do OrientaSaúde Original. As informações de sintomas e lembretes continuam locais e independentes do cadastro.</p>
+      </footer>
+    </main>
+  </div>
+  <script src="supabase-config.js"></script>
+  <script type="module" src="conta.js"></script>
+</body>
+</html>
