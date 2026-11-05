@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; object-src 'none'; form-action 'self'">
   <title>OrientaSaúde</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="conta.css?v=20261105-required-profile-1">
+  <link rel="stylesheet" href="conta.css?v=20261105-international-id-1">
 </head>
 <body>
   <div class="auth-shell">
@@ -93,7 +93,7 @@
         <section id="profile-screen" hidden>
           <section id="onboarding-banner" class="onboarding-guide" role="status" aria-live="polite" hidden>
             <h2>Complete seu cadastro para continuar</h2>
-            <p>Seu e-mail já foi confirmado e sua conta está ativa. Antes de acessar a tela inicial, é obrigatório informar <strong>nome completo, CPF, data de nascimento e identidade sexual/de gênero</strong>.</p>
+            <p>Sua conta está ativa. Para acessar a tela inicial, informe <strong>país de origem, nome completo, documento de identificação do país, data de nascimento e identidade sexual/de gênero</strong>.</p>
             <p>Selecione <strong>Prefiro não informar</strong> se não desejar declarar sua identidade. Os dados só serão liberados para consulta pelo seu próprio usuário autenticado.</p>
             <p>Preencha os dados abaixo e selecione <strong>Salvar perfil criptografado</strong>. Após a confirmação do salvamento, o aplicativo abrirá a tela Início.</p>
           </section>
@@ -101,17 +101,26 @@
             <div><strong id="account-email"></strong><small id="profile-state">Conta autenticada</small></div>
             <button type="button" id="logout">Sair</button>
           </div>
-          <form class="auth-form" id="profile-form">
-            <h2>Cadastro pessoal obrigatório · etapa 2 de 2</h2>
+          <form class="auth-form" id="profile-form" autocomplete="off">
+            <h2>Complete seu perfil · etapa 2 de 2</h2>
             <p class="helper">Os campos abaixo são enviados por HTTPS e criptografados pelo banco antes de serem armazenados. Sua identidade sexual/de gênero é uma informação sensível; é possível selecionar “Prefiro não informar”.</p>
-            <label for="full-name">Nome completo *</label>
-            <input id="full-name" name="full_name" type="text" required minlength="5" maxlength="120" autocomplete="name">
-            <label for="cpf">CPF brasileiro *</label>
-            <div class="cpf-line">
-              <input id="cpf" name="cpf" type="password" inputmode="numeric" autocomplete="off" required minlength="11" maxlength="20" aria-describedby="cpf-note" placeholder="11 dígitos">
-              <button type="button" id="show-cpf" aria-pressed="false">Mostrar</button>
+            <label for="country-of-origin">País de origem *</label>
+            <select id="country-of-origin" name="country_of_origin" required autocomplete="off">
+              <option value="">Selecione seu país</option>
+              <option value="BR">Brasil</option>
+              <option value="PY">Paraguai</option>
+              <option value="AR">Argentina</option>
+              <option value="OTHER">Outro país</option>
+            </select>
+            <div id="country-other-wrap" hidden>
+              <label for="country-other">Qual país? *</label>
+              <input id="country-other" name="country_other" type="text" maxlength="80" autocomplete="off" placeholder="Informe seu país de origem">
             </div>
-            <p class="helper" id="cpf-note">O CPF é validado antes de ser enviado. Para usuários do Paraguai e Argentina, a obrigatoriedade do documento precisa de revisão.</p>
+            <label for="full-name">Nome completo *</label>
+            <input id="full-name" name="profile_full_name" type="text" required minlength="5" maxlength="120" autocomplete="off" data-lpignore="true" data-1p-ignore="true" autocapitalize="words" placeholder="Seu nome completo">
+            <label for="national-id" id="national-id-label">Documento de identificação *</label>
+            <input id="national-id" name="document_number" type="text" required inputmode="numeric" maxlength="20" autocomplete="off" data-lpignore="true" data-1p-ignore="true" spellcheck="false" aria-describedby="national-id-hint" placeholder="Selecione o país acima">
+            <p class="helper" id="national-id-hint">O formato é ajustado automaticamente ao país selecionado.</p>
             <label for="birth-date">Data de nascimento *</label>
             <input id="birth-date" name="birth_date" type="date" required min="1900-01-01">
             <label for="gender-identity">Identidade sexual / identidade de gênero *</label>
@@ -124,10 +133,11 @@
               <option value="prefiro_nao_informar">Prefiro não informar</option>
             </select>
             <p class="helper">Informações adicionais do cadastro:</p>
-            <label for="preferred-name">Como gostaria de ser chamado(a)? *</label>
-            <input id="preferred-name" name="preferred_name" type="text" required maxlength="80">
-            <label for="phone">Telefone com DDD ou código do país *</label>
-            <input id="phone" name="phone" type="tel" required maxlength="25" autocomplete="tel" placeholder="+55 45 99999-9999">
+            <label for="preferred-name">Como gostaria de ser chamado(a)? (opcional)</label>
+            <input id="preferred-name" name="preferred_name" type="text" maxlength="80" autocomplete="off" placeholder="Ex.: Ana, João, Alex">
+            <p class="helper">Se informar um nome de preferência, ele será utilizado na saudação e no seu perfil no OrientaSaúde.</p>
+            <label for="phone">Telefone com DDD ou código do país (opcional)</label>
+            <input id="phone" name="phone" type="tel" maxlength="25" autocomplete="off" placeholder="+55 45 99999-9999">
             <label class="consent" for="accept-privacy">
               <input id="accept-privacy" type="checkbox" required>
               <span>Concordo com o tratamento dos dados de cadastro informados. Para identidade sexual/gênero, posso selecionar “Prefiro não informar”.</span>
@@ -155,6 +165,6 @@
     </main>
   </div>
   <script src="supabase-config.js?v=20261105-fix-url-cache-01"></script>
-  <script type="module" src="conta.js?v=20261105-required-profile-1"></script>
+  <script type="module" src="conta.js?v=20261105-international-id-1"></script>
 </body>
 </html>
