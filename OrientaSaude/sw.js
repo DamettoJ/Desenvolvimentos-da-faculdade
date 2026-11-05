@@ -1,5 +1,5 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261030-public-health-01';
+const VERSION='os-safe-20261105-auth-guard-01';
 const STATIC=VERSION+'-assets';
 const CORE=[
  './','./index.html','./offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
@@ -22,6 +22,8 @@ self.addEventListener('fetch',event=>{
  if(req.method!=='GET')return;
  const url=new URL(req.url);
  if(url.origin!==self.location.origin||!url.pathname.startsWith(new URL(self.registration.scope).pathname))return;
+ // Jamais colocar respostas de autenticação, links de recuperação e configurações do cadastro em cache.
+ if(/\/(?:conta\.html|conta\.js|conta\.css|supabase-config\.js)$/.test(url.pathname))return;
  if(req.mode==='navigate'){
   event.respondWith((async()=>{
    const cache=await caches.open(STATIC);
