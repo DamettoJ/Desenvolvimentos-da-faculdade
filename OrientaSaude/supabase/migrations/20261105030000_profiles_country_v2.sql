@@ -179,6 +179,9 @@ grant execute on function public.save_my_profile_v2(jsonb) to authenticated;
 grant execute on function public.read_my_profile_v2() to authenticated;
 grant execute on function public.delete_my_profile_v2() to authenticated;
 
+-- Atualizar as RPCs expostas na API PostgREST do Supabase.
+notify pgrst, 'reload schema';
+
 -- Checagem SOMENTE leitura apos executar:
 -- select routine_name from information_schema.routines where routine_schema='public'
 --   and routine_name in ('save_my_profile_v2','read_my_profile_v2','delete_my_profile_v2');
