@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-05T06:56:57+00:00",
+  "checked_at": "2026-11-05T20:02:48+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -12,15 +12,23 @@
     {
       "source": "misiones",
       "status": "checked",
-      "count": 1
+      "count": 0
     },
     {
       "source": "parana",
       "status": "checked",
-      "count": 4
+      "count": 5
     }
   ],
   "items": [
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Sesa garante medicamentos e assistência para cidades atingidas por desastres naturais",
+      "url": "https://www.saude.pr.gov.br/Noticia/Sesa-garante-medicamentos-e-assistencia-para-cidades-atingidas-por-desastres-naturais",
+      "published": "2026-11-05T18:13:04+00:00"
+    },
     {
       "city": "foz",
       "source": "Secretaria de Saúde do Paraná",
@@ -60,14 +68,6 @@
       "title": "Muestra Nacional de Epidemiología prepara su decimoséptima edición",
       "url": "https://dgvs.mspbs.gov.py/muestra-nacional-de-epidemiologia-prepara-su-decimo-septima-edicion/",
       "published": "2026-11-02T18:00:27+00:00"
-    },
-    {
-      "city": "iguazu",
-      "source": "Salud Pública de Misiones",
-      "scope": "Misiones · Puerto Iguazú (abrangência provincial)",
-      "title": "El Programa IRAB cerró el 23º encuentro anual con 279 centros respiratorios y 60 salas SIA",
-      "url": "https://salud.misiones.gob.ar/el-programa-irab-cerro-el-23o-encuentro-anual-con-279-centros-respiratorios-y-60-salas-sia/",
-      "published": "2026-10-30T15:36:40+00:00"
     },
     {
       "city": "foz",
