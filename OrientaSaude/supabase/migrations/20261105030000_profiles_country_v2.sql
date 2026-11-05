@@ -25,7 +25,7 @@ declare
   dg integer;
   i integer;
 begin
-  if pg_catalog.length(d) <> 11 or d ~ '^([0-9])\1{10}$' then return false; end if;
+  if pg_catalog.length(d) <> 11 or d = pg_catalog.repeat(pg_catalog.substr(d,1,1),11) then return false; end if;
   sm := 0;
   for i in 1..9 loop sm := sm + (pg_catalog.substr(d,i,1))::integer * (11-i); end loop;
   dg := (sm * 10) % 11;
