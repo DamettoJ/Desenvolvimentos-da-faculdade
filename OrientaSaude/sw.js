@@ -1,17 +1,17 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261105-auth-guard-01';
+const VERSION='os-safe-20261105-login-required-01';
 const STATIC=VERSION+'-assets';
 const CORE=[
- './','./index.html','./offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
+ './offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
  './app.js','./i18n.js','./language-pack.js','./flag-picker.js','./flag-picker.css','./locale.css',
  './border-data.js','./border-context.js','./border-embed.css','./border-legacy.js','./border-tips.js',
  './health-data.js','./health-ui.js','./health-units.css','./directory.css','./directory-init.js',
  './health-tips-hook.js','./health-tips-data.js','./health-tips.js','./health-tips.css',
  './specialty-hook.js','./specialty-data.js','./specialty-ui.js','./specialty.css',
- './border-page.js','./border.css','./mapa.html','./mapa.js','./mapa.css',
- './agenda.html','./agenda.js','./agenda.css','./resumo.html','./resumo.js','./resumo.css',
- './dicas.html','./especialidades.html','./unidades.html','./fronteira.html',
- './upgrade.js','./upgrade.css','./pwa.js','./reader.js','./alertas.html','./alertas.css','./alertas.js','./alert-hook.js','./alert-entry.css'
+ './border-page.js','./border.css','./mapa.js','./mapa.css',
+ './agenda.js','./agenda.css','./resumo.js','./resumo.css',
+ 
+ './upgrade.js','./upgrade.css','./pwa.js','./reader.js','./alertas.css','./alertas.js','./alert-hook.js','./alert-entry.css'
 ];
 self.addEventListener('install',event=>{
  event.waitUntil((async()=>{const cache=await caches.open(STATIC);await Promise.allSettled(CORE.map(async p=>{try{const response=await fetch(p,{cache:'reload'});if(response.ok)await cache.put(new Request(p),response.clone())}catch{}}));await self.skipWaiting()})());
@@ -23,12 +23,13 @@ self.addEventListener('fetch',event=>{
  const url=new URL(req.url);
  if(url.origin!==self.location.origin||!url.pathname.startsWith(new URL(self.registration.scope).pathname))return;
  // Jamais colocar respostas de autenticação, links de recuperação e configurações do cadastro em cache.
- if(/\/(?:conta\.html|conta\.js|conta\.css|supabase-config\.js)$/.test(url.pathname))return;
+ if(/\/(?:conta\.html|conta\.js|conta\.css|supabase-config\.js|auth-gate\.js)$/.test(url.pathname))return;
  if(req.mode==='navigate'){
   event.respondWith((async()=>{
    const cache=await caches.open(STATIC);
-   try{const response=await fetch(req);if(response.ok)cache.put(req,response.clone()).catch(()=>{});return response}catch{
-    return await cache.match(req,{ignoreSearch:true})||await cache.match('./offline.html')||new Response('Sem conexão',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}})
+   try{return await fetch(req,{cache:'no-store'})}catch{
+    // Sem rede para validar a sessão, não servir HTML previamente protegido do cache.
+    return await cache.match('./offline.html')||new Response('Sem conexão',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}})
    }
   })());return;
  }

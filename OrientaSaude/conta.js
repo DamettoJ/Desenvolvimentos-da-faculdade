@@ -10,6 +10,11 @@
     (/^sb_publishable_[A-Za-z0-9_-]+$/.test(c.publishableKey||'') ||
      /^eyJ[A-Za-z0-9_.-]+$/.test(c.publishableKey||''));
   let sb=null, user=null, recovery=false, tab='login',activeRequest=false;
+  const accountQuery=new URLSearchParams(window.location.search);
+  const manageProfile=accountQuery.get('perfil')==='1';
+  const accessRequired=accountQuery.has('acesso');
+  const HOME_URL=new URL('index.html',window.location.href).href;
+  function goHome(){window.location.replace(HOME_URL);}
   const show=(id,on)=>{$(id).hidden=!on;};
   const alert=(msg,bad=false)=>{
     $('account-status').textContent=msg;
@@ -93,6 +98,12 @@
         show('login-screen',false);show('profile-screen',false);show('new-password-form',true);
         return;
       }
+      if(user && !manageProfile){
+        // Usuário já autenticado: manter a tela inicial como destino.
+        goHome();
+        return;
+      }
+      show('back-app',!!user);
       show('new-password-form',false);
       show('login-screen',!user);
       show('profile-screen',!!user);
@@ -103,6 +114,7 @@
       } else {
         $('profile-form').reset();
         setTab(tab);
+        if(accessRequired)alert('Para usar o OrientaSaúde, entre ou crie uma conta primeiro.');
       }
     }finally{activeRequest=false;}
   }
@@ -133,8 +145,8 @@
       if(error)throw error;
       form.reset();
       if(data.session){
-        await render();
-        alert('Conta criada. Complete o cadastro após confirmar seu e-mail.');
+        goHome();
+        return;
       }else{
         setTab('login');
         alert('Se o endereço puder ser cadastrado, enviaremos um e-mail de confirmação. Depois de confirmar, entre para preencher seu perfil.');
@@ -152,6 +164,7 @@
       });
       if(error)throw error;
       form.reset();
+      // O login é obrigatório para o aplicativo; uma sessão válida abre o início.
       await render();
     }catch(_){alert('Não foi possível entrar. Confira o e-mail, a senha e a confirmação da conta.',true);}
     finally{formBusy(form,false);}
@@ -199,9 +212,13 @@
   });
   $('logout').addEventListener('click',async()=>{
     if(!sb)return;
-    try{await sb.auth.signOut();}catch(_){}
-    user=null;$('profile-form').reset();
-    await render();alert('Sessão encerrada.');
+    try{
+      const {error}=await sb.auth.signOut({scope:'local'});
+      if(error)throw error;
+      user=null;
+      $('profile-form').reset();
+      window.location.replace('conta.html?saiu=1');
+    }catch(_){alert('Não foi possível encerrar a sessão. Tente novamente.',true);}
   });
   $('remove-profile').addEventListener('click',async()=>{
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
@@ -214,7 +231,7 @@
     if(!sb||!user||prompt('Para excluir a conta e o perfil, digite EXCLUIR:')!=='EXCLUIR')return;
     const {error}=await sb.rpc('delete_my_account');
     if(error){alert('Não foi possível excluir a conta.',true);return;}
-    try{await sb.auth.signOut();}catch(_){}
+    try{await sb.auth.signOut({scope:'local'});}catch(_){}
     sessionStorage.removeItem('orientasaude_faculdade_original_auth_v1');
     location.replace('conta.html?conta_excluida=1');
   });
@@ -238,8 +255,10 @@
           setTimeout(()=>render().catch(()=>{}),0);
       });
       await render();
-      if(new URLSearchParams(location.search).has('conta_excluida'))
+      if(accountQuery.has('conta_excluida'))
         alert('A conta foi excluída. Você pode criar outra quando desejar.');
+      if(accountQuery.has('saiu'))
+        alert('Você saiu. Entre novamente para acessar o OrientaSaúde.');
     }catch(_){
       show('setup-warning',true);show('account-app',false);
       alert('Erro ao inicializar o serviço de autenticação. Verifique a conexão e as configurações.',true);

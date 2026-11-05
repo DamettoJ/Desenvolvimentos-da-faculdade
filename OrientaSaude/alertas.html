@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-orienta-auth="checking">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0F766E"><meta name="description" content="Fontes oficiais de vigilância epidemiológica para Foz do Iguaçu, Ciudad del Este e Puerto Iguazú. Publicações verificáveis, datas e atualização periódica.">
@@ -7,6 +7,12 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="alertas.css?v=20261030-1">
 <link rel="manifest" href="manifest.webmanifest">
+
+<!-- Login obrigatório no OrientaSaúde Original: oculta a página até Supabase Auth validar a sessão. -->
+<style id="orienta-auth-style">html[data-orienta-auth="checking"] body > *{visibility:hidden!important}html[data-orienta-auth="checking"] body::before{content:"Verificando acesso à sua conta…";visibility:visible!important;position:fixed;inset:0;display:grid;place-items:center;z-index:2147483647;background:#f4f9ff;color:#071d44;font:600 1rem system-ui,sans-serif;padding:30px;text-align:center}</style>
+<script src="supabase-config.js?v=20261105-login-required-1"></script>
+<script type="module" src="auth-gate.js?v=20261105-login-required-1"></script>
+<noscript><meta http-equiv="refresh" content="0;url=conta.html"></noscript>
 </head>
 <body>
 <a class="skip" href="#main">Pular para o conteúdo</a>
