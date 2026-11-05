@@ -7,6 +7,16 @@
   'use strict';
   const HOME = new URL('index.html', window.location.href);
   const LOGIN = new URL('conta.html?acesso=necessario', HOME);
+  const REQUIRED_PROFILE = new URL('conta.html?perfil=1&cadastro=obrigatorio', HOME);
+  // Só liberar o aplicativo depois de encontrar os quatro dados obrigatórios
+  // no banco para o próprio usuário autenticado.
+  function profileComplete(p) {
+    return !!p && typeof p === 'object' &&
+      typeof p.full_name === 'string' && p.full_name.trim().length >= 5 &&
+      typeof p.gender_identity === 'string' && !!p.gender_identity.trim() &&
+      /^\d{11}$/.test(String(p.cpf || '').replace(/\D/g, '')) &&
+      /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date || ''));
+  }
   const STORAGE_KEY = 'orientasaude_faculdade_original_auth_v1';
   const c = window.ORIENTA_SUPABASE || {};
   const configured = /^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(c.url || '') &&
@@ -19,6 +29,12 @@
     // replace() impede que voltar retorne à página bloqueada.
     window.location.replace(LOGIN.href);
   }
+  function goToProfile() {
+    if (redirecting) return;
+    redirecting = true;
+    // A tela de cadastro é a única rota até o registro obrigatório ficar completo.
+    window.location.replace(REQUIRED_PROFILE.href);
+  }
   async function verify() {
     if (checking || redirecting) return;
     checking = true;
@@ -26,6 +42,13 @@
       const { data, error } = await client.auth.getUser();
       if (error || !data?.user || data.user.is_anonymous === true) {
         goToLogin();
+        return;
+      }
+      // Não confiar em um sinal salvo no navegador: consultar o perfil a cada
+      // abertura/retorno ao app, via RPC autenticada e isolada no Supabase.
+      const profileResult = await client.rpc('read_my_profile');
+      if (profileResult.error || !profileComplete(profileResult.data)) {
+        goToProfile();
         return;
       }
       document.documentElement.setAttribute('data-orienta-auth', 'ok');

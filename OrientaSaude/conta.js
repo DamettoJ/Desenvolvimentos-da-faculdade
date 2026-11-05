@@ -10,6 +10,14 @@
     (/^sb_publishable_[A-Za-z0-9_-]+$/.test(c.publishableKey||'') ||
      /^eyJ[A-Za-z0-9_.-]+$/.test(c.publishableKey||''));
   let sb=null, user=null, recovery=false, tab='login',activeRequest=false;
+  let profileReady=false;
+  function profileComplete(p){
+    return !!p && typeof p==='object'
+      && typeof p.full_name==='string' && p.full_name.trim().length>=5
+      && typeof p.gender_identity==='string' && !!p.gender_identity.trim()
+      && /^\d{11}$/.test(String(p.cpf||'').replace(/\D/g,''))
+      && /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date||''));
+  }
   const accountQuery=new URLSearchParams(window.location.search);
   const manageProfile=accountQuery.get('perfil')==='1';
   const accessRequired=accountQuery.has('acesso');
@@ -20,6 +28,15 @@
   let confirmationNotice='';
   const HOME_URL=new URL('index.html',window.location.href).href;
   function goHome(){window.location.replace(HOME_URL);}
+  async function routeAfterLogin(){
+    // Login válido não significa cadastro completo; conferir no Supabase.
+    const required=new URL('conta.html?perfil=1&cadastro=obrigatorio',window.location.href).href;
+    try {
+      const result=await sb.rpc('read_my_profile');
+      if(!result.error&&profileComplete(result.data))goHome();
+      else window.location.replace(required);
+    } catch (_) {window.location.replace(required);}
+  }
   function authMessage(error, action='login'){
     // Mensagens seguras, sem exibir tokens, senhas ou detalhes privados da API.
     const code=String(error?.code||'').toLowerCase();
@@ -109,13 +126,17 @@
     const form=$('profile-form');
     form.reset();
     const {data,error}=await sb.rpc('read_my_profile');
+    profileReady=!error&&profileComplete(data);
+    show('onboarding-banner',!profileReady);
+    show('back-app',profileReady);
+    $('profile-state').textContent=profileReady?'Perfil registrado e protegido':'Cadastro obrigatório pendente';
     if(error){
-      alert('Não foi possível consultar o perfil. Verifique se a migração SQL foi aplicada corretamente.',true);
+      alert('Não foi possível consultar seus dados no Supabase. O acesso ao aplicativo continuará bloqueado até a consulta funcionar.',true);
       return;
     }
     if(!data){
       $('profile-state').textContent='Cadastro de informações pessoais pendente';
-      alert('Você já entrou. Complete agora o cadastro pessoal para salvá-lo criptografado.');
+      alert('Antes de acessar o OrientaSaúde, complete seus dados obrigatórios para salvá-los com criptografia.');
       return;
     }
     const names=['full_name','preferred_name','gender_identity','phone','cpf','birth_date'];
@@ -123,8 +144,8 @@
       const field=form.elements.namedItem(n);
       if(field)field.value=String(data[n]||'');
     }
-    $('profile-state').textContent='Perfil armazenado de forma criptografada';
-    alert('Perfil pessoal carregado com segurança.');
+    if(profileReady)alert('Perfil pessoal carregado com segurança.');
+    else alert('Seu cadastro ainda está incompleto. Preencha os campos obrigatórios para acessar o OrientaSaúde.');
   }
   async function render(){
     if(!sb||activeRequest)return;
@@ -137,11 +158,11 @@
         return;
       }
       if(user && !manageProfile){
-        // Usuário já autenticado: manter a tela inicial como destino.
-        goHome();
+        // Quem ainda não preencheu o perfil vai diretamente para o formulário.
+        await routeAfterLogin();
         return;
       }
-      show('back-app',!!user);
+      show('back-app',false);
       show('new-password-form',false);
       show('login-screen',!user);
       show('profile-screen',!!user);
@@ -216,7 +237,7 @@
       if(error)throw error;
       form.reset();
       if(data.session){
-        goHome();
+        await routeAfterLogin();
         return;
       }else{
         // O e-mail precisa ser confirmado pelo link do Supabase antes do primeiro login.
@@ -242,7 +263,7 @@
       if(!data?.session||!data?.user)
         throw {code:'missing_session'};
       form.reset();
-      goHome();
+      await routeAfterLogin();
       return;
     }catch(error){alert(authMessage(error,'login'),true);}
     finally{formBusy(form,false);}
@@ -281,10 +302,21 @@
     try{values=extractProfile();}catch(error){alert(error.message,true);return;}
     formBusy(form,true);
     try{
+      const initialRegistration=!profileReady;
       const {error}=await sb.rpc('save_my_profile',{p_profile:values});
       if(error)throw error;
-      $('profile-state').textContent='Perfil armazenado de forma criptografada';
-      alert('Seu perfil foi salvo de forma criptografada no banco.');
+      // Confirmar que o perfil foi persistido e está completo no próprio banco.
+      const saved=await sb.rpc('read_my_profile');
+      if(saved.error||!profileComplete(saved.data)){
+        alert('Não foi possível verificar o perfil salvo. Confira a função de leitura no Supabase antes de continuar.',true);
+        return;
+      }
+      profileReady=true;
+      show('onboarding-banner',false);
+      show('back-app',true);
+      $('profile-state').textContent='Perfil registrado e protegido';
+      if(initialRegistration){goHome();return;}
+      alert('Seus dados foram atualizados e salvos com criptografia no banco.');
     }catch(_){alert('O perfil não foi salvo. Confira a instalação das funções de criptografia no Supabase.',true);}
     finally{formBusy(form,false);}
   });
@@ -302,8 +334,12 @@
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
     const {error}=await sb.rpc('delete_my_profile');
     if(error){alert('Não foi possível excluir os dados do perfil.',true);return;}
-    $('profile-form').reset();$('profile-state').textContent='Cadastro de informações pessoais pendente';
-    alert('Dados do perfil excluídos. O e-mail de login permanece cadastrado.');
+    profileReady=false;
+    $('profile-form').reset();
+    $('profile-state').textContent='Cadastro obrigatório pendente';
+    show('onboarding-banner',true);
+    show('back-app',false);
+    alert('Dados do perfil excluídos. Para continuar usando o OrientaSaúde, faça um novo cadastro pessoal. Seu e-mail de login permanece cadastrado.');
   });
   $('remove-account').addEventListener('click',async()=>{
     if(!sb||!user||prompt('Para excluir a conta e o perfil, digite EXCLUIR:')!=='EXCLUIR')return;
@@ -340,7 +376,7 @@
             token_hash:tokenHash,type:tokenType==='signup'?'email':tokenType
           });
           if(error)throw error;
-          if(data?.session){goHome();return;}
+          if(data?.session){await routeAfterLogin();return;}
           confirmationNotice='E-mail confirmado! Entre para continuar no OrientaSaúde.';
         }catch(error){
           confirmationNotice=authMessage(error,'login');
