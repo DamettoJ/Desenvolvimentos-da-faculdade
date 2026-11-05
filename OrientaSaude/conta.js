@@ -28,6 +28,15 @@
   let confirmationNotice='';
   const HOME_URL=new URL('index.html',window.location.href).href;
   function goHome(){window.location.replace(HOME_URL);}
+  async function routeAfterLogin(){
+    // Login válido não significa cadastro completo; conferir no Supabase.
+    const required=new URL('conta.html?perfil=1&cadastro=obrigatorio',window.location.href).href;
+    try {
+      const result=await sb.rpc('read_my_profile');
+      if(!result.error&&profileComplete(result.data))goHome();
+      else window.location.replace(required);
+    } catch (_) {window.location.replace(required);}
+  }
   function authMessage(error, action='login'){
     // Mensagens seguras, sem exibir tokens, senhas ou detalhes privados da API.
     const code=String(error?.code||'').toLowerCase();
@@ -149,8 +158,8 @@
         return;
       }
       if(user && !manageProfile){
-        // Usuário já autenticado: manter a tela inicial como destino.
-        goHome();
+        // Quem ainda não preencheu o perfil vai diretamente para o formulário.
+        await routeAfterLogin();
         return;
       }
       show('back-app',false);
@@ -228,7 +237,7 @@
       if(error)throw error;
       form.reset();
       if(data.session){
-        goHome();
+        await routeAfterLogin();
         return;
       }else{
         // O e-mail precisa ser confirmado pelo link do Supabase antes do primeiro login.
@@ -254,7 +263,7 @@
       if(!data?.session||!data?.user)
         throw {code:'missing_session'};
       form.reset();
-      goHome();
+      await routeAfterLogin();
       return;
     }catch(error){alert(authMessage(error,'login'),true);}
     finally{formBusy(form,false);}
@@ -367,7 +376,7 @@
             token_hash:tokenHash,type:tokenType==='signup'?'email':tokenType
           });
           if(error)throw error;
-          if(data?.session){goHome();return;}
+          if(data?.session){await routeAfterLogin();return;}
           confirmationNotice='E-mail confirmado! Entre para continuar no OrientaSaúde.';
         }catch(error){
           confirmationNotice=authMessage(error,'login');
