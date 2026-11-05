@@ -13,8 +13,44 @@
   const accountQuery=new URLSearchParams(window.location.search);
   const manageProfile=accountQuery.get('perfil')==='1';
   const accessRequired=accountQuery.has('acesso');
+  // Ler imediatamente o erro do retorno por e-mail, antes de o SDK tratar o fragmento.
+  const confirmationParams=new URLSearchParams(window.location.hash.slice(1));
+  const confirmationFailure=confirmationParams.get('error_code')||accountQuery.get('error_code');
+  const confirmationDescription=confirmationParams.get('error_description')||'';
+  let confirmationNotice='';
   const HOME_URL=new URL('index.html',window.location.href).href;
   function goHome(){window.location.replace(HOME_URL);}
+  function authMessage(error, action='login'){
+    // Mensagens seguras, sem exibir tokens, senhas ou detalhes privados da API.
+    const code=String(error?.code||'').toLowerCase();
+    const message=String(error?.message||'').toLowerCase();
+    if(code==='email_not_confirmed'||message.includes('email not confirmed'))
+      return 'Seu e-mail ainda aparece como não confirmado no Supabase. Abra o link de confirmação mais recente. Se já clicou nele, verifique se a confirmação foi registrada em Authentication → Users.';
+    if(code==='invalid_credentials'||message.includes('invalid login credentials'))
+      return 'E-mail ou senha incorretos. Use o mesmo endereço e senha do cadastro. Se esqueceu a senha, clique em “Esqueci minha senha”.';
+    if(code==='email_address_not_authorized'||message.includes('email address not authorized'))
+      return 'O provedor de e-mail do Supabase não está autorizado a enviar para esse endereço. Verifique o SMTP em Authentication.';
+    if(code==='over_email_send_rate_limit'||code==='over_request_rate_limit'||message.includes('rate limit'))
+      return 'Muitas tentativas em pouco tempo. Aguarde antes de tentar novamente.';
+    if(code==='user_already_exists'||code==='email_exists'||message.includes('already registered'))
+      return 'Este e-mail já possui cadastro. Use Entrar ou recupere a senha.';
+    if(code==='signup_disabled'||code==='email_provider_disabled')
+      return 'O cadastro está desabilitado nas configurações do Supabase. Verifique Authentication → Providers → Email.';
+    if(code==='validation_failed'||code==='email_address_invalid')
+      return 'Confira o formato do e-mail e os requisitos da senha.';
+    if(code==='otp_expired'||code==='otp_disabled'||message.includes('token has expired'))
+      return 'O link de confirmação expirou ou já foi utilizado. Solicite um novo e-mail de confirmação.';
+    if(code==='network_request_failed'||message.includes('failed to fetch')||message.includes('network'))
+      return 'Não foi possível comunicar com o Supabase. Confira a internet e tente novamente.';
+    return action==='signup'
+      ? 'Não foi possível concluir o cadastro. Confira os dados e tente novamente.'
+      : 'Não foi possível entrar. Confira os dados, a confirmação do e-mail e a conexão com o Supabase.';
+  }
+  const authRedirect=()=>new URL('conta.html',window.location.href).href;
+  if(confirmationFailure)
+    confirmationNotice=authMessage({code:confirmationFailure,message:confirmationDescription},'login');
+  else if(accountQuery.has('email_confirmado'))
+    confirmationNotice='E-mail confirmado! Entre para acessar o OrientaSaúde.';
   const show=(id,on)=>{$(id).hidden=!on;};
   const alert=(msg,bad=false)=>{
     $('account-status').textContent=msg;
@@ -116,13 +152,33 @@
       } else {
         $('profile-form').reset();
         setTab(tab);
-        if(accessRequired)alert('Para usar o OrientaSaúde, entre ou crie uma conta primeiro.');
+        if(confirmationNotice)alert(confirmationNotice,!!confirmationFailure);
+        else if(accessRequired)alert('Para usar o OrientaSaúde, entre ou crie uma conta primeiro.');
       }
     }finally{activeRequest=false;}
   }
   $('show-login').addEventListener('click',()=>setTab('login'));
   $('show-signup').addEventListener('click',()=>setTab('signup'));
   $('forgot-password').addEventListener('click',()=>setTab('reset'));
+  $('resend-confirmation').addEventListener('click',async()=>{
+    if(!sb)return;
+    const email=String($('login-email').value||'').trim().toLowerCase();
+    if(!email||!$('login-email').checkValidity()){
+      alert('Preencha primeiro seu e-mail no campo acima para reenviar a confirmação.',true);
+      $('login-email').focus();
+      return;
+    }
+    const button=$('resend-confirmation');
+    button.disabled=true;
+    try{
+      const {error}=await sb.auth.resend({
+        type:'signup',email,options:{emailRedirectTo:authRedirect()}
+      });
+      if(error)throw error;
+      alert('Se o e-mail estiver aguardando confirmação, uma nova mensagem será enviada. Abra o link mais recente.');
+    }catch(error){alert(authMessage(error,'signup'),true);}
+    finally{button.disabled=false;}
+  });
   $('back-to-login').addEventListener('click',()=>setTab('login'));
   $('confirmation-go-login').addEventListener('click',()=>setTab('login'));
   $('show-cpf').addEventListener('click',()=>{
@@ -155,7 +211,7 @@
     try{
       const {data,error}=await sb.auth.signUp({
         email,password:pass,
-        options:{emailRedirectTo:new URL('conta.html',location.href).href}
+        options:{emailRedirectTo:authRedirect()}
       });
       if(error)throw error;
       form.reset();
@@ -168,7 +224,7 @@
         setTab('confirmation');
         $('confirmation-panel').focus();
       }
-    }catch(_){alert('Não foi possível criar a conta. Revise o e-mail e tente novamente.',true);}
+    }catch(error){alert(authMessage(error,'signup'),true);}
     finally{formBusy(form,false);}
   });
   $('login-form').addEventListener('submit',async e=>{
@@ -176,14 +232,19 @@
     const form=e.currentTarget,d=new FormData(form);
     formBusy(form,true);
     try{
-      const {error}=await sb.auth.signInWithPassword({
-        email:String(d.get('email')||'').trim(),password:String(d.get('password')||'')
+      const {data,error}=await sb.auth.signInWithPassword({
+        email:String(d.get('email')||'').trim().toLowerCase(),
+        password:String(d.get('password')||'')
       });
       if(error)throw error;
+      // signInWithPassword valida a senha no Supabase e retorna a sessão.
+      // O auth-gate da página inicial faz uma nova verificação de identidade.
+      if(!data?.session||!data?.user)
+        throw {code:'missing_session'};
       form.reset();
-      // O login é obrigatório para o aplicativo; uma sessão válida abre o início.
-      await render();
-    }catch(_){alert('Não foi possível entrar. Confira o e-mail, a senha e a confirmação da conta.',true);}
+      goHome();
+      return;
+    }catch(error){alert(authMessage(error,'login'),true);}
     finally{formBusy(form,false);}
   });
   $('reset-form').addEventListener('submit',async e=>{
@@ -192,7 +253,7 @@
     formBusy(form,true);
     try{
       const {error}=await sb.auth.resetPasswordForEmail(String(d.get('email')||'').trim(),{
-        redirectTo:new URL('conta.html',location.href).href
+        redirectTo:authRedirect()
       });
       if(error)throw error;
       alert('Se este e-mail estiver cadastrado, você receberá instruções para redefinir a senha.');
@@ -264,6 +325,27 @@
         auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true,
           storage:window.sessionStorage,storageKey:'orientasaude_faculdade_original_auth_v1'}
       });
+      // Compatibilidade com links de e-mail personalizados que retornam token_hash
+      // diretamente ao site (a confirmação padrão do Supabase é automática).
+      const callbackParams=new URLSearchParams(window.location.search);
+      const tokenHash=callbackParams.get('token_hash');
+      const tokenType=callbackParams.get('type');
+      if(tokenHash && (tokenType==='email'||tokenType==='signup')){
+        const cleaned=new URL(window.location.href);
+        cleaned.searchParams.delete('token_hash');
+        cleaned.searchParams.delete('type');
+        window.history.replaceState(null,'',cleaned.pathname+cleaned.search+cleaned.hash);
+        try{
+          const {data,error}=await sb.auth.verifyOtp({
+            token_hash:tokenHash,type:tokenType==='signup'?'email':tokenType
+          });
+          if(error)throw error;
+          if(data?.session){goHome();return;}
+          confirmationNotice='E-mail confirmado! Entre para continuar no OrientaSaúde.';
+        }catch(error){
+          confirmationNotice=authMessage(error,'login');
+        }
+      }
       show('setup-warning',false);show('account-app',true);
       sb.auth.onAuthStateChange(event=>{
         if(event==='PASSWORD_RECOVERY')recovery=true;
@@ -271,7 +353,11 @@
         if(['INITIAL_SESSION','SIGNED_IN','SIGNED_OUT','PASSWORD_RECOVERY'].includes(event))
           setTimeout(()=>render().catch(()=>{}),0);
       });
+      // O Supabase interpreta a confirmação e estabelece a sessão ao iniciar.
+      // Se o provedor devolveu erro, a tela Entrar mostra sua explicação.
       await render();
+      if(confirmationFailure && window.location.hash.includes('error='))
+        window.history.replaceState(null,'',window.location.pathname+window.location.search);
       if(accountQuery.has('conta_excluida'))
         alert('A conta foi excluída. Você pode criar outra quando desejar.');
       if(accountQuery.has('saiu'))

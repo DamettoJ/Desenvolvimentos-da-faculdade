@@ -7,7 +7,7 @@
   <meta name="referrer" content="no-referrer">
   <meta name="description" content="Cadastro e login do OrientaSaúde Original, com perfil pessoal criptografado.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; object-src 'none'; form-action 'self'">
-  <title>Minha conta | OrientaSaúde Original</title>
+  <title>OrientaSaúde</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="conta.css?v=20261105-email-confirm-1">
 </head>
@@ -24,8 +24,8 @@
       <header class="auth-heading">
         <div class="brand-icon" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></div>
         <div>
-          <p class="eyebrow">ORIENTASAÚDE ORIGINAL</p>
-          <h1>Minha conta</h1>
+          <p class="eyebrow">ACESSO À CONTA</p>
+          <h1>OrientaSaúde</h1>
           <p>Faça seu cadastro ou entre para acessar o aplicativo</p>
         </div>
       </header>
@@ -52,6 +52,7 @@
             <div class="password-line"><input id="login-password" name="password" type="password" required autocomplete="current-password"><button type="button" data-toggle-password="login-password" aria-controls="login-password" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
             <button class="primary" type="submit">Entrar com segurança</button>
             <button class="text-button" type="button" id="forgot-password">Esqueci minha senha</button>
+            <button class="text-button" type="button" id="resend-confirmation">Reenviar e-mail de confirmação</button>
           </form>
 
           <form class="auth-form" id="signup-form" autocomplete="on" hidden>
@@ -147,6 +148,6 @@
     </main>
   </div>
   <script src="supabase-config.js?v=20261105-fix-url-cache-01"></script>
-  <script type="module" src="conta.js?v=20261105-email-confirm-1"></script>
+  <script type="module" src="conta.js?v=20261105-login-confirm-fix-1"></script>
 </body>
 </html>
