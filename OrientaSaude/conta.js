@@ -325,6 +325,27 @@
         auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true,
           storage:window.sessionStorage,storageKey:'orientasaude_faculdade_original_auth_v1'}
       });
+      // Compatibilidade com links de e-mail personalizados que retornam token_hash
+      // diretamente ao site (a confirmação padrão do Supabase é automática).
+      const callbackParams=new URLSearchParams(window.location.search);
+      const tokenHash=callbackParams.get('token_hash');
+      const tokenType=callbackParams.get('type');
+      if(tokenHash && (tokenType==='email'||tokenType==='signup')){
+        const cleaned=new URL(window.location.href);
+        cleaned.searchParams.delete('token_hash');
+        cleaned.searchParams.delete('type');
+        window.history.replaceState(null,'',cleaned.pathname+cleaned.search+cleaned.hash);
+        try{
+          const {data,error}=await sb.auth.verifyOtp({
+            token_hash:tokenHash,type:tokenType==='signup'?'email':tokenType
+          });
+          if(error)throw error;
+          if(data?.session){goHome();return;}
+          confirmationNotice='E-mail confirmado! Entre para continuar no OrientaSaúde.';
+        }catch(error){
+          confirmationNotice=authMessage(error,'login');
+        }
+      }
       show('setup-warning',false);show('account-app',true);
       sb.auth.onAuthStateChange(event=>{
         if(event==='PASSWORD_RECOVERY')recovery=true;
