@@ -1,5 +1,5 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261105-login-required-01';
+const VERSION='os-safe-20261105-login-email-title-01';
 const STATIC=VERSION+'-assets';
 const CORE=[
  './offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
@@ -36,7 +36,7 @@ self.addEventListener('fetch',event=>{
  event.respondWith((async()=>{
   const cache=await caches.open(STATIC);
   // Critical interface scripts/styles prefer the network when online to avoid stale maps on desktop.
-  if(/\/(mapa|upgrade)\.(js|css)$/.test(url.pathname)){
+  if(/\/(app|mapa|upgrade)\.(js|css)$/.test(url.pathname)){
    try{const fresh=await fetch(req,{cache:'no-store'});if(fresh.ok){await cache.put(req,fresh.clone());return fresh}}catch{}
    const previous=await cache.match(req,{ignoreSearch:true});if(previous)return previous;
    return new Response('Recurso offline indisponível',{status:503});
