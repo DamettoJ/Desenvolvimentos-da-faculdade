@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; object-src 'none'; form-action 'self'">
   <title>Minha conta | OrientaSaúde Original</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="conta.css">
+  <link rel="stylesheet" href="conta.css?v=20261105-show-password-1">
 </head>
 <body>
   <div class="auth-shell">
@@ -49,7 +49,7 @@
             <label for="login-email">E-mail</label>
             <input id="login-email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
             <label for="login-password">Senha</label>
-            <input id="login-password" name="password" type="password" required autocomplete="current-password">
+            <div class="password-line"><input id="login-password" name="password" type="password" required autocomplete="current-password"><button type="button" data-toggle-password="login-password" aria-controls="login-password" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
             <button class="primary" type="submit">Entrar com segurança</button>
             <button class="text-button" type="button" id="forgot-password">Esqueci minha senha</button>
           </form>
@@ -60,9 +60,9 @@
             <label for="signup-email">E-mail</label>
             <input id="signup-email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
             <label for="signup-password">Crie uma senha (mínimo 12 caracteres)</label>
-            <input id="signup-password" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password">
+            <div class="password-line"><input id="signup-password" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password"><button type="button" data-toggle-password="signup-password" aria-controls="signup-password" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
             <label for="signup-confirm">Confirme a senha</label>
-            <input id="signup-confirm" name="confirm" type="password" required minlength="12" autocomplete="new-password">
+            <div class="password-line"><input id="signup-confirm" name="confirm" type="password" required minlength="12" autocomplete="new-password"><button type="button" data-toggle-password="signup-confirm" aria-controls="signup-confirm" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
             <button class="primary" type="submit">Criar conta e confirmar e-mail</button>
           </form>
 
@@ -124,7 +124,7 @@
         <form class="auth-form" id="new-password-form" hidden>
           <h2>Nova senha</h2>
           <label for="new-password">Digite uma nova senha (mínimo 12 caracteres)</label>
-          <input id="new-password" type="password" minlength="12" maxlength="128" required autocomplete="new-password">
+          <div class="password-line"><input id="new-password" type="password" minlength="12" maxlength="128" required autocomplete="new-password"><button type="button" data-toggle-password="new-password" aria-controls="new-password" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
           <button class="primary" type="submit">Atualizar senha</button>
         </form>
       </div>
@@ -134,6 +134,6 @@
     </main>
   </div>
   <script src="supabase-config.js?v=20261105-fix-url-cache-01"></script>
-  <script type="module" src="conta.js?v=20261105-login-required-1"></script>
+  <script type="module" src="conta.js?v=20261105-show-password-1"></script>
 </body>
 </html>
