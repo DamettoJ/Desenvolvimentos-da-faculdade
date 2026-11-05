@@ -130,3 +130,26 @@ Após um login bem-sucedido, a sessão do Supabase é criada e o site abre o `in
 O título do navegador e o título principal da página de login são **OrientaSaúde**.
 
 Referências oficiais: https://supabase.com/docs/guides/auth/redirect-urls ; https://supabase.com/docs/guides/auth/auth-email-templates ; https://supabase.com/docs/guides/auth/debugging/error-codes
+
+
+## Cadastro pessoal obrigatório após o primeiro login
+
+Depois de criar conta, confirmar o e-mail e entrar, **não é possível abrir o aplicativo antes de salvar o perfil pessoal**. Todas as páginas internas do Original consultam a RPC autenticada `read_my_profile` no Supabase e exigem os quatro campos:
+
+- **Nome completo** (`full_name`);
+- **CPF** (`cpf`, validado no formulário);
+- **Data de nascimento** (`birth_date`);
+- **Identidade sexual / de gênero** (`gender_identity`). A opção **Prefiro não informar** está disponível para respeitar a privacidade.
+
+O formulário também continua solicitando **nome de preferência** e **telefone**, conforme o modelo de dados já existente. Não remova as exigências desses campos sem revisar a validação da função SQL `save_my_profile` no Supabase.
+
+Fluxo:
+1. Login correto, mas sem perfil → o site abre `conta.html?perfil=1&cadastro=obrigatorio`.
+2. Usuário preenche o formulário e confirma o tratamento dos dados.
+3. Ao salvar, o site chama `save_my_profile`, depois **lê novamente** com `read_my_profile`.
+4. Se o resultado contiver os dados obrigatórios, abre `index.html`. Se faltar algum dado, permanece no formulário.
+5. Nos próximos logins, se o perfil já estiver salvo, abre diretamente a tela Início.
+6. Se excluir os dados do perfil, o cadastro passa a ser obrigatório novamente. O usuário pode sempre **Sair** ou solicitar exclusão da conta.
+
+A lista de campos obrigatórios é validada no frontend para controlar a navegação, **não é uma garantia de segurança por si só**. Validação, criptografia, políticas RLS e autorização da RPC devem continuar ativas no banco. Os arquivos HTML/JS do GitHub Pages são públicos. Antes de utilizar CPF real ou dados de identidade sexual/de gênero, obtenha revisão jurídica de finalidade, necessidade, base legal, consentimento quando cabível e direitos LGPD; o campo CPF deve ser reconsiderado para moradores da Argentina e do Paraguai.
+
