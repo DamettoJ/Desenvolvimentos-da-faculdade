@@ -32,9 +32,20 @@
     // Login válido não significa cadastro completo; conferir no Supabase.
     const required=new URL('conta.html?perfil=1&cadastro=obrigatorio',window.location.href).href;
     try {
-      const result=await sb.rpc('read_my_profile');
-      if(!result.error&&profileComplete(result.data))goHome();
-      else window.location.replace(required);
+      const result=await sb.rpc('read_my_profile_v2');
+      if(!result.error&&profileComplete(result.data)){goHome();return;}
+      if(result.error?.code==='PGRST202'){
+        // Manter perfis já existentes acessíveis até a migração ser executada.
+        const old=await sb.rpc('read_my_profile');
+        if(!old.error&&old.data &&
+          String(old.data.full_name||'').trim().length>=5 &&
+          /^\d{11}$/.test(String(old.data.cpf||'').replace(/\D/g,'')) &&
+          /^\d{4}-\d{2}-\d{2}$/.test(String(old.data.birth_date||'')) &&
+          !!String(old.data.gender_identity||'').trim()){
+          goHome();return;
+        }
+      }
+      window.location.replace(required);
     } catch (_) {window.location.replace(required);}
   }
   function authMessage(error, action='login'){
@@ -74,6 +85,53 @@
     $('account-status').classList.toggle('error',bad);
   };
   const digits=v=>String(v||'').replace(/\D/g,'');
+
+  const countryDigits=(value,limit)=>digits(value).slice(0,limit);
+  function maskDocument(country,value){
+    if(country==='OTHER')return String(value||'').toUpperCase().replace(/[^A-Z0-9/-]/g,'').slice(0,30);
+    const d=countryDigits(value,country==='BR'?11:9);
+    if(country==='BR'){
+      return d.slice(0,3)+(d.length>3?'.'+d.slice(3,6):'')+
+        (d.length>6?'.'+d.slice(6,9):'')+(d.length>9?'-'+d.slice(9,11):'');
+    }
+    return d.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  }
+  function updateCountryDocument(clear=false){
+    const country=$('country-of-origin').value;
+    const doc=$('national-id');
+    const other=country==='OTHER';
+    show('country-other-wrap',other);
+    $('country-other').required=other;
+    const labels={
+      BR:['CPF brasileiro *','000.000.000-00','Informe os 11 dígitos do CPF. O sistema confere os dígitos verificadores.'],
+      AR:['DNI argentino *','12.345.678','Informe o número do DNI, sem pontos. O formato é aplicado automaticamente.'],
+      PY:['Cédula de Identidade paraguaia (C.I.) *','1.234.567','Informe o número da C.I. paraguaia, sem pontos. O formato é aplicado automaticamente.'],
+      OTHER:['Documento nacional / passaporte *','Número do documento','Informe o número do documento do país selecionado.']
+    };
+    const opt=labels[country]||['Documento de identificação *','Selecione primeiro o país de origem','Escolha o país antes de informar o documento.'];
+    $('national-id-label').textContent=opt[0];
+    $('national-id-hint').textContent=opt[2];
+    doc.placeholder=opt[1];
+    doc.inputMode=country==='OTHER'?'text':'numeric';
+    doc.maxLength=country==='BR'?14:country==='OTHER'?30:14;
+    if(clear)doc.value='';
+    else doc.value=maskDocument(country,doc.value);
+  }
+  function profileComplete(p){
+    if(!p || typeof p!=='object')return false;
+    const country=String(p.country_of_origin||'');
+    const doc=String(p.national_id||'');
+    return ['BR','AR','PY','OTHER'].includes(country) &&
+      (country!=='OTHER'||String(p.country_other||'').trim().length>=2) &&
+      String(p.full_name||'').trim().length>=5 &&
+      String(p.gender_identity||'').trim().length>0 &&
+      /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date||'')) &&
+      (country==='BR'?cpfOk(doc):
+        country==='AR'?/^\d{7,9}$/.test(doc):
+        country==='PY'?/^\d{5,9}$/.test(doc):
+        /^[A-Z0-9/-]{4,30}$/i.test(doc));
+  }
+
   function cpfOk(value){
     const s=digits(value);
     if(!/^\d{11}$/.test(s)||/^(\d)\1{10}$/.test(s))return false;
@@ -101,20 +159,34 @@
   }
   function extractProfile(){
     const d=new FormData($('profile-form'));
+    const country=String(d.get('country_of_origin')||'');
+    const doc=String(d.get('document_number')||'');
+    const nationalId=country==='OTHER'?maskDocument(country,doc):digits(doc);
     const p={
-      full_name:String(d.get('full_name')||'').trim(),
+      country_of_origin:country,
+      country_other:String(d.get('country_other')||'').trim(),
+      full_name:String(d.get('profile_full_name')||'').trim(),
       preferred_name:String(d.get('preferred_name')||'').trim(),
       gender_identity:String(d.get('gender_identity')||'').trim(),
       phone:digits(d.get('phone')),
-      cpf:digits(d.get('cpf')),
+      national_id:nationalId,
       birth_date:String(d.get('birth_date')||'')
     };
-    if(!$('accept-privacy').checked)throw Error('Confirme o consentimento para salvar.');
-    if(p.full_name.length<5||p.full_name.length>120)throw Error('Informe o nome completo.');
-    if(!p.preferred_name||p.preferred_name.length>80)throw Error('Informe como gostaria de ser chamado.');
-    if(!p.gender_identity)throw Error('Selecione uma opção de identidade de gênero.');
-    if(p.phone.length<8||p.phone.length>15)throw Error('Informe o telefone com DDD/código de país.');
-    if(!cpfOk(p.cpf))throw Error('CPF inválido. Confira os 11 dígitos.');
+    if(!$('accept-privacy').checked)throw Error('Confirme o tratamento dos dados antes de salvar.');
+    if(!country)throw Error('Selecione obrigatoriamente o país de origem.');
+    if(p.country_of_origin==='OTHER'&&(p.country_other.length<2||p.country_other.length>80))
+      throw Error('Informe o nome do seu país de origem.');
+    if(p.full_name.length<5||p.full_name.length>120)
+      throw Error('Informe seu nome completo.');
+    if(p.preferred_name.length>80)throw Error('O nome de preferência deve ter até 80 caracteres.');
+    if(!p.gender_identity)throw Error('Selecione uma opção de identidade sexual/de gênero.');
+    if(p.phone.length>0&&(p.phone.length<8||p.phone.length>15))
+      throw Error('Confira o telefone, caso tenha informado.');
+    if(country==='BR'&&!cpfOk(nationalId))throw Error('CPF inválido. Confira os 11 dígitos.');
+    if(country==='AR'&&!/^\d{7,9}$/.test(nationalId))throw Error('DNI argentino inválido: confira o número.');
+    if(country==='PY'&&!/^\d{5,9}$/.test(nationalId))throw Error('C.I. paraguaia inválida: confira o número.');
+    if(country==='OTHER'&&!/^[A-Z0-9/-]{4,30}$/.test(nationalId))
+      throw Error('Informe um documento de identificação válido.');
     if(!/^\d{4}-\d{2}-\d{2}$/.test(p.birth_date))throw Error('Informe a data de nascimento.');
     const dt=new Date(p.birth_date+'T12:00:00Z');
     if(Number.isNaN(dt.getTime())||dt.toISOString().slice(0,10)!==p.birth_date||
@@ -125,27 +197,44 @@
   async function refreshProfile(){
     const form=$('profile-form');
     form.reset();
-    const {data,error}=await sb.rpc('read_my_profile');
+    updateCountryDocument();
+    const {data,error}=await sb.rpc('read_my_profile_v2');
     profileReady=!error&&profileComplete(data);
     show('onboarding-banner',!profileReady);
     show('back-app',profileReady);
-    $('profile-state').textContent=profileReady?'Perfil registrado e protegido':'Cadastro obrigatório pendente';
+    $('profile-state').textContent=profileReady
+      ? 'Perfil registrado e protegido'
+      : 'Cadastro obrigatório pendente';
     if(error){
-      alert('Não foi possível consultar seus dados no Supabase. O acesso ao aplicativo continuará bloqueado até a consulta funcionar.',true);
+      alert('A atualização do banco do perfil ainda não está disponível. Execute a migração SQL v2 no Supabase antes de salvar documentos de outros países.',true);
       return;
     }
-    if(!data){
-      $('profile-state').textContent='Cadastro de informações pessoais pendente';
-      alert('Antes de acessar o OrientaSaúde, complete seus dados obrigatórios para salvá-los com criptografia.');
-      return;
+    let profile=data;
+    if(!profile){
+      // Apenas pré-preencher campos não documentais de um cadastro v1 existente.
+      // O país de origem e o documento v2 exigem nova confirmação do usuário.
+      const legacy=await sb.rpc('read_my_profile');
+      if(!legacy.error&&legacy.data)profile=legacy.data;
     }
-    const names=['full_name','preferred_name','gender_identity','phone','cpf','birth_date'];
-    for(const n of names){
-      const field=form.elements.namedItem(n);
-      if(field)field.value=String(data[n]||'');
+    if(profile&&typeof profile==='object'){
+      const values={
+        profile_full_name:profile.full_name||'',
+        preferred_name:profile.preferred_name||'',
+        gender_identity:profile.gender_identity||'',
+        phone:profile.phone||'',
+        birth_date:profile.birth_date||'',
+        country_of_origin:profile.country_of_origin||'',
+        country_other:profile.country_other||''
+      };
+      for(const [name,value] of Object.entries(values)){
+        const field=form.elements.namedItem(name);
+        if(field)field.value=String(value);
+      }
+      updateCountryDocument();
+      $('national-id').value=maskDocument(values.country_of_origin,profile.national_id||'');
     }
     if(profileReady)alert('Perfil pessoal carregado com segurança.');
-    else alert('Seu cadastro ainda está incompleto. Preencha os campos obrigatórios para acessar o OrientaSaúde.');
+    else alert('Selecione seu país de origem e informe o documento correspondente para concluir o cadastro obrigatório.');
   }
   async function render(){
     if(!sb||activeRequest)return;
@@ -178,6 +267,12 @@
       }
     }finally{activeRequest=false;}
   }
+  $('country-of-origin').addEventListener('change',()=>updateCountryDocument(true));
+  $('national-id').addEventListener('input',e=>{
+    const field=e.currentTarget;
+    field.value=maskDocument($('country-of-origin').value,field.value);
+  });
+  updateCountryDocument();
   $('show-login').addEventListener('click',()=>setTab('login'));
   $('show-signup').addEventListener('click',()=>setTab('signup'));
   $('forgot-password').addEventListener('click',()=>setTab('reset'));
@@ -202,12 +297,6 @@
   });
   $('back-to-login').addEventListener('click',()=>setTab('login'));
   $('confirmation-go-login').addEventListener('click',()=>setTab('login'));
-  $('show-cpf').addEventListener('click',()=>{
-    const el=$('cpf'),on=el.type==='password';
-    el.type=on?'text':'password';
-    $('show-cpf').textContent=on?'Ocultar':'Mostrar';
-    $('show-cpf').setAttribute('aria-pressed',String(on));
-  });
   // Mostrar/ocultar somente o campo selecionado. Nunca persistir senha visível.
   for(const button of document.querySelectorAll('[data-toggle-password]')){
     button.addEventListener('click',()=>{
@@ -303,10 +392,10 @@
     formBusy(form,true);
     try{
       const initialRegistration=!profileReady;
-      const {error}=await sb.rpc('save_my_profile',{p_profile:values});
+      const {error}=await sb.rpc('save_my_profile_v2',{p_profile:values});
       if(error)throw error;
       // Confirmar que o perfil foi persistido e está completo no próprio banco.
-      const saved=await sb.rpc('read_my_profile');
+      const saved=await sb.rpc('read_my_profile_v2');
       if(saved.error||!profileComplete(saved.data)){
         alert('Não foi possível verificar o perfil salvo. Confira a função de leitura no Supabase antes de continuar.',true);
         return;
@@ -332,8 +421,14 @@
   });
   $('remove-profile').addEventListener('click',async()=>{
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
-    const {error}=await sb.rpc('delete_my_profile');
+    const {error}=await sb.rpc('delete_my_profile_v2');
     if(error){alert('Não foi possível excluir os dados do perfil.',true);return;}
+    // Eliminar também um cadastro antigo armazenado pela migração v1.
+    const legacy=await sb.rpc('delete_my_profile');
+    if(legacy.error){
+      alert('O perfil internacional foi apagado, mas não foi possível confirmar a exclusão dos dados antigos. Verifique seu banco antes de considerar a exclusão concluída.',true);
+      return;
+    }
     profileReady=false;
     $('profile-form').reset();
     $('profile-state').textContent='Cadastro obrigatório pendente';

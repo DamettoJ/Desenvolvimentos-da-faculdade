@@ -64,7 +64,7 @@
 
   function home(){return `<div class="page home-page">
     ${appHeader()}
-    <section class="hero"><div><h1>Olá! Vamos cuidar<br> da sua saúde?</h1><p>Conte o que está sentindo e receba orientações sobre quando buscar atendimento.</p></div><div class="hero-art">${icon('heart')}</div></section>
+    <section class="hero"><div><h1>Olá${window.OrientaProfileDisplayName?', '+esc(String(window.OrientaProfileDisplayName).slice(0,45)):''}!<br>Vamos cuidar da sua saúde?</h1><p>Conte o que está sentindo e receba orientações sobre quando buscar atendimento.</p></div><div class="hero-art">${icon('heart')}</div></section>
     <section class="white-card account-promo" aria-label="Cadastro e login"><h2>Minha conta</h2><p>Você está na área do aplicativo. Acesse seu perfil ou encerre sua sessão nesta aba.</p><a class="primary-btn" href="conta.html?perfil=1">Gerenciar minha conta / Sair</a></section>
     <button class="emergency" type="button" data-go="emergency">${round('medkit','red')}<div><strong>EMERGÊNCIA</strong><p>Em caso de risco imediato, ligue 192 (SAMU).</p></div>${arrow('')}</button>
     <section>${head('Como podemos ajudar?','Escolha uma opção para começar')}<div class="icon-grid">
@@ -195,9 +195,9 @@
     <p class="meta-note">Seus relatos são armazenados somente neste dispositivo e podem ser apagados na seção Perfil. Não utilize o histórico como prontuário médico.</p>
   </div>`;}
   function profile(){return `<div class="page">${backHeader('Meu perfil','Preferências e dados deste navegador','home')}
-    <div class="profile-intro">${round('user','blue')}<div><h2>${data.profile.name?esc(data.profile.name):'Bem-vindo ao OrientaSaúde'}</h2><p>As preferências abaixo são locais. Sua conta está conectada ao Supabase e pode ser gerenciada aqui.</p></div></div>
-    <div class="white-card account-promo"><h3>Minha conta e segurança</h3><p>Gerencie seu e-mail, nome completo, CPF, telefone e demais informações pessoais em uma conta com banco de dados criptografado.</p><a class="primary-btn" href="conta.html?perfil=1">Editar dados / Sair</a></div>
-    <form id="profile-form" class="white-card"><h3>Personalizar meu perfil</h3><div class="field-group"><label for="profile-name">Como deseja ser chamado? (opcional)</label><input id="profile-name" name="name" maxlength="60" value="${esc(data.profile.name)}" placeholder="Nome ou apelido" /></div><div class="stack-buttons"><button class="primary-btn" type="submit">Salvar preferência</button></div></form>
+    <div class="profile-intro">${round('user','blue')}<div><h2>${window.OrientaProfileDisplayName?esc(String(window.OrientaProfileDisplayName).slice(0,80)):'Bem-vindo ao OrientaSaúde'}</h2><p>As preferências abaixo são locais. Sua conta está conectada ao Supabase e pode ser gerenciada aqui.</p></div></div>
+    <div class="white-card account-promo"><h3>Minha conta e segurança</h3><p>Gerencie seu e-mail, país de origem, documento nacional, nome de preferência e demais informações pessoais no perfil protegido.</p><a class="primary-btn" href="conta.html?perfil=1">Editar dados / Sair</a></div>
+    <div class="white-card"><h3>Como você gostaria de ser chamado(a)?</h3><p>Seu nome de preferência é configurado em Minha conta e aparecerá na saudação do aplicativo. Para alterá-lo, use o botão Editar dados acima.</p></div>
     <div class="white-card"><h3>Acessibilidade</h3><p>Altere o tamanho do texto usando o botão A+ na página inicial ou a opção abaixo.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="font">Alterar tamanho de texto: ${['Padrão','Grande','Muito grande'][data.font%3]}</button></div></div>
     <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Registros de sintomas, lembretes e preferências continuam salvos somente neste navegador, sem sincronização entre aparelhos. O cadastro de usuário, quando ativado, usa outro formulário e um banco Supabase com perfil criptografado.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar meus dados</button><button class="small-outline" type="button" data-action="clear">Apagar dados locais</button></div></div>
     ${infoBar('Este projeto é uma demonstração acadêmica. Os conteúdos e regras precisam de revisão por profissionais de saúde antes de qualquer uso real.','shield','green')}
@@ -284,6 +284,10 @@
       data.reminders.push({id:`rem-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,kind:String(f.get('kind')),title,date:String(date),time:String(time),notes:String(f.get('notes')||'').trim(),done:false});persist();state.showReminderForm=false;render(false);notify('Lembrete salvo neste navegador.');
     }
     if(e.target.id==='profile-form'){e.preventDefault();const f=new FormData(e.target);data.profile.name=String(f.get('name')||'').trim();persist();render(false);notify('Preferência salva.');}
+  });
+  document.addEventListener('orientasaude:profile-ready',()=>{
+    // Dados de perfil ficam somente em memória desta aba. Renderizar saudação.
+    if(['home','profile'].includes(state.view))render(false);
   });
   render();
 })();

@@ -75,3 +75,11 @@ footer{color:var(--muted);font-size:.8rem;margin-top:20px}
 .onboarding-guide h2{font-size:1.18rem;margin:0 0 10px;line-height:1.3}
 .onboarding-guide p{font-size:.92rem;line-height:1.58;margin:8px 0}
 .onboarding-guide strong{color:#075a4f}
+
+/* Identificação internacional: CPF/DNI/C.I. são documentos, não senhas.
+   Assim evitamos sugestões de senhas no campo. */
+#national-id{font-variant-numeric:tabular-nums;letter-spacing:.03em}
+#country-other-wrap label{display:block;font-weight:700;margin:11px 0 7px;font-size:.9rem}
+#country-other-wrap[hidden]{display:none!important}
+#country-of-origin{cursor:pointer}
+#preferred-name::placeholder,#full-name::placeholder{color:#667d90}

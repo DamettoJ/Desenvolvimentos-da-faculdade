@@ -4,6 +4,14 @@
 
 O site é feito com **HTML, CSS e JavaScript puros**, sem frameworks, e está pronto para o **GitHub Pages**. As funcionalidades educativas permanecem locais, mas **o acesso às páginas do OrientaSaúde Original agora exige login válido no Supabase**. Pessoas sem sessão são direcionadas para `conta.html` (Entrar ou Criar conta).
 
+## País de origem e documento nacional
+
+O perfil pessoal exige que o usuário selecione o **país de origem** e apresente o documento correspondente: CPF (Brasil), DNI (Argentina), C.I. (Paraguai) ou documento de outro país. O nome de preferência, quando informado, aparece na saudação do aplicativo. A atualização é guardada criptografada no banco Supabase.
+
+**Atenção:** estas funcionalidades dependem da nova migração SQL v2. Antes de testar cadastros internacionais, execute o arquivo `OrientaSaude/supabase/migrations/20261105030000_profiles_country_v2.sql` no seu projeto Supabase.
+
+Veja o guia: [Configuração de país, documentos e migração do banco](README-PAISES-PERFIL.md).
+
 ## Cadastro/login no OrientaSaúde Original
 
 Esta pasta `OrientaSaude` do repositório `DamettoJ/Desenvolvimentos-da-faculdade` é o **Original correto**. A tela `conta.html` oferece criar conta, login, recuperação de senha e perfil pessoal criptografado, com autenticação no Supabase. O backend PostgreSQL deve ter funções autenticadas e chave de criptografia protegida no Vault.
