@@ -13,6 +13,11 @@
   const accountQuery=new URLSearchParams(window.location.search);
   const manageProfile=accountQuery.get('perfil')==='1';
   const accessRequired=accountQuery.has('acesso');
+  // Ler imediatamente o erro do retorno por e-mail, antes de o SDK tratar o fragmento.
+  const confirmationParams=new URLSearchParams(window.location.hash.slice(1));
+  const confirmationFailure=confirmationParams.get('error_code')||accountQuery.get('error_code');
+  const confirmationDescription=confirmationParams.get('error_description')||'';
+  let confirmationNotice='';
   const HOME_URL=new URL('index.html',window.location.href).href;
   function goHome(){window.location.replace(HOME_URL);}
   function authMessage(error, action='login'){
@@ -42,6 +47,10 @@
       : 'Não foi possível entrar. Confira os dados, a confirmação do e-mail e a conexão com o Supabase.';
   }
   const authRedirect=()=>new URL('conta.html',window.location.href).href;
+  if(confirmationFailure)
+    confirmationNotice=authMessage({code:confirmationFailure,message:confirmationDescription},'login');
+  else if(accountQuery.has('email_confirmado'))
+    confirmationNotice='E-mail confirmado! Entre para acessar o OrientaSaúde.';
   const show=(id,on)=>{$(id).hidden=!on;};
   const alert=(msg,bad=false)=>{
     $('account-status').textContent=msg;
@@ -143,7 +152,8 @@
       } else {
         $('profile-form').reset();
         setTab(tab);
-        if(accessRequired)alert('Para usar o OrientaSaúde, entre ou crie uma conta primeiro.');
+        if(confirmationNotice)alert(confirmationNotice,!!confirmationFailure);
+        else if(accessRequired)alert('Para usar o OrientaSaúde, entre ou crie uma conta primeiro.');
       }
     }finally{activeRequest=false;}
   }
@@ -227,13 +237,10 @@
         password:String(d.get('password')||'')
       });
       if(error)throw error;
-      // Evita disputa entre render() e o evento SIGNED_IN no primeiro login.
-      // A autorização do aplicativo verifica novamente a identidade no servidor.
+      // signInWithPassword valida a senha no Supabase e retorna a sessão.
+      // O auth-gate da página inicial faz uma nova verificação de identidade.
       if(!data?.session||!data?.user)
         throw {code:'missing_session'};
-      const check=await sb.auth.getUser();
-      if(check.error||!check.data?.user)
-        throw check.error||{code:'missing_session'};
       form.reset();
       goHome();
       return;
@@ -325,18 +332,11 @@
         if(['INITIAL_SESSION','SIGNED_IN','SIGNED_OUT','PASSWORD_RECOVERY'].includes(event))
           setTimeout(()=>render().catch(()=>{}),0);
       });
-      // Detecta erros de confirmação devolvidos pelo provedor no fragmento da URL.
-      // O SDK já interpreta automaticamente sessões e códigos de confirmação.
-      const callback=new URLSearchParams(window.location.hash.slice(1));
-      const callbackCode=callback.get('error_code')||accountQuery.get('error_code');
-      if(callbackCode){
-        const errorDescription=callback.get('error_description')||'';
-        alert(authMessage({code:callbackCode,message:errorDescription},'login'),true);
-        if(window.location.hash.includes('error='))window.history.replaceState(null,'',window.location.pathname);
-      }else if(accountQuery.has('email_confirmado')){
-        alert('E-mail confirmado! Faça login para acessar o OrientaSaúde.');
-      }
+      // O Supabase interpreta a confirmação e estabelece a sessão ao iniciar.
+      // Se o provedor devolveu erro, a tela Entrar mostra sua explicação.
       await render();
+      if(confirmationFailure && window.location.hash.includes('error='))
+        window.history.replaceState(null,'',window.location.pathname+window.location.search);
       if(accountQuery.has('conta_excluida'))
         alert('A conta foi excluída. Você pode criar outra quando desejar.');
       if(accountQuery.has('saiu'))
