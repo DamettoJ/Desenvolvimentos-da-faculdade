@@ -52,8 +52,21 @@
       }
       // Não confiar em um sinal salvo no navegador: consultar o perfil a cada
       // abertura/retorno ao app, via RPC autenticada e isolada no Supabase.
-      const profileResult = await client.rpc('read_my_profile_v2');
-      if (profileResult.error || !profileComplete(profileResult.data)) {
+      let profileResult = await client.rpc('read_my_profile_v2');
+      // Compatibilidade temporária: se a função v2 ainda não existir, permitir
+      // acesso somente a quem já tinha perfil brasileiro completo na v1.
+      // Quando a migração v2 for executada, o país volta a ser obrigatório.
+      if (profileResult.error && profileResult.error.code === 'PGRST202') {
+        const old = await client.rpc('read_my_profile');
+        const p = old.data;
+        const valid = !old.error && !!p &&
+          String(p.full_name || '').trim().length >= 5 &&
+          /^\d{11}$/.test(String(p.cpf || '').replace(/\D/g, '')) &&
+          /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date || '')) &&
+          !!String(p.gender_identity || '').trim();
+        if (!valid) { goToProfile(); return; }
+        profileResult = old;
+      } else if (profileResult.error || !profileComplete(profileResult.data)) {
         goToProfile();
         return;
       }
