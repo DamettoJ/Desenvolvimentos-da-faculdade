@@ -293,10 +293,21 @@
     try{values=extractProfile();}catch(error){alert(error.message,true);return;}
     formBusy(form,true);
     try{
+      const initialRegistration=!profileReady;
       const {error}=await sb.rpc('save_my_profile',{p_profile:values});
       if(error)throw error;
-      $('profile-state').textContent='Perfil armazenado de forma criptografada';
-      alert('Seu perfil foi salvo de forma criptografada no banco.');
+      // Confirmar que o perfil foi persistido e está completo no próprio banco.
+      const saved=await sb.rpc('read_my_profile');
+      if(saved.error||!profileComplete(saved.data)){
+        alert('Não foi possível verificar o perfil salvo. Confira a função de leitura no Supabase antes de continuar.',true);
+        return;
+      }
+      profileReady=true;
+      show('onboarding-banner',false);
+      show('back-app',true);
+      $('profile-state').textContent='Perfil registrado e protegido';
+      if(initialRegistration){goHome();return;}
+      alert('Seus dados foram atualizados e salvos com criptografia no banco.');
     }catch(_){alert('O perfil não foi salvo. Confira a instalação das funções de criptografia no Supabase.',true);}
     finally{formBusy(form,false);}
   });
@@ -314,8 +325,12 @@
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
     const {error}=await sb.rpc('delete_my_profile');
     if(error){alert('Não foi possível excluir os dados do perfil.',true);return;}
-    $('profile-form').reset();$('profile-state').textContent='Cadastro de informações pessoais pendente';
-    alert('Dados do perfil excluídos. O e-mail de login permanece cadastrado.');
+    profileReady=false;
+    $('profile-form').reset();
+    $('profile-state').textContent='Cadastro obrigatório pendente';
+    show('onboarding-banner',true);
+    show('back-app',false);
+    alert('Dados do perfil excluídos. Para continuar usando o OrientaSaúde, faça um novo cadastro pessoal. Seu e-mail de login permanece cadastrado.');
   });
   $('remove-account').addEventListener('click',async()=>{
     if(!sb||!user||prompt('Para excluir a conta e o perfil, digite EXCLUIR:')!=='EXCLUIR')return;
