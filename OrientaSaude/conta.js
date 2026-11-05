@@ -74,6 +74,53 @@
     $('account-status').classList.toggle('error',bad);
   };
   const digits=v=>String(v||'').replace(/\D/g,'');
+
+  const countryDigits=(value,limit)=>digits(value).slice(0,limit);
+  function maskDocument(country,value){
+    if(country==='OTHER')return String(value||'').toUpperCase().replace(/[^A-Z0-9/-]/g,'').slice(0,30);
+    const d=countryDigits(value,country==='BR'?11:9);
+    if(country==='BR'){
+      return d.slice(0,3)+(d.length>3?'.'+d.slice(3,6):'')+
+        (d.length>6?'.'+d.slice(6,9):'')+(d.length>9?'-'+d.slice(9,11):'');
+    }
+    return d.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  }
+  function updateCountryDocument(clear=false){
+    const country=$('country-of-origin').value;
+    const doc=$('national-id');
+    const other=country==='OTHER';
+    show('country-other-wrap',other);
+    $('country-other').required=other;
+    const labels={
+      BR:['CPF brasileiro *','000.000.000-00','Informe os 11 dígitos do CPF. O sistema confere os dígitos verificadores.'],
+      AR:['DNI argentino *','12.345.678','Informe o número do DNI, sem pontos. O formato é aplicado automaticamente.'],
+      PY:['Cédula de Identidade paraguaia (C.I.) *','1.234.567','Informe o número da C.I. paraguaia, sem pontos. O formato é aplicado automaticamente.'],
+      OTHER:['Documento nacional / passaporte *','Número do documento','Informe o número do documento do país selecionado.']
+    };
+    const opt=labels[country]||['Documento de identificação *','Selecione primeiro o país de origem','Escolha o país antes de informar o documento.'];
+    $('national-id-label').textContent=opt[0];
+    $('national-id-hint').textContent=opt[2];
+    doc.placeholder=opt[1];
+    doc.inputMode=country==='OTHER'?'text':'numeric';
+    doc.maxLength=country==='BR'?14:country==='OTHER'?30:14;
+    if(clear)doc.value='';
+    else doc.value=maskDocument(country,doc.value);
+  }
+  function profileComplete(p){
+    if(!p || typeof p!=='object')return false;
+    const country=String(p.country_of_origin||'');
+    const doc=String(p.national_id||'');
+    return ['BR','AR','PY','OTHER'].includes(country) &&
+      (country!=='OTHER'||String(p.country_other||'').trim().length>=2) &&
+      String(p.full_name||'').trim().length>=5 &&
+      String(p.gender_identity||'').trim().length>0 &&
+      /^\d{4}-\d{2}-\d{2}$/.test(String(p.birth_date||'')) &&
+      (country==='BR'?cpfOk(doc):
+        country==='AR'?/^\d{7,9}$/.test(doc):
+        country==='PY'?/^\d{5,9}$/.test(doc):
+        /^[A-Z0-9/-]{4,30}$/i.test(doc));
+  }
+
   function cpfOk(value){
     const s=digits(value);
     if(!/^\d{11}$/.test(s)||/^(\d)\1{10}$/.test(s))return false;
