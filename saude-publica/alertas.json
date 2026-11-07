@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-06T19:29:26+00:00",
+  "checked_at": "2026-11-07T06:08:32+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -17,7 +17,7 @@
     {
       "source": "parana",
       "status": "checked",
-      "count": 4
+      "count": 3
     }
   ],
   "items": [
@@ -100,14 +100,6 @@
       "title": "Muestra Nacional de Epidemiología prepara su decimoséptima edición",
       "url": "https://dgvs.mspbs.gov.py/muestra-nacional-de-epidemiologia-prepara-su-decimo-septima-edicion/",
       "published": "2026-11-02T18:00:27+00:00"
-    },
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Saúde estende Outubro Rosa e alerta para os cuidados do homem no Novembro Azul",
-      "url": "https://www.saude.pr.gov.br/Noticia/Saude-estende-Outubro-Rosa-e-alerta-para-os-cuidados-do-homem-no-Novembro-Azul",
-      "published": "2026-10-30T13:40:31+00:00"
     }
   ]
 }
