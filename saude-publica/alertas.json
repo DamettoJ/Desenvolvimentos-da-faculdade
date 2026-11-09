@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-09T06:46:53+00:00",
+  "checked_at": "2026-11-09T22:28:11+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -17,10 +17,18 @@
     {
       "source": "parana",
       "status": "checked",
-      "count": 3
+      "count": 2
     }
   ],
   "items": [
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Expondrán 58 trabajos de investigación en la Muestra Nacional de Epidemiología",
+      "url": "https://dgvs.mspbs.gov.py/expondran-58-trabajos-de-investigacion-en-la-muestra-nacional-de-epidemiologia/",
+      "published": "2026-11-09T15:18:45+00:00"
+    },
     {
       "city": "iguazu",
       "source": "Salud Pública de Misiones",
@@ -84,22 +92,6 @@
       "title": "Red Tero Tero fortalece alerta temprana en el Chaco",
       "url": "https://dgvs.mspbs.gov.py/red-tero-tero-fortalece-alerta-temprana-en-el-chaco/",
       "published": "2026-11-04T14:53:58+00:00"
-    },
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Saúde reforça chamado às pessoas idosas para vacinação contra a gripe em todo o Paraná",
-      "url": "https://www.saude.pr.gov.br/Noticia/Saude-reforca-chamado-pessoas-idosas-para-vacinacao-contra-gripe-em-todo-o-Parana",
-      "published": "2026-11-04T12:21:22+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Muestra Nacional de Epidemiología prepara su decimoséptima edición",
-      "url": "https://dgvs.mspbs.gov.py/muestra-nacional-de-epidemiologia-prepara-su-decimo-septima-edicion/",
-      "published": "2026-11-02T18:00:27+00:00"
     }
   ]
 }
