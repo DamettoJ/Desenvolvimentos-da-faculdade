@@ -41,3 +41,23 @@
 .account-promo p{margin:4px 0 12px;line-height:1.5}
 .account-promo a.primary-btn{display:flex;align-items:center;justify-content:center;text-decoration:none;min-height:45px;text-align:center}
 .account-promo a.primary-btn:focus-visible{outline:3px solid #1167ce;outline-offset:4px}
+
+/* Ajustes de acessibilidade mobile e navegação por teclado. */
+.skip-link{position:absolute;top:-150px;left:14px;background:#053d71;color:#fff;font-weight:800;z-index:30000;padding:11px 17px;border-radius:10px}
+.skip-link:focus{top:12px;outline:3px solid #fbc05c;outline-offset:3px}
+:where(button,a,input,select,textarea,[tabindex]):focus-visible{outline:3px solid #005699!important;outline-offset:3px!important}
+.tab{min-height:48px}
+.disclaimer-fixed a{color:#055687;text-decoration:underline;text-underline-offset:3px;font-weight:700}
+.action-card,.specialty-tile,.small-outline,.primary-btn,.small-blue-btn,.short-card{touch-action:manipulation}
+a,button{overflow-wrap:anywhere}
+@media(max-width:650px){
+ .tabbar{padding-bottom:max(12px,env(safe-area-inset-bottom));}
+ .tab{min-height:48px}
+ .page{padding-bottom:max(25px,env(safe-area-inset-bottom));}
+ .short-card{min-height:50px}
+ .disclaimer-fixed{font-size:calc(.77rem * var(--scale));line-height:1.55}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+@media(forced-colors:active){:where(button,a,input,select,textarea):focus-visible{outline:3px solid Highlight!important}}

@@ -3,8 +3,17 @@
    Sem diagnósticos, prescrições ou sincronização de sintomas para o servidor. */
 (() => {
   'use strict';
-
-  const STORE = 'orientasaude-demo-v1';
+  function boot(){
+  const STORE=window.OrientaScopedStoreKey;
+  if(!/^orientasaude-records-v2-[0-9a-f-]{36}$/i.test(String(STORE||'')))return;
+  const LEGACY_STORE='orientasaude-demo-v1';
+  function legacyAvailable(){
+    try{
+      const old=JSON.parse(localStorage.getItem(LEGACY_STORE)||'{}');
+      return (Array.isArray(old.records)&&old.records.length>0)||
+        (Array.isArray(old.reminders)&&old.reminders.length>0);
+    }catch{return false}
+  }
   const defaultData = {records:[], reminders:[], profile:{name:''}, font:0};
   function loadData(){
     try { const data = JSON.parse(localStorage.getItem(STORE) || '{}');
@@ -49,7 +58,7 @@
   function infoBar(message='Os conteúdos são informativos. Não use o aplicativo para escolher medicamentos ou substituir uma consulta.',ico='shield',tone='cyan'){
     return `<div class="info-card">${round(ico,tone)}<div><h3>Importante</h3><p>${message}</p></div></div>`;
   }
-  function miniWarning(){return `<div class="disclaimer-fixed" role="note">OrientaSaúde: informação educativa, não diagnóstico. Em emergências, ligue 192 (SAMU).</div>`;}
+  function miniWarning(){return `<div class="disclaimer-fixed" role="note">OrientaSaúde: conteúdo educativo, não diagnóstico. <a href="emergencia.html">Ajuda urgente por país</a>.</div>`;}
   function notify(message){toast.textContent=i18n.t(message);toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3300);}
   function dateLabel(value){try{return new Intl.DateTimeFormat(i18n.locale(),{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(`${value}T12:00:00`));}catch{return value;}}
   function whenLabel(iso){try{return new Date(iso).toLocaleString(i18n.locale(),{dateStyle:'short',timeStyle:'short'});}catch{return 'Data não disponível';}}
@@ -66,7 +75,7 @@
     ${appHeader()}
     <section class="hero"><div><h1>Olá${window.OrientaProfileDisplayName?', '+esc(String(window.OrientaProfileDisplayName).slice(0,45)):''}!<br>Vamos cuidar da sua saúde?</h1><p>Conte o que está sentindo e receba orientações sobre quando buscar atendimento.</p></div><div class="hero-art">${icon('heart')}</div></section>
     <section class="white-card account-promo" aria-label="Cadastro e login"><h2>Minha conta</h2><p>Você está na área do aplicativo. Acesse seu perfil ou encerre sua sessão nesta aba.</p><a class="primary-btn" href="conta.html?perfil=1">Gerenciar minha conta / Sair</a></section>
-    <button class="emergency" type="button" data-go="emergency">${round('medkit','red')}<div><strong>EMERGÊNCIA</strong><p>Em caso de risco imediato, ligue 192 (SAMU).</p></div>${arrow('')}</button>
+    <button class="emergency" type="button" data-go="emergency">${round('medkit','red')}<div><strong>EMERGÊNCIA</strong><p>Consulte o telefone de emergência do país onde você está.</p></div>${arrow('')}</button>
     <section>${head('Como podemos ajudar?','Escolha uma opção para começar')}<div class="icon-grid">
       ${actCard('Descrever sintomas','Conte o que está sentindo.','user','blue','symptoms')}
       ${actCard('Especialidades','Veja caminhos para atendimento.','stethoscope','green','specialties')}
@@ -199,16 +208,16 @@
     <div class="white-card account-promo"><h3>Minha conta e segurança</h3><p>Gerencie seu e-mail, país de origem, documento nacional, nome de preferência e demais informações pessoais no perfil protegido.</p><a class="primary-btn" href="conta.html?perfil=1">Editar dados / Sair</a></div>
     <div class="white-card"><h3>Como você gostaria de ser chamado(a)?</h3><p>Seu nome de preferência é configurado em Minha conta e aparecerá na saudação do aplicativo. Para alterá-lo, use o botão Editar dados acima.</p></div>
     <div class="white-card"><h3>Acessibilidade</h3><p>Altere o tamanho do texto usando o botão A+ na página inicial ou a opção abaixo.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="font">Alterar tamanho de texto: ${['Padrão','Grande','Muito grande'][data.font%3]}</button></div></div>
-    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Registros de sintomas, lembretes e preferências continuam salvos somente neste navegador, sem sincronização entre aparelhos. O cadastro de usuário, quando ativado, usa outro formulário e um banco Supabase com perfil criptografado.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar meus dados</button><button class="small-outline" type="button" data-action="clear">Apagar dados locais</button></div></div>
+    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Os registros de sintomas e lembretes desta conta ficam separados por usuário <strong>na interface deste navegador</strong>, sem criptografia local nem sincronização automática. Pessoas com acesso ao aparelho podem acessar o armazenamento do navegador. <a href="privacidade.html">Privacidade e limites</a>.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar registros deste usuário</button><button class="small-outline" type="button" data-action="clear">Apagar registros deste usuário</button></div>${legacyAvailable()?'<p><strong>Dados antigos encontrados neste navegador.</strong> Eles não foram atribuídos automaticamente a esta conta, pois podem pertencer a outra pessoa.</p><button class="small-outline" type="button" data-action="import-legacy">Importar dados antigos (verificar titularidade)</button>':''}</div>
     ${infoBar('Este projeto é uma demonstração acadêmica. Os conteúdos e regras precisam de revisão por profissionais de saúde antes de qualquer uso real.','shield','green')}
     <div class="app-endnote">OrientaSaúde · Protótipo de Engenharia de Software · Projeto acadêmico · Foz do Iguaçu, PR</div>
   </div>`;}
   function emergency(){return `<div class="page">${backHeader('Emergência','Quando buscar ajuda imediatamente','home')}
-    <div class="notice red">${round('medkit','red')}<div><strong>Em caso de risco imediato, ligue 192 (SAMU)</strong><p>Não espere pelo preenchimento de sintomas, por respostas deste site ou por buscas de endereço.</p></div></div>
+    <div class="notice red">${round('medkit','red')}<div><strong>Em caso de risco imediato, procure atendimento imediatamente</strong><p>Não espere respostas deste aplicativo. O número do serviço depende do país onde você se encontra.</p></div></div>
     ${head('Exemplos de sinais graves')}
     <div class="step-list"><div class="step-card">${round('heart','red')}<div><h3>Dor no peito ou falta de ar intensa</h3><p>Não aguarde orientação por aplicativo.</p></div></div><div class="step-card">${round('alert','yellow')}<div><h3>Desmaio ou confusão súbita</h3><p>Procure ajuda imediata.</p></div></div><div class="step-card">${round('clock','blue')}<div><h3>Piora rápida</h3><p>Busque atendimento de urgência.</p></div></div></div>
-    <a href="tel:192" class="primary-btn" style="text-decoration:none">Ligar para 192 (SAMU)</a>
-    <p class="meta-note">O atendimento de emergência pode variar por região; o número 192 é do SAMU no Brasil.</p>
+    <a href="emergencia.html" class="primary-btn" style="text-decoration:none">Ver números oficiais: Brasil, Paraguai e Argentina</a>
+    <p class="meta-note">Telefones oficiais disponíveis sem login. O site não monitora atendimento em tempo real.</p>
   </div>`;}
 
   function render(scroll=true){
@@ -252,6 +261,26 @@
       case 'details-next':saveReport();break;
       case 'new-reminder':openReminder('consulta');break;
       case 'cancel-reminder':state.showReminderForm=false;state.editingReminder=null;render(false);break;
+      case 'import-legacy':{
+        if(!legacyAvailable()){notify('Nenhum registro antigo para importar.');break;}
+        const ok=confirm('Os registros antigos deste navegador NÃO estão vinculados a uma conta e podem pertencer a outra pessoa. Importe somente se tiver certeza de que todos são seus. A cópia antiga não vinculada será apagada após a importação. Continuar?');
+        if(!ok)break;
+        try{
+          const old=JSON.parse(localStorage.getItem(LEGACY_STORE)||'{}');
+          const clean=arr=>Array.isArray(arr)?arr.filter(x=>x&&typeof x==='object'):[];
+          const join=(existing,incoming)=>{
+            const seen=new Set(clean(existing).map(x=>String(x.id||'')));
+            const added=clean(incoming).filter(x=>!x.id||!seen.has(String(x.id)));
+            return [...clean(existing),...added];
+          };
+          const next={...data,records:join(data.records,old.records),reminders:join(data.reminders,old.reminders)};
+          localStorage.setItem(STORE,JSON.stringify(next));
+          localStorage.removeItem(LEGACY_STORE);
+          data=next;render(false);
+          notify('Dados antigos importados para esta conta neste navegador.');
+        }catch{notify('Falha na importação. Os registros antigos não foram removidos.');}
+        break;
+      }
       case 'export':{const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),...data},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='orientasaude-meus-dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);notify('Exportação iniciada.');break;}
       case 'clear':if(confirm(i18n.t('Apagar todos os registros, lembretes e preferências deste navegador? Esta ação não pode ser desfeita.'))){data=structuredClone(defaultData);try{['orientasaude-city-v1','orientasaude-ux-prefs','orientasaude-tip-font'].forEach(key=>localStorage.removeItem(key))}catch{}i18n.setLanguage('pt-BR');persist();window.location.assign('./');}break;
     }
@@ -290,4 +319,7 @@
     if(['home','profile'].includes(state.view))render(false);
   });
   render();
+  }
+  if(window.OrientaScopedStoreKey)boot();
+  else document.addEventListener('orientasaude:profile-ready',boot,{once:true});
 })();

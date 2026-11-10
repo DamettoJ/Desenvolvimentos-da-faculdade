@@ -23,6 +23,19 @@ Esta pasta `OrientaSaude` do repositório `DamettoJ/Desenvolvimentos-da-faculdad
 
 **Os dados clínicos do protótipo (registros, lembretes e preferências) continuam no armazenamento local; não são sincronizados com esse cadastro.**
 
+## Melhorias de acesso, segurança e privacidade (10/11/2026)
+
+- **Emergência sem login:** [telefones oficiais por país](emergencia.html), disponíveis antes do cadastro, inclusive em cópia offline após cache do PWA.
+- **Privacidade:** [informações de tratamento e limites](privacidade.html) acessíveis antes da criação da conta. O documento ainda requer revisão legal e definição do responsável pelo tratamento.
+- **Cadastro:** ajuda em tempo real para tamanho/igualdade de senhas, passos mais claros e links de privacidade; acessibilidade mobile reforçada.
+- **Armazenamento local por usuário:** relatos e lembretes passam a ser identificados pelo UUID autenticado em cada navegador. Isso evita misturá-los **na interface**, mas o armazenamento local continua sem criptografia e pode ser acessado por pessoas com controle do aparelho. Não há sincronização com o Supabase.
+- **Importação dos dados antigos:** feita somente quando o titular solicita e confirma que são seus; o aplicativo não atribui registros não vinculados automaticamente.
+- **Saída em dispositivo compartilhado:** possibilidade de apagar relatos e lembretes locais desta conta ao sair; exclusão da conta também limpa sua cópia local quando possível.
+- **Informações regionais:** emergência e links oficiais por país, lembrando que serviços precisam ser confirmados diretamente.
+- **Testes automáticos:** `node OrientaSaude/tests/smoke.cjs` e GitHub Actions, sem credenciais.
+
+**Ações obrigatórias antes de coletar dados reais ou liberar para o público:** siga [VALIDACOES-ANTES-DO-PUBLICO.md](VALIDACOES-ANTES-DO-PUBLICO.md), incluindo testes com duas contas, revisão de RLS/Supabase, LGPD, revisão clínica, traduções e dispositivos físicos.
+
 ## Como abrir no seu computador
 
 1. Extraia o arquivo ZIP.

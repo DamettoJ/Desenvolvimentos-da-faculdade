@@ -32,6 +32,9 @@
   function goToLogin() {
     if (redirecting) return;
     redirecting = true;
+    document.documentElement.setAttribute('data-orienta-auth','checking');
+    delete window.OrientaScopedStoreKey;
+    delete window.OrientaProfileDisplayName;
     // replace() impede que voltar retorne à página bloqueada.
     window.location.replace(LOGIN.href);
   }
@@ -75,6 +78,11 @@
       const nickname=String(p.preferred_name||'').trim();
       const firstName=String(p.full_name||'').trim().split(/\s+/)[0];
       window.OrientaProfileDisplayName=(nickname||firstName).slice(0,80);
+      // A identidade vem de getUser(), validada no servidor, nunca da URL ou formulário.
+      // A chave contém somente o UUID técnico da conta, não CPF/e-mail.
+      const accountId=String(data.user.id||'');
+      if(!/^[0-9a-f-]{36}$/i.test(accountId)){goToLogin();return;}
+      window.OrientaScopedStoreKey='orientasaude-records-v2-'+accountId;
       document.documentElement.setAttribute('data-orienta-auth', 'ok');
       document.dispatchEvent(new CustomEvent('orientasaude:profile-ready'));
     } catch (_) {

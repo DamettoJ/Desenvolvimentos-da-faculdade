@@ -8,16 +8,17 @@
   <meta name="color-scheme" content="light" />
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="styles.css?v=20261106-no-statusbar-1" />
+  <link rel="stylesheet" href="styles.css?v=20261110-ux-secure-1" />
   <title>OrientaSaúde</title>
 <link rel="stylesheet" href="flag-picker.css?v=20261030-flags-v2"><link rel="stylesheet" href="alert-entry.css?v=saude-20261030-1">
 <!-- Login obrigatório no OrientaSaúde Original: oculta a página até Supabase Auth validar a sessão. -->
 <style id="orienta-auth-style">html[data-orienta-auth="checking"] body > *{visibility:hidden!important}html[data-orienta-auth="checking"] body::before{content:"Verificando acesso à sua conta…";visibility:visible!important;position:fixed;inset:0;display:grid;place-items:center;z-index:2147483647;background:#f4f9ff;color:#071d44;font:600 1rem system-ui,sans-serif;padding:30px;text-align:center}</style>
 <script src="supabase-config.js?v=20261105-login-required-1"></script>
-<script type="module" src="auth-gate.js?v=20261105-international-id-1"></script>
+<script type="module" src="auth-gate.js?v=20261110-ux-secure-1"></script>
 <noscript><meta http-equiv="refresh" content="0;url=conta.html"></noscript>
 </head>
 <body>
+  <a class="skip-link" href="#app-content">Ir para o conteúdo principal</a>
   <a class="os-skip" href="#app-content">Pular para o conteúdo principal</a>
   <svg xmlns="http://www.w3.org/2000/svg" class="svg-defs" aria-hidden="true" focusable="false">
     <symbol id="i-activity" viewBox="0 0 24 24"><path d="M2 12h4l3-7 4 14 3-7h6"/></symbol>
@@ -72,8 +73,8 @@
   <script src="health-ui.js" defer></script>
   <script src="specialty-hook.js" defer></script>
   <script src="health-tips-hook.js" defer></script>
-  <script src="app.js?v=20261105-international-id-1" defer></script>
+  <script src="app.js?v=20261110-ux-secure-1" defer></script>
   <script src="pwa.js?v=20261030-upgrade-v1" defer></script>
-  <script src="upgrade.js?v=20261030-upgrade-v1" defer></script>
+  <script src="upgrade.js?v=20261110-ux-secure-1" defer></script>
 <script src="alert-hook.js?v=saude-20261030-1" defer></script></body>
 </html>

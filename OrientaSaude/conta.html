@@ -9,7 +9,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https://*.supabase.co; style-src 'self'; font-src 'self'; img-src 'self' data:; base-uri 'self'; object-src 'none'; form-action 'self'">
   <title>OrientaSaúde</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="conta.css?v=20261105-international-id-1">
+  <link rel="stylesheet" href="conta.css?v=20261110-ux-1">
 </head>
 <body>
   <div class="auth-shell">
@@ -21,6 +21,10 @@
     </aside>
     <main class="auth-panel">
       <a class="back-link" id="back-app" href="index.html" hidden>← Voltar ao OrientaSaúde</a>
+      <nav class="public-shortcuts" aria-label="Acesso rápido">
+        <a href="emergencia.html" class="help-emergency">Precisa de ajuda urgente? Telefones sem login</a>
+        <a href="privacidade.html">Privacidade e uso</a>
+      </nav>
       <header class="auth-heading">
         <div class="brand-icon" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></div>
         <div>
@@ -46,6 +50,7 @@
 
           <form class="auth-form" id="login-form" autocomplete="on">
             <h2>Entrar</h2>
+            <p class="helper">Sua conta é individual. Caso este seja um aparelho compartilhado, encerre a sessão após o uso.</p>
             <label for="login-email">E-mail</label>
             <input id="login-email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
             <label for="login-password">Senha</label>
@@ -57,13 +62,17 @@
 
           <form class="auth-form" id="signup-form" autocomplete="on" hidden>
             <h2>Criar conta · etapa 1 de 2</h2>
+            <p class="step-progress" role="status" aria-label="Etapa 1 de 2">Etapa 1: criar acesso → confirmar e-mail → completar perfil</p>
             <p class="helper">Após enviar o cadastro, você precisará abrir seu e-mail e clicar no link de confirmação. Depois, será redirecionado ao OrientaSaúde. Seus dados pessoais só serão solicitados após o login.</p>
             <label for="signup-email">E-mail</label>
             <input id="signup-email" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="voce@exemplo.com">
             <label for="signup-password">Crie uma senha (mínimo 12 caracteres)</label>
-            <div class="password-line"><input id="signup-password" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password"><button type="button" data-toggle-password="signup-password" aria-controls="signup-password" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
+            <div class="password-line"><input id="signup-password" name="password" type="password" required minlength="12" maxlength="128" autocomplete="new-password" aria-describedby="password-hint"><button type="button" data-toggle-password="signup-password" aria-controls="signup-password" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
+            <p class="helper" id="password-hint" aria-live="polite">Use pelo menos 12 caracteres. Evite reutilizar senhas.</p>
             <label for="signup-confirm">Confirme a senha</label>
-            <div class="password-line"><input id="signup-confirm" name="confirm" type="password" required minlength="12" autocomplete="new-password"><button type="button" data-toggle-password="signup-confirm" aria-controls="signup-confirm" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
+            <div class="password-line"><input id="signup-confirm" name="confirm" type="password" required minlength="12" autocomplete="new-password" aria-describedby="password-match"><button type="button" data-toggle-password="signup-confirm" aria-controls="signup-confirm" aria-pressed="false" aria-label="Mostrar senha">Mostrar</button></div>
+            <p class="helper" id="password-match" aria-live="polite">Repita exatamente a mesma senha.</p>
+            <label class="consent" for="signup-awareness"><input type="checkbox" id="signup-awareness" required><span>Li as <a href="privacidade.html" target="_blank" rel="noopener">informações de privacidade e limitações</a> e entendi que esta é uma demonstração educativa, não um serviço médico.</span></label>
             <button class="primary" type="submit">Criar conta e enviar confirmação</button>
           </form>
 
@@ -103,7 +112,7 @@
           </div>
           <form class="auth-form" id="profile-form" autocomplete="off">
             <h2>Complete seu perfil · etapa 2 de 2</h2>
-            <p class="helper">Os campos abaixo são enviados por HTTPS e criptografados pelo banco antes de serem armazenados. Sua identidade sexual/de gênero é uma informação sensível; é possível selecionar “Prefiro não informar”.</p>
+            <p class="helper">Etapa 2 de 2 — Dados do perfil. Informações enviadas por HTTPS ao Supabase; o projeto precisa de revisão independente da segurança e da LGPD. Você pode selecionar “Prefiro não informar” para identidade sexual/de gênero. <a href="privacidade.html" target="_blank" rel="noopener">Entenda o tratamento e os limites</a>.</p>
             <label for="country-of-origin">País de origem *</label>
             <select id="country-of-origin" name="country_of_origin" required autocomplete="off">
               <option value="">Selecione seu país</option>
@@ -140,13 +149,14 @@
             <input id="phone" name="phone" type="tel" maxlength="25" autocomplete="off" placeholder="+55 45 99999-9999">
             <label class="consent" for="accept-privacy">
               <input id="accept-privacy" type="checkbox" required>
-              <span>Concordo com o tratamento dos dados de cadastro informados. Para identidade sexual/gênero, posso selecionar “Prefiro não informar”.</span>
+              <span>Li as <a href="privacidade.html" target="_blank" rel="noopener">informações de privacidade</a> e autorizo o envio dos dados deste formulário para cadastro, com as finalidades descritas. Para identidade sexual/de gênero, posso selecionar “Prefiro não informar”.</span>
             </label>
             <button class="primary" type="submit">Salvar perfil criptografado</button>
           </form>
           <section class="account-privacy">
             <h2>Privacidade e exclusão</h2>
-            <p>Você pode apagar os dados pessoais ou excluir sua conta. Os registros de sintomas e lembretes salvos neste navegador não são removidos automaticamente: exclua-os também na seção Perfil do aplicativo.</p>
+            <p>Você pode apagar dados do perfil ou excluir sua conta. Relatos de sintomas e lembretes são mantidos apenas neste navegador e devem ser apagados separadamente na seção Perfil do aplicativo. <a href="privacidade.html">Leia sobre limitações, armazenamento e direitos</a>.</p>
+            <button id="logout-and-clear-local" type="button">Sair e apagar relatos/lembretes desta conta neste aparelho</button>
             <button id="remove-profile" type="button">Excluir dados do perfil</button>
             <button id="remove-account" type="button">Excluir a conta definitivamente</button>
           </section>
@@ -160,11 +170,11 @@
         </form>
       </div>
       <footer>
-        <p>Esta página faz parte do OrientaSaúde Original. As informações de sintomas e lembretes continuam locais e independentes do cadastro.</p>
+        <p>OrientaSaúde · Projeto acadêmico. <a href="privacidade.html">Privacidade e uso</a> · <a href="emergencia.html">Telefones de emergência (sem login)</a>.</p>
       </footer>
     </main>
   </div>
   <script src="supabase-config.js?v=20261105-fix-url-cache-01"></script>
-  <script type="module" src="conta.js?v=20261105-international-id-1"></script>
+  <script type="module" src="conta.js?v=20261110-ux-1"></script>
 </body>
 </html>

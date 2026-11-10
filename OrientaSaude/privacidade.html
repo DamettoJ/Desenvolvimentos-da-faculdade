@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Informações sobre privacidade e uso educativo do OrientaSaúde Original.">
+  <title>OrientaSaúde</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="public-info.css?v=20261110-1">
+</head>
+<body>
+  <header class="public-header"><a class="back" href="conta.html">← Voltar ao login</a><strong>OrientaSaúde</strong></header>
+  <main class="public-page" id="principal">
+    <p class="eyebrow">Transparência e proteção de dados · Versão informativa</p>
+    <h1>Privacidade e uso do OrientaSaúde</h1>
+    <p class="warning"><strong>Protótipo acadêmico.</strong> Este texto descreve o funcionamento identificado no código atual. Ainda não é uma política jurídica aprovada: o responsável pelo tratamento, o canal de contato e os prazos de retenção precisam ser definidos antes de disponibilizar o serviço ao público.</p>
+    <section class="public-card"><h2>1. Quais informações são usadas?</h2>
+      <p><strong>Autenticação:</strong> e-mail e senha, administrados pelo Supabase Auth. O sistema não armazena a senha em texto simples no perfil.</p>
+      <p><strong>Perfil:</strong> país, documento de identidade (CPF, DNI, C.I. ou outro), nome completo, data de nascimento, identidade sexual/de gênero escolhida, nome de preferência e telefone, quando informado. A opção “Prefiro não informar” existe para a identidade.</p>
+      <p><strong>Registros de saúde:</strong> relatos e lembretes são atualmente armazenados neste navegador, não sincronizados com o Supabase. <strong>Não insira informações clínicas reais ou de outras pessoas até que a segurança tenha sido validada.</strong></p>
+    </section>
+    <section class="public-card"><h2>2. Para que os dados são solicitados?</h2>
+      <p>A conta restringe o acesso à interface; os dados do perfil identificam o usuário cadastrado e permitem exibir seu nome de preferência. Os registros locais servem somente para que o usuário visualize seu histórico e agenda no aparelho.</p>
+      <p><strong>Revisão necessária:</strong> o responsável pelo projeto deve justificar a necessidade de exigir documento, nascimento e identidade de gênero em um aplicativo educativo, em vez de tornar esses campos opcionais. A seleção “Prefiro não informar” não resolve todas as obrigações relacionadas a dados sensíveis.</p>
+    </section>
+    <section class="public-card"><h2>3. Onde ficam os dados?</h2>
+      <p>O perfil v2 é armazenado em tabela privada do Supabase com criptografia no servidor (AES-256 via pgcrypto/Vault, conforme migração), sujeito a uma revisão das permissões e testes de isolamento por usuário. O e-mail e a senha são gerenciados pelo Supabase Auth.</p>
+      <p>Relatos e lembretes ficam no armazenamento local do navegador, separados por conta <strong>apenas na interface</strong>. Esse armazenamento <strong>não é criptografado</strong> e não sincroniza automaticamente entre dispositivos; pessoas com acesso ao mesmo navegador ainda podem acessar seus arquivos locais. Dados podem permanecer depois de sair, por isso existe a opção <strong>Sair e apagar relatos/lembretes deste aparelho</strong>. Os dados antigos não vinculados a contas só podem ser importados manualmente, com confirmação.</p>
+    </section>
+    <section class="public-card"><h2>4. Serviços externos e navegação</h2>
+      <p>O GitHub Pages hospeda os arquivos públicos; o Supabase processa autenticação e perfil. O site pode abrir páginas de órgãos públicos e, apenas após uma ação do usuário, mapas ou recursos externos. Os provedores externos podem tratar informações da conexão conforme suas próprias políticas.</p>
+    </section>
+    <section class="public-card"><h2>5. Acesso, correção e exclusão</h2>
+      <p>Na área <strong>Minha conta</strong>, você pode alterar ou excluir os dados do perfil e solicitar a exclusão da conta. O histórico de sintomas e lembretes pode ser excluído na área Perfil do aplicativo ou pela opção de sair apagando os dados locais desta conta. Uma cópia antiga não vinculada a contas pode ainda existir neste navegador até ser migrada ou apagada manualmente.</p>
+      <p>Antes de uso público, devem ser documentados um responsável pelo tratamento, um canal de atendimento aos titulares, políticas de retenção, backup, exclusão efetiva, proteção de dados de menores e resposta a incidentes.</p>
+      <p>Referência: <a href="https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados/direito-dos-titulares">direitos dos titulares — ANPD</a>.</p>
+    </section>
+    <section class="public-card"><h2>6. Limites das orientações de saúde</h2>
+      <p>Conteúdo exclusivamente educativo, não validado clinicamente. Não fornece diagnóstico, triagem médica confiável, prescrição ou atendimento de emergência. Em risco imediato, consulte <a href="emergencia.html">canais públicos de emergência sem login</a>.</p>
+    </section>
+    <p class="small">Documento informativo revisado em novembro de 2026. A publicação deste texto não substitui auditoria de segurança, parecer jurídico ou revisão clínica.</p>
+  </main>
+</body>
+</html>

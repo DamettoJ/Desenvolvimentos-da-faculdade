@@ -1,6 +1,6 @@
 /* Local-only agenda. Reads the same reminder store as the main OrientaSaúde; no external API. */
 (() => {'use strict';
-const STORE='orientasaude-demo-v1';const q=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,k=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[k]));
+function boot(){const STORE=window.OrientaScopedStoreKey;if(!/^orientasaude-records-v2-[0-9a-f-]{36}$/i.test(String(STORE||'')))return;const q=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,k=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[k]));
 function get(){try{const a=JSON.parse(localStorage.getItem(STORE)||'{}');return Array.isArray(a.reminders)?a.reminders:[]}catch{return []}}
 const today=new Date(),zero=v=>String(v).padStart(2,'0'),iso=d=>d.getFullYear()+'-'+zero(d.getMonth()+1)+'-'+zero(d.getDate());
 const start=new Date(today.getFullYear(),today.getMonth(),1);let month=new Date(start),chosen=iso(today);
@@ -46,5 +46,7 @@ q('#ics').addEventListener('click',()=>{
  const str='BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//OrientaSaude//Agenda Local//PT-BR\r\nCALSCALE:GREGORIAN\r\n'+events+'\r\nEND:VCALENDAR\r\n';
  const blob=new Blob([str],{type:'text/calendar;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='orientasaude-agenda.ics';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);q('#status').textContent='Arquivo exportado. O aplicativo de calendário escolhido será responsável pelas notificações.';
 });
-window.addEventListener('storage',render);render();
+window.addEventListener('storage',event=>{if(event.key===STORE)render()});render();
+}
+if(window.OrientaScopedStoreKey)boot();else document.addEventListener('orientasaude:profile-ready',boot,{once:true});
 })();
