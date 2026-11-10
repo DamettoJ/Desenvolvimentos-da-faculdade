@@ -1,4 +1,3 @@
-/* Local-only agenda. Reads the same reminder store as the main OrientaSaúde; no external API. */
 (() => {'use strict';
 function boot(){const STORE=window.OrientaScopedStoreKey;if(!/^orientasaude-records-v2-[0-9a-f-]{36}$/i.test(String(STORE||'')))return;const q=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,k=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[k]));
 function get(){try{const a=JSON.parse(localStorage.getItem(STORE)||'{}');return Array.isArray(a.reminders)?a.reminders:[]}catch{return []}}

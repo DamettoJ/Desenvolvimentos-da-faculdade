@@ -1,4 +1,4 @@
-/* Multilingual picker — flags + language names, usable in mobile layouts. */
+
 .language-control{display:flex;align-items:center;flex:0 0 auto;margin-left:auto!important;max-width:142px!important;min-width:0}
 .language-select{display:block;max-width:142px!important;min-width:114px!important;width:100%;height:37px!important;padding:7px 7px!important;border-radius:11px!important;border:1px solid #dbe6f1!important;background:#f7faff!important;color:#183451!important;font-size:.76rem!important;font-weight:700!important;cursor:pointer;outline-offset:2px}
 .language-select:hover{background:#eef6ff!important;border-color:#bcd5ec!important}
@@ -24,12 +24,12 @@
  .logo-copy strong{font-size:calc(1.02rem * var(--scale))!important}
  .logo-mark{width:32px!important;height:32px!important}
 }
-/* Independent modules: avoid clipped Arabic text and allow long native names. */
+
 #tips-lang,#br-language,#sp-lang,.br-selectors select{max-width:170px;min-width:88px;direction:ltr;text-align:left}
 [dir="rtl"] .tips-wrap,[dir="rtl"] .br-shell,[dir="rtl"] .spec-shell{direction:rtl;text-align:right}
 [dir="rtl"] .tips-header,[dir="rtl"] .br-top{direction:rtl}
 [dir="rtl"] .tips-header-tools,[dir="rtl"] .br-selectors{direction:ltr}
-/* SUS directory language control. */
+
 .br-unit-langrow{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:9px;margin:4px 0 13px auto;color:#667b8e;font-size:.77rem;font-weight:600}
 .br-unit-langrow select{border:1px solid #dbe6f1;border-radius:999px;background:#f7faff;color:#163654;min-height:36px;padding:7px 11px;font-size:.79rem;font-weight:700;max-width:180px;cursor:pointer}
 .br-unit-langrow select:focus-visible{outline:3px solid #a0cdff;outline-offset:2px}

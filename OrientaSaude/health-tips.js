@@ -1,4 +1,3 @@
-/* OrientaSaúde · interface educativa independente, sem rastreamento ou APIs. */
 (() => {
   'use strict';
   const pack=window.OrientaLanguagePack;

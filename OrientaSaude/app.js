@@ -1,6 +1,3 @@
-/* OrientaSaúde — protótipo acadêmico informativo (GitHub Pages).
-   Registros/lembretes locais; cadastro pessoal separado em conta.html via Supabase Auth.
-   Sem diagnósticos, prescrições ou sincronização de sintomas para o servidor. */
 (() => {
   'use strict';
   function boot(){
@@ -125,7 +122,6 @@
   </div>`;}
 
   function urgencyFor(report){
-    // Demonstração de UI, não é sistema de triagem clínica validado.
     if(report.flags.length>0)return {kind:'high',name:'Alta — sinal de alerta informado',text:'Você indicou um sinal que pode exigir ajuda imediata. Não aguarde por este aplicativo; procure atendimento de emergência.'};
     if(report.worsening==='sim'||report.intensity==='intensa'||report.selected.includes('Falta de ar'))return {kind:'medium',name:'Atenção aumentada — procure avaliação',text:'Você informou piora, intensidade elevada ou falta de ar. É importante procurar orientação de um profissional, sem depender desta classificação demonstrativa.'};
     return {kind:'low',name:'Orientação geral — gravidade indeterminada',text:'As respostas não permitem descartar problemas importantes nem confirmar baixa urgência. Procure um profissional se os sintomas persistirem ou gerarem preocupação.'};
@@ -315,7 +311,6 @@
     if(e.target.id==='profile-form'){e.preventDefault();const f=new FormData(e.target);data.profile.name=String(f.get('name')||'').trim();persist();render(false);notify('Preferência salva.');}
   });
   document.addEventListener('orientasaude:profile-ready',()=>{
-    // Dados de perfil ficam somente em memória desta aba. Renderizar saudação.
     if(['home','profile'].includes(state.view))render(false);
   });
   render();

@@ -1,4 +1,3 @@
-/* The map remains offline-safe. No third-party request occurs until explicit user action. */
 (() => {'use strict';
  const B=window.OrientaBorder;
  if(!B)return;

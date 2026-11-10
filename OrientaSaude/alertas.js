@@ -1,4 +1,3 @@
-/* Informational monitoring of publicly available institutional sources. Not an official alert channel. */
 (()=>{'use strict';
 const B=window.OrientaBorder;
 const citySelect=document.getElementById('alert-city'),langSelect=document.getElementById('alert-lang');
@@ -62,8 +61,6 @@ function renderData(){const root=$('articles');root.replaceChildren();const city
 }
 async function load(){
  snapshot=null;
- // GitHub Actions commits may not trigger another Pages deployment. Read the public
- // repository's latest snapshot first; fall back to the copy published on Pages.
  const candidates=[
   'https://raw.githubusercontent.com/DamettoJ/Desenvolvimentos-da-faculdade/main/saude-publica/alertas.json',
   '../saude-publica/alertas.json?ts='+Date.now()

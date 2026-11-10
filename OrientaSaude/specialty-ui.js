@@ -1,4 +1,3 @@
-/* Diretório de especialidades do OrientaSaúde: HTML/CSS/JS, sem servidor. */
 (() => {
 'use strict';
 const info=window.ORIENTA_SPECIALTIES;

@@ -1,5 +1,3 @@
-/* OrientaSaúde – Tríplice Fronteira. Dados institucionais e links públicos revisados em 30/10/2026.
-   Horários não especificados não são presumidos. Linhas de emergência são locais e dependem da rede do país. */
 (() => {
 'use strict';
 const KEY='orientasaude-city-v1';

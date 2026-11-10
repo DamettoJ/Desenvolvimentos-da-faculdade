@@ -1,4 +1,3 @@
-/* O conteúdo educativo é geral, mas a prevenção local e a urgência seguem o país selecionado. */
 (() => {
 'use strict';const B=window.OrientaBorder;if(!B)return;
 const translations={

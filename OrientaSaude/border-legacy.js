@@ -1,4 +1,3 @@
-/* Foz: preserva catálogo antigo, mas permite mudar para os outros lados da fronteira. */
 (() => {
  'use strict';const B=window.OrientaBorder;if(!B)return;
  const isSpecial=location.pathname.endsWith('especialidades.html');
