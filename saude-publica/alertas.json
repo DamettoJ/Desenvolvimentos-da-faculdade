@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-10T07:27:15+00:00",
+  "checked_at": "2026-11-10T19:49:31+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -17,7 +17,7 @@
     {
       "source": "parana",
       "status": "checked",
-      "count": 2
+      "count": 1
     }
   ],
   "items": [
@@ -76,14 +76,6 @@
       "title": "Sesa garante medicamentos e assistência para cidades atingidas por desastres naturais",
       "url": "https://www.saude.pr.gov.br/Noticia/Sesa-garante-medicamentos-e-assistencia-para-cidades-atingidas-por-desastres-naturais",
       "published": "2026-11-05T18:13:04+00:00"
-    },
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Saúde alerta para riscos do uso excessivo de telas na infância e orienta famílias sobre limites",
-      "url": "https://www.saude.pr.gov.br/Noticia/Saude-alerta-para-riscos-do-uso-excessivo-de-telas-na-infancia-e-orienta-familias-sobre",
-      "published": "2026-11-04T18:34:35+00:00"
     },
     {
       "city": "cde",
