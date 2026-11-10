@@ -437,6 +437,21 @@
       window.location.replace('conta.html?saiu=1');
     }catch(_){alert('Não foi possível encerrar a sessão. Tente novamente.',true);}
   });
+  // Opcional para dispositivos compartilhados: limpar SOMENTE os registros
+  // desta conta, nunca o armazenamento de outra pessoa.
+  $('logout-and-clear-local').addEventListener('click',async()=>{
+    if(!sb||!user)return;
+    const ok=confirm('Apagar definitivamente os relatos e lembretes desta conta SALVOS NESTE APARELHO e encerrar a sessão? Esta ação não pode ser desfeita e não altera o perfil criptografado no Supabase.');
+    if(!ok)return;
+    const id=String(user.id||'');
+    if(!/^[0-9a-f-]{36}$/i.test(id))return;
+    try{
+      const {error}=await sb.auth.signOut({scope:'local'});
+      if(error)throw error;
+      localStorage.removeItem('orientasaude-records-v2-'+id);
+      location.replace('conta.html?saiu=1');
+    }catch(_){alert('Não foi possível concluir a saída com limpeza. Tente novamente.',true);}
+  });
   $('remove-profile').addEventListener('click',async()=>{
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
     const {error}=await sb.rpc('delete_my_profile_v2');
@@ -458,7 +473,11 @@
     if(!sb||!user||prompt('Para excluir a conta e o perfil, digite EXCLUIR:')!=='EXCLUIR')return;
     const {error}=await sb.rpc('delete_my_account');
     if(error){alert('Não foi possível excluir a conta.',true);return;}
+    const id=String(user.id||'');
     try{await sb.auth.signOut({scope:'local'});}catch(_){}
+    if(/^[0-9a-f-]{36}$/i.test(id)){
+      try{localStorage.removeItem('orientasaude-records-v2-'+id);}catch(_){}
+    }
     sessionStorage.removeItem('orientasaude_faculdade_original_auth_v1');
     location.replace('conta.html?conta_excluida=1');
   });
