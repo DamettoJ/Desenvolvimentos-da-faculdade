@@ -1,4 +1,3 @@
-/* Páginas locais da tríplice fronteira: dados de fontes públicas, sem diagnóstico ou promessa de agendamento. */
 (() => {
 'use strict';
 const B=window.OrientaBorder;if(!B)return;
