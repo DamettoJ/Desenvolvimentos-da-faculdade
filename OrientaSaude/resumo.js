@@ -1,8 +1,10 @@
-(() => {'use strict';const q=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
- const read=()=>{try{const x=JSON.parse(localStorage.getItem('orientasaude-demo-v1')||'{}');return Array.isArray(x.records)?x.records:[]}catch{return []}};
+(() => {'use strict';function boot(){const STORE=window.OrientaScopedStoreKey;if(!/^orientasaude-records-v2-[0-9a-f-]{36}$/i.test(String(STORE||'')))return;const q=s=>document.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+ const read=()=>{try{const x=JSON.parse(localStorage.getItem(STORE)||'{}');return Array.isArray(x.records)?x.records:[]}catch{return []}};
  function draw(){const records=read().sort((a,b)=>String(b.createdAt).localeCompare(String(a.createdAt))),n=q('#limit').value;
  const list=n==='all'?records:records.slice(0,Number(n));
  q('#summary').innerHTML='<p class="muted">Gerado em '+new Date().toLocaleString('pt-BR')+' · '+list.length+' relatos · dados armazenados apenas neste dispositivo.</p>'+(list.length?list.map((r,i)=>'<section class="summary-item"><h2>Relato '+(i+1)+' · '+esc(r.createdAt?(Number.isFinite(Date.parse(r.createdAt))?new Date(r.createdAt).toLocaleString('pt-BR'):'Data inválida'):'Data indisponível')+'</h2>'+(q('#detail').checked?'<p><b>Sintomas:</b> '+esc([...(Array.isArray(r.selected)?r.selected:[]),r.text].filter(Boolean).join(' · ')||'Não especificados')+'</p>':'<p>Detalhes ocultados a pedido do usuário.</p>')+'<p><b>Duração informada:</b> '+esc(r.duration||'Não informada')+' · <b>Evolução:</b> '+esc(r.worsening||'Não informada')+'</p><p><b>Sinais relatados:</b> '+esc(Array.isArray(r.flags)&&r.flags.length?r.flags.join(', '):'Nenhum campo selecionado')+'</p></section>').join(''):'<p>Não há relatos salvos neste navegador.</p>');
  }
  q('#limit').addEventListener('change',draw);q('#detail').addEventListener('change',draw);q('#print').addEventListener('click',()=>window.print());draw();
+}
+if(window.OrientaScopedStoreKey)boot();else document.addEventListener('orientasaude:profile-ready',boot,{once:true});
 })();
