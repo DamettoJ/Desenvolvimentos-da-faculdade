@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-09T22:28:11+00:00",
+  "checked_at": "2026-11-10T07:27:15+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 6
+      "count": 7
     },
     {
       "source": "misiones",
@@ -21,6 +21,14 @@
     }
   ],
   "items": [
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Vuelve el concurso de fotografía de la Muestra Nacional de Epidemiología",
+      "url": "https://dgvs.mspbs.gov.py/vuelve-el-concurso-de-fotografia-de-la-muestra-nacional-de-epidemiologia/",
+      "published": "2026-11-09T23:32:48+00:00"
+    },
     {
       "city": "cde",
       "source": "DGVS — Paraguai",
