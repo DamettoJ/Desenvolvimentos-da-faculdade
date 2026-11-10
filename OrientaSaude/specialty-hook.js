@@ -1,4 +1,3 @@
-/* Encaminha a navegação do app original para o catálogo independente de especialidades. */
 document.addEventListener('click',e=>{
  const button=e.target.closest('[data-go="specialties"],[data-specialty]');
  if(!button)return;
