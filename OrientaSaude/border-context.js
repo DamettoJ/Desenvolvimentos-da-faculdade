@@ -1,4 +1,3 @@
-/* Seleção de cidade persistida, navegação regional e segurança em alertas. */
 (() => {
 'use strict';
 const B=window.OrientaBorder;if(!B)return;
@@ -43,7 +42,6 @@ function updateEmergency(page,city,t){
  }
  for(const el of page.querySelectorAll('a[href="tel:192"]')){el.href='tel:'+city.emergency;el.textContent=t.call+': '+city.emergency+' ('+city.emergencyService+')';}
 }
-// Captura antes dos scripts de navegação por especialidade e unidades existentes.
 document.addEventListener('click',event=>{
  const el=event.target.closest('[data-go],[data-specialty]');if(!el)return;
  const city=B.getCity();
@@ -59,7 +57,6 @@ document.addEventListener('click',event=>{
 document.addEventListener('change',event=>{
  if(event.target.id!=='br-home-city')return;
  const value=event.target.value;if(!B.setCity(value))return;
- // Atualização integral de página preserva registros no localStorage e não muda idioma.
  window.location.assign(new URL('./?city='+value,document.baseURI).href);
 });
 const root=document.getElementById('app-content');
