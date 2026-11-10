@@ -6,10 +6,10 @@
 @media(min-width:1000px){.app-shell{padding:30px}.app-frame{max-width:1160px;min-height:calc(100dvh - 60px);display:grid;grid-template-columns:198px minmax(0,1fr);grid-template-rows:1fr}.tabbar{grid-column:1;grid-row:1;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;gap:5px;padding:24px 11px;background:#f7faff;border-top:0;border-right:1px solid #e1eaf4}.tab{flex:none;flex-direction:row;justify-content:flex-start;padding:11px 13px;gap:13px;border-radius:10px;font-size:calc(.9rem * var(--scale))}.tab .nav-icon{width:30px;height:30px}.tab.active{background:#e7f3ff}.content{grid-column:2;grid-row:1}.page{padding:31px 42px 40px}.icon-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.health-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.specialties-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.action-card{min-height:118px}.short-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:22px 27px}.form-page,.result-page{max-width:760px;margin:0 auto}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}}
 [hidden]{display:none!important}
-/* Elementos clicáveis que contêm texto longo devem preservar a largura da grade. */
+
 .action-card>div,.link-card>div,.info-card>div,.step-card>div,.specialty-tile strong{min-width:0}
 .list-entry p>.icon{display:inline-block;vertical-align:middle;margin-right:4px}
-/* Seletor de idioma responsivo nas telas do OrientaSaúde. */
+
 .language-control{display:flex;align-items:center;justify-content:flex-end;margin-left:auto;flex:none;max-width:95px}
 .language-select{appearance:auto;background:#e8f4ff;border:1px solid #cee4f8;border-radius:10px;color:#075fad;font-size:calc(.8rem * var(--scale));font-weight:800;padding:9px 5px;max-width:90px;min-width:69px;cursor:pointer}
 .back-head>.language-control{margin-left:auto}
@@ -35,14 +35,14 @@
   .language-select{min-width:62px;max-width:66px}
 }
 
-/* CTA seguro: cadastro separado dos registros locais do app Original. */
+
 .account-promo{margin:12px 0 18px;padding:16px}
 .account-promo h2,.account-promo h3{margin:0 0 6px}
 .account-promo p{margin:4px 0 12px;line-height:1.5}
 .account-promo a.primary-btn{display:flex;align-items:center;justify-content:center;text-decoration:none;min-height:45px;text-align:center}
 .account-promo a.primary-btn:focus-visible{outline:3px solid #1167ce;outline-offset:4px}
 
-/* Ajustes de acessibilidade mobile e navegação por teclado. */
+
 .skip-link{position:absolute;top:-150px;left:14px;background:#053d71;color:#fff;font-weight:800;z-index:30000;padding:11px 17px;border-radius:10px}
 .skip-link:focus{top:12px;outline:3px solid #fbc05c;outline-offset:3px}
 :where(button,a,input,select,textarea,[tabindex]):focus-visible{outline:3px solid #005699!important;outline-offset:3px!important}
