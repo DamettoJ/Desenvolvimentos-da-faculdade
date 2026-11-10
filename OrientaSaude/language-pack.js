@@ -1,4 +1,3 @@
-/* OrientaSaúde · local offline language packs. No patient data leaves the browser. */
 (() => {
 'use strict';
 const options=[{"code":"pt-BR","flag":"🇧🇷","native":"Português","short":"PT","country":"Brasil","dir":"ltr"},{"code":"es","flag":"🇪🇸","native":"Español","short":"ES","country":"Espanha","dir":"ltr"},{"code":"en","flag":"🇬🇧","native":"English","short":"EN","country":"Reino Unido","dir":"ltr"},{"code":"ja","flag":"🇯🇵","native":"日本語","short":"JA","country":"Japão","dir":"ltr"},{"code":"ar","flag":"🇱🇧","native":"العربية","short":"AR","country":"Líbano","dir":"rtl"},{"code":"zh-CN","flag":"🇨🇳","native":"中文","short":"ZH","country":"China","dir":"ltr"},{"code":"ko","flag":"🇰🇷","native":"한국어","short":"KO","country":"Coreia do Sul","dir":"ltr"},{"code":"ht","flag":"🇭🇹","native":"Kreyòl ayisyen","short":"HT","country":"Haiti","dir":"ltr"}];
