@@ -1,7 +1,3 @@
-/* OrientaSaúde Original — autenticação pública com Supabase.
- * Dados pessoais só são gravados por RPC autenticada no backend criptografado.
- * NÃO usar localStorage nem Auth user_metadata para dados sensíveis.
- */
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
@@ -21,7 +17,6 @@
   const accountQuery=new URLSearchParams(window.location.search);
   const manageProfile=accountQuery.get('perfil')==='1';
   const accessRequired=accountQuery.has('acesso');
-  // Ler imediatamente o erro do retorno por e-mail, antes de o SDK tratar o fragmento.
   const confirmationParams=new URLSearchParams(window.location.hash.slice(1));
   const confirmationFailure=confirmationParams.get('error_code')||accountQuery.get('error_code');
   const confirmationDescription=confirmationParams.get('error_description')||'';
@@ -29,13 +24,11 @@
   const HOME_URL=new URL('index.html',window.location.href).href;
   function goHome(){window.location.replace(HOME_URL);}
   async function routeAfterLogin(){
-    // Login válido não significa cadastro completo; conferir no Supabase.
     const required=new URL('conta.html?perfil=1&cadastro=obrigatorio',window.location.href).href;
     try {
       const result=await sb.rpc('read_my_profile_v2');
       if(!result.error&&profileComplete(result.data)){goHome();return;}
       if(result.error?.code==='PGRST202'){
-        // Manter perfis já existentes acessíveis até a migração ser executada.
         const old=await sb.rpc('read_my_profile');
         if(!old.error&&old.data &&
           String(old.data.full_name||'').trim().length>=5 &&
@@ -49,7 +42,6 @@
     } catch (_) {window.location.replace(required);}
   }
   function authMessage(error, action='login'){
-    // Mensagens seguras, sem exibir tokens, senhas ou detalhes privados da API.
     const code=String(error?.code||'').toLowerCase();
     const message=String(error?.message||'').toLowerCase();
     if(code==='email_not_confirmed'||message.includes('email not confirmed'))
@@ -211,8 +203,6 @@
     }
     let profile=data;
     if(!profile){
-      // Apenas pré-preencher campos não documentais de um cadastro v1 existente.
-      // O país de origem e o documento v2 exigem nova confirmação do usuário.
       const legacy=await sb.rpc('read_my_profile');
       if(!legacy.error&&legacy.data)profile=legacy.data;
     }
@@ -247,7 +237,6 @@
         return;
       }
       if(user && !manageProfile){
-        // Quem ainda não preencheu o perfil vai diretamente para o formulário.
         await routeAfterLogin();
         return;
       }
@@ -267,7 +256,6 @@
       }
     }finally{activeRequest=false;}
   }
-  // Retorno enquanto digita: sem transmitir senhas nem persistir valores.
   const signupPass=$('signup-password');
   const signupConfirm=$('signup-confirm');
   function updatePasswordHints(){
@@ -315,7 +303,6 @@
   });
   $('back-to-login').addEventListener('click',()=>setTab('login'));
   $('confirmation-go-login').addEventListener('click',()=>setTab('login'));
-  // Mostrar/ocultar somente o campo selecionado. Nunca persistir senha visível.
   for(const button of document.querySelectorAll('[data-toggle-password]')){
     button.addEventListener('click',()=>{
       const input=document.getElementById(button.dataset.togglePassword);
@@ -347,8 +334,6 @@
         await routeAfterLogin();
         return;
       }else{
-        // O e-mail precisa ser confirmado pelo link do Supabase antes do primeiro login.
-        // Mantém as instruções na tela até o usuário escolher "Entrar".
         setTab('confirmation');
         $('confirmation-panel').focus();
       }
@@ -365,8 +350,6 @@
         password:String(d.get('password')||'')
       });
       if(error)throw error;
-      // signInWithPassword valida a senha no Supabase e retorna a sessão.
-      // O auth-gate da página inicial faz uma nova verificação de identidade.
       if(!data?.session||!data?.user)
         throw {code:'missing_session'};
       form.reset();
@@ -412,7 +395,6 @@
       const initialRegistration=!profileReady;
       const {error}=await sb.rpc('save_my_profile_v2',{p_profile:values});
       if(error)throw error;
-      // Confirmar que o perfil foi persistido e está completo no próprio banco.
       const saved=await sb.rpc('read_my_profile_v2');
       if(saved.error||!profileComplete(saved.data)){
         alert('Não foi possível verificar o perfil salvo. Confira a função de leitura no Supabase antes de continuar.',true);
@@ -437,8 +419,6 @@
       window.location.replace('conta.html?saiu=1');
     }catch(_){alert('Não foi possível encerrar a sessão. Tente novamente.',true);}
   });
-  // Opcional para dispositivos compartilhados: limpar SOMENTE os registros
-  // desta conta, nunca o armazenamento de outra pessoa.
   $('logout-and-clear-local').addEventListener('click',async()=>{
     if(!sb||!user)return;
     const ok=confirm('Apagar definitivamente os relatos e lembretes desta conta SALVOS NESTE APARELHO e encerrar a sessão? Esta ação não pode ser desfeita e não altera o perfil criptografado no Supabase.');
@@ -456,7 +436,6 @@
     if(!sb||!user||prompt('Para apagar os dados pessoais do perfil, digite APAGAR:')!=='APAGAR')return;
     const {error}=await sb.rpc('delete_my_profile_v2');
     if(error){alert('Não foi possível excluir os dados do perfil.',true);return;}
-    // Eliminar também um cadastro antigo armazenado pela migração v1.
     const legacy=await sb.rpc('delete_my_profile');
     if(legacy.error){
       alert('O perfil internacional foi apagado, mas não foi possível confirmar a exclusão dos dados antigos. Verifique seu banco antes de considerar a exclusão concluída.',true);
@@ -493,8 +472,6 @@
         auth:{autoRefreshToken:true,persistSession:true,detectSessionInUrl:true,
           storage:window.sessionStorage,storageKey:'orientasaude_faculdade_original_auth_v1'}
       });
-      // Compatibilidade com links de e-mail personalizados que retornam token_hash
-      // diretamente ao site (a confirmação padrão do Supabase é automática).
       const callbackParams=new URLSearchParams(window.location.search);
       const tokenHash=callbackParams.get('token_hash');
       const tokenType=callbackParams.get('type');
@@ -521,8 +498,6 @@
         if(['INITIAL_SESSION','SIGNED_IN','SIGNED_OUT','PASSWORD_RECOVERY'].includes(event))
           setTimeout(()=>render().catch(()=>{}),0);
       });
-      // O Supabase interpreta a confirmação e estabelece a sessão ao iniciar.
-      // Se o provedor devolveu erro, a tela Entrar mostra sua explicação.
       await render();
       if(confirmationFailure && window.location.hash.includes('error='))
         window.history.replaceState(null,'',window.location.pathname+window.location.search);
