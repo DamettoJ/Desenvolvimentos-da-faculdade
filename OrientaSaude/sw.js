@@ -1,15 +1,15 @@
 /* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
-const VERSION='os-safe-20261105-international-id-01';
+const VERSION='os-safe-20261110-scoped-data-01';
 const STATIC=VERSION+'-assets';
 const CORE=[
- './offline.html','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
+ './offline.html','./emergencia.html','./privacidade.html','./public-info.css','./manifest.webmanifest','./styles.css','./assets/favicon.svg','./assets/icon-192.png','./assets/icon-512.png',
  './app.js','./i18n.js','./language-pack.js','./flag-picker.js','./flag-picker.css','./locale.css',
  './border-data.js','./border-context.js','./border-embed.css','./border-legacy.js','./border-tips.js',
  './health-data.js','./health-ui.js','./health-units.css','./directory.css','./directory-init.js',
  './health-tips-hook.js','./health-tips-data.js','./health-tips.js','./health-tips.css',
  './specialty-hook.js','./specialty-data.js','./specialty-ui.js','./specialty.css',
  './border-page.js','./border.css','./mapa.js','./mapa.css',
- './agenda.js','./agenda.css','./resumo.js','./resumo.css',
+ './agenda.css','./resumo.css',
  
  './upgrade.js','./upgrade.css','./pwa.js','./reader.js','./alertas.css','./alertas.js','./alert-hook.js','./alert-entry.css'
 ];
@@ -28,7 +28,10 @@ self.addEventListener('fetch',event=>{
   event.respondWith((async()=>{
    const cache=await caches.open(STATIC);
    try{return await fetch(req,{cache:'no-store'})}catch{
-    // Sem rede para validar a sessão, não servir HTML previamente protegido do cache.
+    // Emergência e privacidade podem ser exibidas sem conta, inclusive offline.
+    if(url.pathname.endsWith('/emergencia.html'))return await cache.match('./emergencia.html')||new Response('Sem conexão',{status:503});
+    if(url.pathname.endsWith('/privacidade.html'))return await cache.match('./privacidade.html')||new Response('Sem conexão',{status:503});
+    // Não servir HTML privado em cache sem validar novamente a sessão.
     return await cache.match('./offline.html')||new Response('Sem conexão',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}})
    }
   })());return;
@@ -36,7 +39,7 @@ self.addEventListener('fetch',event=>{
  event.respondWith((async()=>{
   const cache=await caches.open(STATIC);
   // Critical interface scripts/styles prefer the network when online to avoid stale maps on desktop.
-  if(/\/(app|mapa|upgrade)\.(js|css)$/.test(url.pathname)){
+  if(/\/(app|mapa|upgrade|agenda|resumo)\.(js|css)$/.test(url.pathname)){
    try{const fresh=await fetch(req,{cache:'no-store'});if(fresh.ok){await cache.put(req,fresh.clone());return fresh}}catch{}
    const previous=await cache.match(req,{ignoreSearch:true});if(previous)return previous;
    return new Response('Recurso offline indisponível',{status:503});
