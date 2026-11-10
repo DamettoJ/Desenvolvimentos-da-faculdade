@@ -1,14 +1,8 @@
-/* OrientaSaúde Original — verificação de sessão por página.
- * Controle de navegação no frontend: o GitHub Pages continua público.
- * Qualquer acesso a dados privados deve ser autorizado no próprio Supabase
- * por RLS/RPC, nunca apenas por esta verificação no navegador.
- */
 (() => {
   'use strict';
   const HOME = new URL('index.html', window.location.href);
   const LOGIN = new URL('conta.html?acesso=necessario', HOME);
   const REQUIRED_PROFILE = new URL('conta.html?perfil=1&cadastro=obrigatorio', HOME);
-  // Verificar no Supabase os dados obrigatórios conforme país do documento.
   function profileComplete(p) {
     if(!p||typeof p!=='object')return false;
     const c=String(p.country_of_origin||'');
@@ -35,13 +29,11 @@
     document.documentElement.setAttribute('data-orienta-auth','checking');
     delete window.OrientaScopedStoreKey;
     delete window.OrientaProfileDisplayName;
-    // replace() impede que voltar retorne à página bloqueada.
     window.location.replace(LOGIN.href);
   }
   function goToProfile() {
     if (redirecting) return;
     redirecting = true;
-    // A tela de cadastro é a única rota até o registro obrigatório ficar completo.
     window.location.replace(REQUIRED_PROFILE.href);
   }
   async function verify() {
@@ -53,12 +45,7 @@
         goToLogin();
         return;
       }
-      // Não confiar em um sinal salvo no navegador: consultar o perfil a cada
-      // abertura/retorno ao app, via RPC autenticada e isolada no Supabase.
       let profileResult = await client.rpc('read_my_profile_v2');
-      // Compatibilidade temporária: se a função v2 ainda não existir, permitir
-      // acesso somente a quem já tinha perfil brasileiro completo na v1.
-      // Quando a migração v2 for executada, o país volta a ser obrigatório.
       if (profileResult.error && profileResult.error.code === 'PGRST202') {
         const old = await client.rpc('read_my_profile');
         const p = old.data;
@@ -73,20 +60,16 @@
         goToProfile();
         return;
       }
-      // Nome de preferência somente em memória da aba, nunca no localStorage.
       const p=profileResult.data;
       const nickname=String(p.preferred_name||'').trim();
       const firstName=String(p.full_name||'').trim().split(/\s+/)[0];
       window.OrientaProfileDisplayName=(nickname||firstName).slice(0,80);
-      // A identidade vem de getUser(), validada no servidor, nunca da URL ou formulário.
-      // A chave contém somente o UUID técnico da conta, não CPF/e-mail.
       const accountId=String(data.user.id||'');
       if(!/^[0-9a-f-]{36}$/i.test(accountId)){goToLogin();return;}
       window.OrientaScopedStoreKey='orientasaude-records-v2-'+accountId;
       document.documentElement.setAttribute('data-orienta-auth', 'ok');
       document.dispatchEvent(new CustomEvent('orientasaude:profile-ready'));
     } catch (_) {
-      // Sem conexão para verificar a sessão, não liberar o app.
       goToLogin();
     } finally {
       checking = false;
@@ -108,9 +91,7 @@
       client.auth.onAuthStateChange((event) => {
         if (event === 'SIGNED_OUT' || event === 'USER_DELETED') goToLogin();
       });
-      // getUser faz uma requisição ao Auth e valida a identidade no servidor.
       await verify();
-      // Revalidar quando o usuário retorna à aba ou usa o histórico do navegador.
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) void verify();
       });
