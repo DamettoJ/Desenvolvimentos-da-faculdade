@@ -1,7 +1,3 @@
--- OrientaSaude Original - perfil v2 (pais de origem e documento nacional).
--- Execute no Supabase SQL Editor do MESMO PROJETO que ja recebeu a migracao v1.
--- Preserva os registros v1 e a chave existente no Vault. Nao cole segredos aqui.
--- A migracao e idempotente; testar com contas ficticias antes de coletar dados reais.
 
 create schema if not exists private;
 create extension if not exists pgcrypto with schema extensions;
@@ -15,7 +11,6 @@ create table if not exists private.encrypted_profiles_v2 (
 alter table private.encrypted_profiles_v2 enable row level security;
 revoke all on private.encrypted_profiles_v2 from public, anon, authenticated;
 
--- CPF: dois digitos verificadores, nao basta conferir o comprimento.
 create or replace function private._valid_cpf_v2(p_value text)
 returns boolean language plpgsql immutable set search_path = ''
 as $$
@@ -153,7 +148,6 @@ begin
 end;
 $$;
 
--- Public: apenas wrappers invoker, nenhuma funcao privilegiada no schema public.
 create or replace function public.save_my_profile_v2(p_profile jsonb)
 returns void language sql security invoker set search_path = ''
 as $$ select private._save_my_profile_v2(p_profile); $$;
@@ -179,9 +173,5 @@ grant execute on function public.save_my_profile_v2(jsonb) to authenticated;
 grant execute on function public.read_my_profile_v2() to authenticated;
 grant execute on function public.delete_my_profile_v2() to authenticated;
 
--- Atualizar as RPCs expostas na API PostgREST do Supabase.
 notify pgrst, 'reload schema';
 
--- Checagem SOMENTE leitura apos executar:
--- select routine_name from information_schema.routines where routine_schema='public'
---   and routine_name in ('save_my_profile_v2','read_my_profile_v2','delete_my_profile_v2');
