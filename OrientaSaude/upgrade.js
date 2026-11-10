@@ -1,4 +1,3 @@
-/* OrientaSaúde UX enhancements. Preserves existing app.js state and local records. */
 (() => {'use strict';function boot(){const STORE=window.OrientaScopedStoreKey;if(!/^orientasaude-records-v2-[0-9a-f-]{36}$/i.test(String(STORE||'')))return;const root=document.getElementById('app-content');if(!root)return;
 const $=(s,r=document)=>r.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const T={
