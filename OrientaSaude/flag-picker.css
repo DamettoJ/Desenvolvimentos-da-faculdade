@@ -1,4 +1,4 @@
-/* Real flag icons for language selection, independent of OS emoji fonts. */
+
 .flag-picker-native{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;clip-path:inset(50%)!important;overflow:hidden!important;white-space:nowrap!important;padding:0!important;margin:0!important;border:0!important}
 .flag-picker{position:relative;display:inline-flex;align-items:center;min-width:0;max-width:100%;direction:ltr}
 .flag-picker-trigger{display:inline-flex;align-items:center;justify-content:flex-start;gap:6px;min-height:36px;min-width:100px;max-width:100%;padding:7px 10px;border:1px solid #dbe6f1;border-radius:11px;background:#f7faff;color:#183451;box-shadow:0 1px 3px #142f5210;cursor:pointer;direction:ltr;font-size:.79rem;font-weight:700;line-height:1.25}
