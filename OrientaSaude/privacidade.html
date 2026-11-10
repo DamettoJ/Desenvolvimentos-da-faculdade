@@ -27,13 +27,13 @@
     </section>
     <section class="public-card"><h2>3. Onde ficam os dados?</h2>
       <p>O perfil v2 é armazenado em tabela privada do Supabase com criptografia no servidor (AES-256 via pgcrypto/Vault, conforme migração), sujeito a uma revisão das permissões e testes de isolamento por usuário. O e-mail e a senha são gerenciados pelo Supabase Auth.</p>
-      <p>Relatos e lembretes ficam no armazenamento local do navegador. Esse armazenamento <strong>não equivale a backup criptografado</strong> e não sincroniza automaticamente entre dispositivos. Dados locais podem permanecer depois de sair da conta ou ser apagados pelo próprio navegador.</p>
+      <p>Relatos e lembretes ficam no armazenamento local do navegador, separados por conta <strong>apenas na interface</strong>. Esse armazenamento <strong>não é criptografado</strong> e não sincroniza automaticamente entre dispositivos; pessoas com acesso ao mesmo navegador ainda podem acessar seus arquivos locais. Dados podem permanecer depois de sair, por isso existe a opção <strong>Sair e apagar relatos/lembretes deste aparelho</strong>. Os dados antigos não vinculados a contas só podem ser importados manualmente, com confirmação.</p>
     </section>
     <section class="public-card"><h2>4. Serviços externos e navegação</h2>
       <p>O GitHub Pages hospeda os arquivos públicos; o Supabase processa autenticação e perfil. O site pode abrir páginas de órgãos públicos e, apenas após uma ação do usuário, mapas ou recursos externos. Os provedores externos podem tratar informações da conexão conforme suas próprias políticas.</p>
     </section>
     <section class="public-card"><h2>5. Acesso, correção e exclusão</h2>
-      <p>Na área <strong>Minha conta</strong>, você pode alterar ou excluir os dados do perfil e solicitar a exclusão da conta. O histórico de sintomas e lembretes requer exclusão separada na área Perfil do aplicativo, enquanto permanecer local.</p>
+      <p>Na área <strong>Minha conta</strong>, você pode alterar ou excluir os dados do perfil e solicitar a exclusão da conta. O histórico de sintomas e lembretes pode ser excluído na área Perfil do aplicativo ou pela opção de sair apagando os dados locais desta conta. Uma cópia antiga não vinculada a contas pode ainda existir neste navegador até ser migrada ou apagada manualmente.</p>
       <p>Antes de uso público, devem ser documentados um responsável pelo tratamento, um canal de atendimento aos titulares, políticas de retenção, backup, exclusão efetiva, proteção de dados de menores e resposta a incidentes.</p>
       <p>Referência: <a href="https://www.gov.br/anpd/pt-br/assuntos/titular-de-dados/direito-dos-titulares">direitos dos titulares — ANPD</a>.</p>
     </section>
