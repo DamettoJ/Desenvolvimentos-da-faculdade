@@ -1,4 +1,4 @@
-/* Diretório de unidades da rede de saúde em Foz do Iguaçu */
+
 .foz-directory{display:grid;gap:14px}
 .foz-directory>h2{font-size:1.35rem;line-height:1.25}
 .foz-directory>p{color:var(--muted)}
