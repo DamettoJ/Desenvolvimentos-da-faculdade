@@ -1,4 +1,3 @@
-/* Catálogo informativo: confira sempre horários e telefones com a unidade. */
 (() => {
  const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
  const render=()=>{
@@ -20,4 +19,3 @@
    if(link){e.stopImmediatePropagation();window.location.href='./unidades.html';}
  });
 })();
-// Catálogo de endereços e telefones públicos.
