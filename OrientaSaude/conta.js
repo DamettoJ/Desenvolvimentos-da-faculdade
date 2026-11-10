@@ -267,6 +267,24 @@
       }
     }finally{activeRequest=false;}
   }
+  // Retorno enquanto digita: sem transmitir senhas nem persistir valores.
+  const signupPass=$('signup-password');
+  const signupConfirm=$('signup-confirm');
+  function updatePasswordHints(){
+    const pass=signupPass.value,confirm=signupConfirm.value;
+    $('password-hint').textContent=pass.length===0
+      ? 'Use pelo menos 12 caracteres. Evite reutilizar senhas.'
+      : pass.length>=12
+        ? 'Comprimento mínimo atendido. Utilize uma senha exclusiva.'
+        : 'Faltam '+(12-pass.length)+' caracteres para o mínimo de 12.';
+    signupPass.setAttribute('aria-invalid',String(pass.length>0&&pass.length<12));
+    $('password-match').textContent=confirm.length===0
+      ? 'Repita exatamente a mesma senha.'
+      : pass===confirm?'As duas senhas coincidem.':'As senhas ainda não coincidem.';
+    signupConfirm.setAttribute('aria-invalid',String(confirm.length>0&&pass!==confirm));
+  }
+  signupPass.addEventListener('input',updatePasswordHints);
+  signupConfirm.addEventListener('input',updatePasswordHints);
   $('country-of-origin').addEventListener('change',()=>updateCountryDocument(true));
   $('national-id').addEventListener('input',e=>{
     const field=e.currentTarget;
