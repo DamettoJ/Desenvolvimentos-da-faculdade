@@ -48,7 +48,7 @@ assert.match(read('emergencia.html'),/tel:141/);
 assert.match(read('emergencia.html'),/tel:107/);
 assert.doesNotMatch(read('emergencia.html'),/auth-gate\.js/);
 assert.doesNotMatch(read('privacidade.html'),/auth-gate\.js/);
-assert.match(read('sw.js'),/orientasaude.*scoped-data/i);
+assert.match(read('sw.js'),/scoped-data-01/);
 assert.match(read('sw.js'),/agenda\|resumo/);
 assert.match(read('sw.js'),/emergencia\.html/);
 console.log('OrientaSaúde Original: verificações estáticas concluídas.');
