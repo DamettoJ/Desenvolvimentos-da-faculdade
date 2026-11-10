@@ -1,4 +1,3 @@
-/* Small entry point in each app; never changes symptom or emergency logic. */
 (()=>{'use strict';const root=document.getElementById('app-content');if(!root)return;
 const getCity=()=>window.OrientaBorder?.getCity?.()||'foz';
 function mount(){const page=root.querySelector('.home-page');if(!page||page.querySelector('.alert-entry'))return;
