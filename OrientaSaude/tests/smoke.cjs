@@ -36,8 +36,10 @@ assert.match(read('app.js'),/emergencia\.html/);
 const auth=read('conta.html'),authJs=read('conta.js');
 for(const id of ['signup-awareness','password-hint','password-match','logout-and-clear-local']){
   assert.match(auth,new RegExp('id="'+id+'"'),'HTML precisa do elemento: '+id);
-  assert.match(authJs,new RegExp(id),'JS precisa do elemento: '+id);
+  // O checkbox de ciência é validado pelo HTML5 (atributo required).
+  if(id!=='signup-awareness')assert.match(authJs,new RegExp(id),'JS precisa do elemento: '+id);
 }
+assert.match(auth,/<input type="checkbox" id="signup-awareness" required>/);
 assert.match(auth,/href="privacidade\.html"/);
 assert.match(auth,/href="emergencia\.html"/);
 assert.match(auth,/type="password"/);
