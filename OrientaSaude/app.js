@@ -208,7 +208,7 @@
     <div class="white-card account-promo"><h3>Minha conta e segurança</h3><p>Gerencie seu e-mail, país de origem, documento nacional, nome de preferência e demais informações pessoais no perfil protegido.</p><a class="primary-btn" href="conta.html?perfil=1">Editar dados / Sair</a></div>
     <div class="white-card"><h3>Como você gostaria de ser chamado(a)?</h3><p>Seu nome de preferência é configurado em Minha conta e aparecerá na saudação do aplicativo. Para alterá-lo, use o botão Editar dados acima.</p></div>
     <div class="white-card"><h3>Acessibilidade</h3><p>Altere o tamanho do texto usando o botão A+ na página inicial ou a opção abaixo.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="font">Alterar tamanho de texto: ${['Padrão','Grande','Muito grande'][data.font%3]}</button></div></div>
-    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Os registros de sintomas e lembretes desta conta ficam separados por usuário <strong>na interface deste navegador</strong>, sem criptografia local nem sincronização automática. Pessoas com acesso ao aparelho podem acessar o armazenamento do navegador. <a href="privacidade.html">Privacidade e limites</a>.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar registros deste usuário</button><button class="small-outline" type="button" data-action="clear">Apagar registros deste usuário</button></div>${legacyAvailable()?'<p><strong>Dados antigos encontrados neste navegador.</strong> Eles não foram atribuídos automaticamente a esta conta, pois podem pertencer a outra pessoa.</p><button class="small-outline" type="button" data-action="import-legacy">Importar dados antigos (verificar titularidade)</button>':''}</div>
+    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Os registros de sintomas e lembretes desta conta ficam separados por usuário <strong>na interface deste navegador</strong>, sem criptografia local nem sincronização automática. Pessoas com acesso ao aparelho podem acessar o armazenamento do navegador. <a href="privacidade.html">Privacidade e limites</a>.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar registros deste usuário</button><button class="small-outline" type="button" data-action="clear">Apagar registros deste usuário</button></div>${legacyAvailable()?'<p><strong>Dados antigos encontrados neste navegador.</strong> Eles não foram atribuídos automaticamente a esta conta, pois podem pertencer a outra pessoa.</p><button class="small-outline" type="button" data-action="import-legacy">Importar dados antigos (verificar titularidade)</button> <button class="small-outline" type="button" data-action="erase-legacy">Apagar dados antigos não vinculados deste aparelho</button>':''}</div>
     ${infoBar('Este projeto é uma demonstração acadêmica. Os conteúdos e regras precisam de revisão por profissionais de saúde antes de qualquer uso real.','shield','green')}
     <div class="app-endnote">OrientaSaúde · Protótipo de Engenharia de Software · Projeto acadêmico · Foz do Iguaçu, PR</div>
   </div>`;}
@@ -261,6 +261,17 @@
       case 'details-next':saveReport();break;
       case 'new-reminder':openReminder('consulta');break;
       case 'cancel-reminder':state.showReminderForm=false;state.editingReminder=null;render(false);break;
+      case 'erase-legacy':{
+        if(!legacyAvailable()){notify('Não foram encontrados relatos antigos não vinculados.');break;}
+        const ok=confirm('Excluir definitivamente os registros e lembretes antigos SEM conta definida deste navegador? Eles podem pertencer a outra pessoa. Faça isso somente se você administra este aparelho ou é titular desses registros. A exclusão não afeta os dados desta conta.');
+        if(!ok)break;
+        try{
+          localStorage.removeItem(LEGACY_STORE);
+          render(false);
+          notify('Dados antigos não vinculados apagados deste navegador.');
+        }catch{notify('Não foi possível apagar os registros antigos.');}
+        break;
+      }
       case 'import-legacy':{
         if(!legacyAvailable()){notify('Nenhum registro antigo para importar.');break;}
         const ok=confirm('Os registros antigos deste navegador NÃO estão vinculados a uma conta e podem pertencer a outra pessoa. Importe somente se tiver certeza de que todos são seus. A cópia antiga não vinculada será apagada após a importação. Continuar?');
