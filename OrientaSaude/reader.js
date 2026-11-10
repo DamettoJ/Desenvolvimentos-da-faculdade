@@ -1,4 +1,3 @@
-/* Optional speech synthesis for public health tips only; user-initiated. */
 (() => {'use strict';if(!('speechSynthesis' in window))return;
  const root=document.getElementById('tips-root');if(!root)return;
  const names={'pt-BR':'Ouvir dica','es':'Escuchar consejo','en':'Listen to tip','ja':'読み上げる','ar':'استمع إلى النصيحة','zh-CN':'朗读建议','ko':'내용 듣기','ht':'Koute konsèy'};
