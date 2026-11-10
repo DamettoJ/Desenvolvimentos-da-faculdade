@@ -1,4 +1,4 @@
-/* Seletor de cidade: compacto, acessível e harmonizado com o OrientaSaúde. */
+
 .br-citybar{
  display:flex;align-items:center;justify-content:flex-end;gap:9px;
  width:max-content;max-width:100%;margin:9px 0 3px auto!important;
@@ -27,7 +27,7 @@
 .br-city-picker .br-city-select:disabled{cursor:not-allowed}
 .br-citybar:has(.br-city-select:disabled) .br-city-picker{opacity:.55}
 
-/* Seletores discretos também nos catálogos e nas dicas. */
+
 .br-legacy-city{
  display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:9px;
  width:max-content;max-width:100%;margin:8px 0 16px auto;
