@@ -1,4 +1,3 @@
-/* Installation uses native browser invitation; no promise of support on every device. */
 (() => {'use strict';let promptEvent=null;
  const notify=msg=>{const toast=document.getElementById('toast');if(toast){toast.textContent=msg;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),4800)}else alert(msg)};
  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();promptEvent=event;document.documentElement.classList.add('os-install-available')});
