@@ -1,0 +1,29 @@
+name: OrientaSaúde Original - Verificações estáticas
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'OrientaSaude/**'
+      - '.github/workflows/orientasaude-quality.yml'
+  pull_request:
+    paths:
+      - 'OrientaSaude/**'
+      - '.github/workflows/orientasaude-quality.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Obter repositório
+        uses: actions/checkout@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validar proteção, navegação e scripts
+        run: node OrientaSaude/tests/smoke.cjs
