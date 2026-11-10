@@ -3,8 +3,17 @@
    Sem diagnósticos, prescrições ou sincronização de sintomas para o servidor. */
 (() => {
   'use strict';
-
-  const STORE = 'orientasaude-demo-v1';
+  function boot(){
+  const STORE=window.OrientaScopedStoreKey;
+  if(!/^orientasaude-records-v2-[0-9a-f-]{36}$/i.test(String(STORE||'')))return;
+  const LEGACY_STORE='orientasaude-demo-v1';
+  function legacyAvailable(){
+    try{
+      const old=JSON.parse(localStorage.getItem(LEGACY_STORE)||'{}');
+      return (Array.isArray(old.records)&&old.records.length>0)||
+        (Array.isArray(old.reminders)&&old.reminders.length>0);
+    }catch{return false}
+  }
   const defaultData = {records:[], reminders:[], profile:{name:''}, font:0};
   function loadData(){
     try { const data = JSON.parse(localStorage.getItem(STORE) || '{}');
@@ -199,7 +208,7 @@
     <div class="white-card account-promo"><h3>Minha conta e segurança</h3><p>Gerencie seu e-mail, país de origem, documento nacional, nome de preferência e demais informações pessoais no perfil protegido.</p><a class="primary-btn" href="conta.html?perfil=1">Editar dados / Sair</a></div>
     <div class="white-card"><h3>Como você gostaria de ser chamado(a)?</h3><p>Seu nome de preferência é configurado em Minha conta e aparecerá na saudação do aplicativo. Para alterá-lo, use o botão Editar dados acima.</p></div>
     <div class="white-card"><h3>Acessibilidade</h3><p>Altere o tamanho do texto usando o botão A+ na página inicial ou a opção abaixo.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="font">Alterar tamanho de texto: ${['Padrão','Grande','Muito grande'][data.font%3]}</button></div></div>
-    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Registros de sintomas, lembretes e preferências continuam salvos somente neste navegador, sem sincronização entre aparelhos. O cadastro de usuário, quando ativado, usa outro formulário e um banco Supabase com perfil criptografado.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar meus dados</button><button class="small-outline" type="button" data-action="clear">Apagar dados locais</button></div></div>
+    <div class="white-card"><h3>Privacidade e armazenamento</h3><p>Os registros de sintomas e lembretes desta conta ficam separados por usuário <strong>na interface deste navegador</strong>, sem criptografia local nem sincronização automática. Pessoas com acesso ao aparelho podem acessar o armazenamento do navegador. <a href="privacidade.html">Privacidade e limites</a>.</p><div class="row-buttons"><button class="small-outline" type="button" data-action="export">Exportar registros deste usuário</button><button class="small-outline" type="button" data-action="clear">Apagar registros deste usuário</button></div>${legacyAvailable()?'<p><strong>Dados antigos encontrados neste navegador.</strong> Eles não foram atribuídos automaticamente a esta conta, pois podem pertencer a outra pessoa.</p><button class="small-outline" type="button" data-action="import-legacy">Importar dados antigos (verificar titularidade)</button>':''}</div>
     ${infoBar('Este projeto é uma demonstração acadêmica. Os conteúdos e regras precisam de revisão por profissionais de saúde antes de qualquer uso real.','shield','green')}
     <div class="app-endnote">OrientaSaúde · Protótipo de Engenharia de Software · Projeto acadêmico · Foz do Iguaçu, PR</div>
   </div>`;}
@@ -252,6 +261,26 @@
       case 'details-next':saveReport();break;
       case 'new-reminder':openReminder('consulta');break;
       case 'cancel-reminder':state.showReminderForm=false;state.editingReminder=null;render(false);break;
+      case 'import-legacy':{
+        if(!legacyAvailable()){notify('Nenhum registro antigo para importar.');break;}
+        const ok=confirm('Os registros antigos deste navegador NÃO estão vinculados a uma conta e podem pertencer a outra pessoa. Importe somente se tiver certeza de que todos são seus. A cópia antiga não vinculada será apagada após a importação. Continuar?');
+        if(!ok)break;
+        try{
+          const old=JSON.parse(localStorage.getItem(LEGACY_STORE)||'{}');
+          const clean=arr=>Array.isArray(arr)?arr.filter(x=>x&&typeof x==='object'):[];
+          const join=(existing,incoming)=>{
+            const seen=new Set(clean(existing).map(x=>String(x.id||'')));
+            const added=clean(incoming).filter(x=>!x.id||!seen.has(String(x.id)));
+            return [...clean(existing),...added];
+          };
+          const next={...data,records:join(data.records,old.records),reminders:join(data.reminders,old.reminders)};
+          localStorage.setItem(STORE,JSON.stringify(next));
+          localStorage.removeItem(LEGACY_STORE);
+          data=next;render(false);
+          notify('Dados antigos importados para esta conta neste navegador.');
+        }catch{notify('Falha na importação. Os registros antigos não foram removidos.');}
+        break;
+      }
       case 'export':{const blob=new Blob([JSON.stringify({exportedAt:new Date().toISOString(),...data},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='orientasaude-meus-dados.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);notify('Exportação iniciada.');break;}
       case 'clear':if(confirm(i18n.t('Apagar todos os registros, lembretes e preferências deste navegador? Esta ação não pode ser desfeita.'))){data=structuredClone(defaultData);try{['orientasaude-city-v1','orientasaude-ux-prefs','orientasaude-tip-font'].forEach(key=>localStorage.removeItem(key))}catch{}i18n.setLanguage('pt-BR');persist();window.location.assign('./');}break;
     }
@@ -290,4 +319,7 @@
     if(['home','profile'].includes(state.view))render(false);
   });
   render();
+  }
+  if(window.OrientaScopedStoreKey)boot();
+  else document.addEventListener('orientasaude:profile-ready',boot,{once:true});
 })();
