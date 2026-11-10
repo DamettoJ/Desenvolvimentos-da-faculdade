@@ -58,7 +58,7 @@
   function infoBar(message='Os conteúdos são informativos. Não use o aplicativo para escolher medicamentos ou substituir uma consulta.',ico='shield',tone='cyan'){
     return `<div class="info-card">${round(ico,tone)}<div><h3>Importante</h3><p>${message}</p></div></div>`;
   }
-  function miniWarning(){return `<div class="disclaimer-fixed" role="note">OrientaSaúde: informação educativa, não diagnóstico. Em emergências, ligue 192 (SAMU).</div>`;}
+  function miniWarning(){return `<div class="disclaimer-fixed" role="note">OrientaSaúde: conteúdo educativo, não diagnóstico. <a href="emergencia.html">Ajuda urgente por país</a>.</div>`;}
   function notify(message){toast.textContent=i18n.t(message);toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3300);}
   function dateLabel(value){try{return new Intl.DateTimeFormat(i18n.locale(),{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(`${value}T12:00:00`));}catch{return value;}}
   function whenLabel(iso){try{return new Date(iso).toLocaleString(i18n.locale(),{dateStyle:'short',timeStyle:'short'});}catch{return 'Data não disponível';}}
@@ -75,7 +75,7 @@
     ${appHeader()}
     <section class="hero"><div><h1>Olá${window.OrientaProfileDisplayName?', '+esc(String(window.OrientaProfileDisplayName).slice(0,45)):''}!<br>Vamos cuidar da sua saúde?</h1><p>Conte o que está sentindo e receba orientações sobre quando buscar atendimento.</p></div><div class="hero-art">${icon('heart')}</div></section>
     <section class="white-card account-promo" aria-label="Cadastro e login"><h2>Minha conta</h2><p>Você está na área do aplicativo. Acesse seu perfil ou encerre sua sessão nesta aba.</p><a class="primary-btn" href="conta.html?perfil=1">Gerenciar minha conta / Sair</a></section>
-    <button class="emergency" type="button" data-go="emergency">${round('medkit','red')}<div><strong>EMERGÊNCIA</strong><p>Em caso de risco imediato, ligue 192 (SAMU).</p></div>${arrow('')}</button>
+    <button class="emergency" type="button" data-go="emergency">${round('medkit','red')}<div><strong>EMERGÊNCIA</strong><p>Consulte o telefone de emergência do país onde você está.</p></div>${arrow('')}</button>
     <section>${head('Como podemos ajudar?','Escolha uma opção para começar')}<div class="icon-grid">
       ${actCard('Descrever sintomas','Conte o que está sentindo.','user','blue','symptoms')}
       ${actCard('Especialidades','Veja caminhos para atendimento.','stethoscope','green','specialties')}
@@ -213,11 +213,11 @@
     <div class="app-endnote">OrientaSaúde · Protótipo de Engenharia de Software · Projeto acadêmico · Foz do Iguaçu, PR</div>
   </div>`;}
   function emergency(){return `<div class="page">${backHeader('Emergência','Quando buscar ajuda imediatamente','home')}
-    <div class="notice red">${round('medkit','red')}<div><strong>Em caso de risco imediato, ligue 192 (SAMU)</strong><p>Não espere pelo preenchimento de sintomas, por respostas deste site ou por buscas de endereço.</p></div></div>
+    <div class="notice red">${round('medkit','red')}<div><strong>Em caso de risco imediato, procure atendimento imediatamente</strong><p>Não espere respostas deste aplicativo. O número do serviço depende do país onde você se encontra.</p></div></div>
     ${head('Exemplos de sinais graves')}
     <div class="step-list"><div class="step-card">${round('heart','red')}<div><h3>Dor no peito ou falta de ar intensa</h3><p>Não aguarde orientação por aplicativo.</p></div></div><div class="step-card">${round('alert','yellow')}<div><h3>Desmaio ou confusão súbita</h3><p>Procure ajuda imediata.</p></div></div><div class="step-card">${round('clock','blue')}<div><h3>Piora rápida</h3><p>Busque atendimento de urgência.</p></div></div></div>
-    <a href="tel:192" class="primary-btn" style="text-decoration:none">Ligar para 192 (SAMU)</a>
-    <p class="meta-note">O atendimento de emergência pode variar por região; o número 192 é do SAMU no Brasil.</p>
+    <a href="emergencia.html" class="primary-btn" style="text-decoration:none">Ver números oficiais: Brasil, Paraguai e Argentina</a>
+    <p class="meta-note">Telefones oficiais disponíveis sem login. O site não monitora atendimento em tempo real.</p>
   </div>`;}
 
   function render(scroll=true){
