@@ -1,5 +1,5 @@
 /* OrientaSaúde UX enhancements. Preserves existing app.js state and local records. */
-(() => {'use strict';const root=document.getElementById('app-content');if(!root)return;
+(() => {'use strict';function boot(){const STORE=window.OrientaScopedStoreKey;if(!/^orientasaude-records-v2-[0-9a-f-]{36}$/i.test(String(STORE||'')))return;const root=document.getElementById('app-content');if(!root)return;
 const $=(s,r=document)=>r.querySelector(s);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const T={
  'pt-BR':{search:'Buscar serviços e informações',placeholder:'Ex.: hospital, cardiologia, dicas...',map:'Ver mapa interativo de atendimento',mapSub:'Hospitais, postos, contatos e rotas',agenda:'Abrir meu calendário',print:'Resumo para consulta',install:'Instalar aplicativo',contrast:'Contraste reforçado',privacy:'Ocultar prévias de sintomas',privacyNote:'Oculta textos nesta tela, mas não criptografa os dados salvos no navegador.',show:'Mostrar detalhes nesta tela',hide:'Ocultar detalhes',purge:'Apagar relatos anteriores a',clear:'Excluir relatos antigos',week:'Compromissos nos próximos 7 dias',noWeek:'Seus compromissos aparecem aqui quando cadastrados',tip:'Dicas de Saúde',units:'Unidades de saúde',specialties:'Especialidades',calendar:'Calendário',emergency:'Emergência',records:'Meus registros',symptoms:'Descrever sintomas',maps:'Mapa',query:'Pesquisar',results:'Escolha uma área de atendimento',close:'Fechar resultados'},
@@ -10,7 +10,7 @@ const lang=()=>{try{return localStorage.getItem('orientasaude-language-v1')||'pt
 const tx=()=>T[lang()]||T['pt-BR'];const city=()=>window.OrientaBorder?.getCity?.()||'foz';
 const prefsKey='orientasaude-ux-prefs';let prefs={};try{prefs=JSON.parse(localStorage.getItem(prefsKey)||'{}')||{}}catch{}
 const save=()=>{try{localStorage.setItem(prefsKey,JSON.stringify(prefs))}catch{}};
-const readData=()=>{try{return JSON.parse(localStorage.getItem('orientasaude-demo-v1')||'{}')}catch{return {}}};
+const readData=()=>{try{return JSON.parse(localStorage.getItem(STORE)||'{}')}catch{return {}}};
 const address=(file)=>new URL('./'+file,document.baseURI).href;
 const setContrast=()=>document.documentElement.classList.toggle('os-high-contrast',!!prefs.contrast);setContrast();
 const actions=[['symptoms','symptoms','user'],['units','units','pin'],['specialties','specialties','stethoscope'],['tip','education','book'],['records','records','records'],['calendar','agenda','calendar'],['maps','mapa','map']];
@@ -78,7 +78,9 @@ root.addEventListener('click',e=>{const to=e.target.closest('[data-os-to]');if(t
  const message='Excluir definitivamente '+eligible+' relatos anteriores a '+days+' dias? Esta ação não pode ser desfeita.';
  if(!confirm(message))return;
  data.records=(Array.isArray(data.records)?data.records:[]).filter(x=>{const t=Date.parse(x.createdAt);return !Number.isFinite(t)||t>=cutoff});
- try{localStorage.setItem('orientasaude-demo-v1',JSON.stringify(data));alert('Excluídos: '+(before-data.records.length)+' relatos.');location.reload()}catch{alert('O navegador não permitiu salvar a alteração.')}return}
+ try{localStorage.setItem(STORE,JSON.stringify(data));alert('Excluídos: '+(before-data.records.length)+' relatos.');location.reload()}catch{alert('O navegador não permitiu salvar a alteração.')}return}
 });
 new MutationObserver(paint).observe(root,{childList:true});paint();
+}
+if(window.OrientaScopedStoreKey)boot();else document.addEventListener('orientasaude:profile-ready',boot,{once:true});
 })();
