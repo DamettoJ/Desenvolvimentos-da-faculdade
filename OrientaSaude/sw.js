@@ -1,4 +1,3 @@
-/* OrientaSaúde - static offline cache, no sensitive records or external map requests. */
 const VERSION='os-safe-20261110-scoped-data-01';
 const STATIC=VERSION+'-assets';
 const CORE=[
@@ -22,23 +21,19 @@ self.addEventListener('fetch',event=>{
  if(req.method!=='GET')return;
  const url=new URL(req.url);
  if(url.origin!==self.location.origin||!url.pathname.startsWith(new URL(self.registration.scope).pathname))return;
- // Jamais colocar respostas de autenticação, links de recuperação e configurações do cadastro em cache.
  if(/\/(?:conta\.html|conta\.js|conta\.css|supabase-config\.js|auth-gate\.js)$/.test(url.pathname))return;
  if(req.mode==='navigate'){
   event.respondWith((async()=>{
    const cache=await caches.open(STATIC);
    try{return await fetch(req,{cache:'no-store'})}catch{
-    // Emergência e privacidade podem ser exibidas sem conta, inclusive offline.
     if(url.pathname.endsWith('/emergencia.html'))return await cache.match('./emergencia.html')||new Response('Sem conexão',{status:503});
     if(url.pathname.endsWith('/privacidade.html'))return await cache.match('./privacidade.html')||new Response('Sem conexão',{status:503});
-    // Não servir HTML privado em cache sem validar novamente a sessão.
     return await cache.match('./offline.html')||new Response('Sem conexão',{status:503,headers:{'Content-Type':'text/plain;charset=utf-8'}})
    }
   })());return;
  }
  event.respondWith((async()=>{
   const cache=await caches.open(STATIC);
-  // Critical interface scripts/styles prefer the network when online to avoid stale maps on desktop.
   if(/\/(app|mapa|upgrade|agenda|resumo)\.(js|css)$/.test(url.pathname)){
    try{const fresh=await fetch(req,{cache:'no-store'});if(fresh.ok){await cache.put(req,fresh.clone());return fresh}}catch{}
    const previous=await cache.match(req,{ignoreSearch:true});if(previous)return previous;
