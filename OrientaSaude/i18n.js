@@ -1,4 +1,3 @@
-/* OrientaSaúde localization: static, offline, no external translation services. */
 (() => {
   'use strict';
   const STORAGE_KEY = 'orientasaude-language-v1';
