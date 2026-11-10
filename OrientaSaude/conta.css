@@ -83,3 +83,21 @@ footer{color:var(--muted);font-size:.8rem;margin-top:20px}
 #country-other-wrap[hidden]{display:none!important}
 #country-of-origin{cursor:pointer}
 #preferred-name::placeholder,#full-name::placeholder{color:#667d90}
+
+/* Navegação antes do login, controle por teclado e formulários responsivos. */
+.public-shortcuts{display:flex;align-items:center;flex-wrap:wrap;gap:12px;justify-content:space-between;margin:0 0 20px}
+.public-shortcuts a{font-size:.88rem;min-height:44px;display:inline-flex;align-items:center;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.public-shortcuts .help-emergency{background:#fff0ef;color:#9b2030;border:1px solid #f0b9bd;border-radius:12px;padding:10px 14px}
+.public-shortcuts .help-emergency:hover{background:#ffe4e2}
+.step-progress{padding:10px 13px;border-left:4px solid #12896f;background:#e9f6ef;border-radius:8px;font-size:.88rem;font-weight:700;color:#134d45}
+:where(button,a,input,select,textarea,[tabindex]):focus-visible{outline:3px solid #005b9c!important;outline-offset:3px!important}
+.auth-panel a,.auth-panel button{touch-action:manipulation}
+.auth-panel .text-button{min-height:44px}
+.auth-panel .helper{line-height:1.6}
+.auth-panel .consent{gap:10px;align-items:flex-start}
+.auth-panel .consent input{min-width:20px;min-height:20px;flex:0 0 20px}
+#account-status:not(:empty){padding:10px 12px;border-radius:10px;background:#e9f6ff;border:1px solid #c0ddf3;overflow-wrap:anywhere}
+#account-status.error:not(:empty){background:#fff0ed;border-color:#eeb8b1;color:#9b2830}
+#password-hint,#password-match{margin:4px 0 8px}
+@media(max-width:480px){.public-shortcuts{flex-direction:column;align-items:stretch;gap:4px}.public-shortcuts a{justify-content:center;text-align:center}.auth-panel{padding-inline:16px}.password-line{gap:5px}.password-line button{min-width:68px;padding:10px 7px}.auth-heading h1{font-size:1.45rem}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
