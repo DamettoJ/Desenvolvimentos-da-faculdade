@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-11T06:38:31+00:00",
+  "checked_at": "2026-11-11T19:41:02+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 7
+      "count": 6
     },
     {
       "source": "misiones",
@@ -84,14 +84,6 @@
       "title": "Paraguay potencia sus capacidades en epidemiología de campo mediante capacitación internacional en Colombia",
       "url": "https://dgvs.mspbs.gov.py/paraguay-fortalece-sus-capacidades-en-epidemiologia-de-campo-mediante-capacitacion-internacional-en-colombia/",
       "published": "2026-11-04T17:01:12+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Red Tero Tero fortalece alerta temprana en el Chaco",
-      "url": "https://dgvs.mspbs.gov.py/red-tero-tero-fortalece-alerta-temprana-en-el-chaco/",
-      "published": "2026-11-04T14:53:58+00:00"
     }
   ]
 }
