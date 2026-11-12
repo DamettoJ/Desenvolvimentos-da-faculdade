@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-11T19:41:02+00:00",
+  "checked_at": "2026-11-12T07:21:07+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -21,6 +21,14 @@
     }
   ],
   "items": [
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Avanza actualización de la Estrategia de Gestión Integrada para la prevención y control de las arbovirosis",
+      "url": "https://dgvs.mspbs.gov.py/avanza-la-actualizacion-de-la-estrategia-de-gestion-integrada-para-la-prevencion-y-control-de-las-arbovirosis/",
+      "published": "2026-11-11T21:26:30+00:00"
+    },
     {
       "city": "cde",
       "source": "DGVS — Paraguai",
@@ -76,14 +84,6 @@
       "title": "Sesa garante medicamentos e assistência para cidades atingidas por desastres naturais",
       "url": "https://www.saude.pr.gov.br/Noticia/Sesa-garante-medicamentos-e-assistencia-para-cidades-atingidas-por-desastres-naturais",
       "published": "2026-11-05T18:13:04+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Paraguay potencia sus capacidades en epidemiología de campo mediante capacitación internacional en Colombia",
-      "url": "https://dgvs.mspbs.gov.py/paraguay-fortalece-sus-capacidades-en-epidemiologia-de-campo-mediante-capacitacion-internacional-en-colombia/",
-      "published": "2026-11-04T17:01:12+00:00"
     }
   ]
 }
