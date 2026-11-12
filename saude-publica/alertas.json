@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-12T07:21:07+00:00",
+  "checked_at": "2026-11-12T20:02:18+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -21,6 +21,22 @@
     }
   ],
   "items": [
+    {
+      "city": "iguazu",
+      "source": "Salud Pública de Misiones",
+      "scope": "Misiones · Puerto Iguazú (abrangência provincial)",
+      "title": "Salud Pública y Derechos Humanos fortalecen el trabajo conjunto con las comunidades Mbya Guaraní",
+      "url": "https://salud.misiones.gob.ar/salud-publica-y-derechos-humanos-fortalecen-el-trabajo-conjunto-con-las-comunidades-mbya-guarani/",
+      "published": "2026-11-12T16:04:30+00:00"
+    },
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Saúde alerta para efeitos do El Niño no aumento de casos de dengue e prepara Dia D de combate",
+      "url": "https://www.saude.pr.gov.br/Noticia/Saude-alerta-para-efeitos-do-El-Nino-no-aumento-de-casos-de-dengue-e-prepara-Dia-D-de",
+      "published": "2026-11-12T15:02:16+00:00"
+    },
     {
       "city": "cde",
       "source": "DGVS — Paraguai",
@@ -46,14 +62,6 @@
       "published": "2026-11-09T15:18:45+00:00"
     },
     {
-      "city": "iguazu",
-      "source": "Salud Pública de Misiones",
-      "scope": "Misiones · Puerto Iguazú (abrangência provincial)",
-      "title": "Salud pública y trabajo articulado con UNFPA: una estrategia para llegar a cada comunidad",
-      "url": "https://salud.misiones.gob.ar/salud-publica-y-trabajo-articulado-con-unfpa-una-estrategia-para-llegar-a-cada-comunidad/",
-      "published": "2026-11-06T15:17:34+00:00"
-    },
-    {
       "city": "cde",
       "source": "DGVS — Paraguai",
       "scope": "Paraguai · Alto Paraná (abrangência nacional)",
@@ -76,14 +84,6 @@
       "title": "Realizan jornada de inmunización contra la fiebre amarilla a guardaparques",
       "url": "https://dgvs.mspbs.gov.py/realizan-jornada-de-inmunizacion-contra-la-fiebre-amarilla-a-guardaparques/",
       "published": "2026-11-06T10:55:24+00:00"
-    },
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Sesa garante medicamentos e assistência para cidades atingidas por desastres naturais",
-      "url": "https://www.saude.pr.gov.br/Noticia/Sesa-garante-medicamentos-e-assistencia-para-cidades-atingidas-por-desastres-naturais",
-      "published": "2026-11-05T18:13:04+00:00"
     }
   ]
 }
