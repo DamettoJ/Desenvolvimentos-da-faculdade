@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-13T06:54:24+00:00",
+  "checked_at": "2026-11-13T19:49:52+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 6
+      "count": 7
     },
     {
       "source": "misiones",
@@ -21,6 +21,22 @@
     }
   ],
   "items": [
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Consultas por virus respiratorios mantienen tendencia al descenso",
+      "url": "https://dgvs.mspbs.gov.py/consultas-por-virus-respiratorios-mantienen-tendencia-al-descenso/",
+      "published": "2026-11-13T13:02:37+00:00"
+    },
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Se confirma un nuevo caso de dengue luego de doce semanas sin circulación del virus",
+      "url": "https://dgvs.mspbs.gov.py/se-confirma-un-nuevo-caso-de-dengue-luego-de-doce-semanas-sin-circulacion-del-virus/",
+      "published": "2026-11-13T11:11:17+00:00"
+    },
     {
       "city": "iguazu",
       "source": "Salud Pública de Misiones",
@@ -76,14 +92,6 @@
       "title": "Dengue con crecimiento gradual de notificaciones: se insiste en el control de entornos",
       "url": "https://dgvs.mspbs.gov.py/dengue-con-crecimiento-gradual-de-notificaciones-se-insiste-en-el-control-de-entornos/",
       "published": "2026-11-06T11:00:44+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Realizan jornada de inmunización contra la fiebre amarilla a guardaparques",
-      "url": "https://dgvs.mspbs.gov.py/realizan-jornada-de-inmunizacion-contra-la-fiebre-amarilla-a-guardaparques/",
-      "published": "2026-11-06T10:55:24+00:00"
     }
   ]
 }
