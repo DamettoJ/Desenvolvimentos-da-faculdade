@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-13T19:49:52+00:00",
+  "checked_at": "2026-11-14T06:37:29+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -17,10 +17,18 @@
     {
       "source": "parana",
       "status": "checked",
-      "count": 1
+      "count": 2
     }
   ],
   "items": [
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Sesa reforça sobre a importância da vacinação contra a póliomelite",
+      "url": "https://www.saude.pr.gov.br/Noticia/Sesa-reforca-sobre-importancia-da-vacinacao-contra-poliomelite",
+      "published": "2026-11-13T20:15:04+00:00"
+    },
     {
       "city": "cde",
       "source": "DGVS — Paraguai",
