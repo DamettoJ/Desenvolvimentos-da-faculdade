@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-16T06:42:42+00:00",
+  "checked_at": "2026-11-16T22:15:04+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -21,6 +21,14 @@
     }
   ],
   "items": [
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Muestra Nacional de Epidemiología: descubra las charlas, simposios y ponencias de este año",
+      "url": "https://dgvs.mspbs.gov.py/muestra-nacional-de-epidemiologia-descubra-las-charlas-simposios-y-ponencias-de-este-ano/",
+      "published": "2026-11-16T22:08:12+00:00"
+    },
     {
       "city": "foz",
       "source": "Secretaria de Saúde do Paraná",
@@ -92,14 +100,6 @@
       "title": "Se constata activa circulación de virus respiratorios",
       "url": "https://dgvs.mspbs.gov.py/se-constata-activa-circulacion-de-virus-respiratorios/",
       "published": "2026-11-06T12:00:56+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Dengue con crecimiento gradual de notificaciones: se insiste en el control de entornos",
-      "url": "https://dgvs.mspbs.gov.py/dengue-con-crecimiento-gradual-de-notificaciones-se-insiste-en-el-control-de-entornos/",
-      "published": "2026-11-06T11:00:44+00:00"
     }
   ]
 }
