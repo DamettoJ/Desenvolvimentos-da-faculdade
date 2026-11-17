@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-17T08:02:38+00:00",
+  "checked_at": "2026-11-17T21:01:40+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 7
+      "count": 6
     },
     {
       "source": "misiones",
@@ -22,6 +22,14 @@
   ],
   "items": [
     {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Estado amplia diagnósticos de doenças respiratórias crônicas por meio do telessaúde",
+      "url": "https://www.saude.pr.gov.br/Noticia/Estado-amplia-diagnosticos-de-doencas-respiratorias-cronicas-por-meio-do-telessaude",
+      "published": "2026-11-17T18:46:13+00:00"
+    },
+    {
       "city": "cde",
       "source": "DGVS — Paraguai",
       "scope": "Paraguai · Alto Paraná (abrangência nacional)",
@@ -33,7 +41,7 @@
       "city": "foz",
       "source": "Secretaria de Saúde do Paraná",
       "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Sesa reforça sobre a importância da vacinação contra a póliomelite",
+      "title": "Sesa reforça sobre a importância da vacinação contra a poliomelite",
       "url": "https://www.saude.pr.gov.br/Noticia/Sesa-reforca-sobre-importancia-da-vacinacao-contra-poliomelite",
       "published": "2026-11-13T20:15:04+00:00"
     },
@@ -62,14 +70,6 @@
       "published": "2026-11-12T16:04:30+00:00"
     },
     {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Saúde alerta para efeitos do El Niño no aumento de casos de dengue e prepara Dia D de combate",
-      "url": "https://www.saude.pr.gov.br/Noticia/Saude-alerta-para-efeitos-do-El-Nino-no-aumento-de-casos-de-dengue-e-prepara-Dia-D-de",
-      "published": "2026-11-12T15:02:16+00:00"
-    },
-    {
       "city": "cde",
       "source": "DGVS — Paraguai",
       "scope": "Paraguai · Alto Paraná (abrangência nacional)",
@@ -92,14 +92,6 @@
       "title": "Expondrán 58 trabajos de investigación en la Muestra Nacional de Epidemiología",
       "url": "https://dgvs.mspbs.gov.py/expondran-58-trabajos-de-investigacion-en-la-muestra-nacional-de-epidemiologia/",
       "published": "2026-11-09T15:18:45+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Se constata activa circulación de virus respiratorios",
-      "url": "https://dgvs.mspbs.gov.py/se-constata-activa-circulacion-de-virus-respiratorios/",
-      "published": "2026-11-06T12:00:56+00:00"
     }
   ]
 }
