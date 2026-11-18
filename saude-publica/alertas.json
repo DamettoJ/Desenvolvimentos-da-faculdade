@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-18T07:39:40+00:00",
+  "checked_at": "2026-11-18T20:38:51+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 6
+      "count": 5
     },
     {
       "source": "misiones",
       "status": "checked",
-      "count": 1
+      "count": 0
     },
     {
       "source": "parana",
       "status": "checked",
-      "count": 2
+      "count": 1
     }
   ],
   "items": [
@@ -38,14 +38,6 @@
       "published": "2026-11-16T22:08:12+00:00"
     },
     {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Sesa reforça sobre a importância da vacinação contra a poliomelite",
-      "url": "https://www.saude.pr.gov.br/Noticia/Sesa-reforca-sobre-importancia-da-vacinacao-contra-poliomelite",
-      "published": "2026-11-13T20:15:04+00:00"
-    },
-    {
       "city": "cde",
       "source": "DGVS — Paraguai",
       "scope": "Paraguai · Alto Paraná (abrangência nacional)",
@@ -62,14 +54,6 @@
       "published": "2026-11-13T11:11:17+00:00"
     },
     {
-      "city": "iguazu",
-      "source": "Salud Pública de Misiones",
-      "scope": "Misiones · Puerto Iguazú (abrangência provincial)",
-      "title": "Salud Pública y Derechos Humanos fortalecen el trabajo conjunto con las comunidades Mbya Guaraní",
-      "url": "https://salud.misiones.gob.ar/salud-publica-y-derechos-humanos-fortalecen-el-trabajo-conjunto-con-las-comunidades-mbya-guarani/",
-      "published": "2026-11-12T16:04:30+00:00"
-    },
-    {
       "city": "cde",
       "source": "DGVS — Paraguai",
       "scope": "Paraguai · Alto Paraná (abrangência nacional)",
@@ -84,14 +68,6 @@
       "title": "Vuelve el concurso de fotografía de la Muestra Nacional de Epidemiología",
       "url": "https://dgvs.mspbs.gov.py/vuelve-el-concurso-de-fotografia-de-la-muestra-nacional-de-epidemiologia/",
       "published": "2026-11-09T23:32:48+00:00"
-    },
-    {
-      "city": "cde",
-      "source": "DGVS — Paraguai",
-      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
-      "title": "Expondrán 58 trabajos de investigación en la Muestra Nacional de Epidemiología",
-      "url": "https://dgvs.mspbs.gov.py/expondran-58-trabajos-de-investigacion-en-la-muestra-nacional-de-epidemiologia/",
-      "published": "2026-11-09T15:18:45+00:00"
     }
   ]
 }
