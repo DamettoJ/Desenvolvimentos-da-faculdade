@@ -1,26 +1,50 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-19T07:35:02+00:00",
+  "checked_at": "2026-11-19T20:45:04+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
     {
       "source": "dgvs",
       "status": "checked",
-      "count": 5
+      "count": 6
     },
     {
       "source": "misiones",
       "status": "checked",
-      "count": 0
+      "count": 1
     },
     {
       "source": "parana",
       "status": "checked",
-      "count": 1
+      "count": 2
     }
   ],
   "items": [
+    {
+      "city": "cde",
+      "source": "DGVS — Paraguai",
+      "scope": "Paraguai · Alto Paraná (abrangência nacional)",
+      "title": "Vigilancia activa de Mpox: suman 9 los casos confirmados",
+      "url": "https://dgvs.mspbs.gov.py/vigilancia-activa-de-mpox-suman-9-los-casos-confirmados/",
+      "published": "2026-11-19T17:52:34+00:00"
+    },
+    {
+      "city": "foz",
+      "source": "Secretaria de Saúde do Paraná",
+      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
+      "title": "Paraná amplia capacidade de resposta a emergências em saúde pública com metodologia internacional",
+      "url": "https://www.saude.pr.gov.br/Noticia/Parana-amplia-capacidade-de-resposta-emergencias-em-saude-publica-com-metodologia",
+      "published": "2026-11-19T16:46:13+00:00"
+    },
+    {
+      "city": "iguazu",
+      "source": "Salud Pública de Misiones",
+      "scope": "Misiones · Puerto Iguazú (abrangência provincial)",
+      "title": "Salud Pública entregó 48 audífonos a beneficiarios de Incluir Salud",
+      "url": "https://salud.misiones.gob.ar/salud-publica-entrego-48-audifonos-a-beneficiarios-de-incluir-salud/",
+      "published": "2026-11-19T14:57:43+00:00"
+    },
     {
       "city": "foz",
       "source": "Secretaria de Saúde do Paraná",
