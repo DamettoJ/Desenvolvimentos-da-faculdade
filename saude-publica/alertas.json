@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-19T20:45:04+00:00",
+  "checked_at": "2026-11-20T07:26:51+00:00",
   "update_state": "ok",
   "description": "Publicações extraídas de fontes públicas oficiais. Não é alerta de emergência, não é vigilância em tempo real, não indica risco local automaticamente.",
   "sources": [
@@ -17,7 +17,7 @@
     {
       "source": "parana",
       "status": "checked",
-      "count": 2
+      "count": 1
     }
   ],
   "items": [
@@ -44,14 +44,6 @@
       "title": "Salud Pública entregó 48 audífonos a beneficiarios de Incluir Salud",
       "url": "https://salud.misiones.gob.ar/salud-publica-entrego-48-audifonos-a-beneficiarios-de-incluir-salud/",
       "published": "2026-11-19T14:57:43+00:00"
-    },
-    {
-      "city": "foz",
-      "source": "Secretaria de Saúde do Paraná",
-      "scope": "Paraná · Foz do Iguaçu (abrangência estadual)",
-      "title": "Estado amplia diagnósticos de doenças respiratórias crônicas por meio do telessaúde",
-      "url": "https://www.saude.pr.gov.br/Noticia/Estado-amplia-diagnosticos-de-doencas-respiratorias-cronicas-por-meio-do-telessaude",
-      "published": "2026-11-17T18:46:13+00:00"
     },
     {
       "city": "cde",
